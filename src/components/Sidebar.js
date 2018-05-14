@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { colors } from './styles.js'
-
 import yasukorori from './../assets/yasukorori.png'
 
-const Sidebar = () => {
+
+const Sidebar = props => {
+  const { isSidebarOpen } = props
+
   return (
-    <GridContainer>
+    <GridContainer
+      isSidebarOpen={isSidebarOpen}>
       <TopA>
         <Li>ホーム</Li>
         <Li>ご挨拶</Li>
@@ -22,6 +24,7 @@ const Sidebar = () => {
   )
 }
 
+
 const GridContainer = styled.aside`
   background: ${colors.yellow};
   display: grid;
@@ -32,10 +35,11 @@ const GridContainer = styled.aside`
     "middleA"
     "bottomA";
   justify-items: center;
-  position: absolute;
+  position: fixed;
   top: 7vh;
-  left: 60vw;
+  left: ${props => (props.isSidebarOpen ? '60vw' : '100vw')};
   z-index: 10;
+  transition: all .5s;
 `
 
 const TopA = styled.ul`

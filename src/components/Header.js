@@ -1,25 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { colors } from './styles.js'
-
 import logo from './../assets/logo.svg'
 import hamburgerMenu from './../assets/hamburger_menu.svg'
+import closeMenu from './../assets/close_menu.svg'
 
-const Header = () => {
+
+const Header = props => {
+  const {
+    menuClickHandler,
+    isSidebarOpen
+  } = props
+
   return (
     <GridContainer>
       <CenterA
         src={logo}
         alt='ロゴ'/>
       <RightA
-        src={hamburgerMenu}
-        alt='メニューアイコン'/>
+        src={isSidebarOpen ? closeMenu : hamburgerMenu}
+        alt='メニューアイコン'
+        onClick={() => menuClickHandler()}/>
     </GridContainer>
   )
 }
 
-const GridContainer = styled.head`
+
+const GridContainer = styled.header`
   background: ${colors.yellow};
   display: grid;
   grid-template-rows: 2vh 3vh 2vh;
@@ -30,6 +37,10 @@ const GridContainer = styled.head`
     ". ....... ......";
   justify-items: center;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 `
 
 const CenterA = styled.img`
