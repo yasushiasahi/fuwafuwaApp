@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader'
 
 import Header from './Header.js'
 import Blog from './Blog.js'
+import Home from './Home.js'
 
 import { colors } from './styles.js'
 
@@ -20,16 +21,14 @@ class App extends React.Component {
   render() {
     return (
       <Container>
-        <Header/>
-        <Yasu
-          src={yasukorori}/>
+        <Home/>
+        <Blog/>
       </Container>
     )
   }
 }
 
 const Container = styled.div`
-  background-color: ${colors.yellow};
   width: 100vw;
   height: 100vh;
 `
