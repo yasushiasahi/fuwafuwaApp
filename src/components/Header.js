@@ -19,10 +19,10 @@ const Header = () => {
   )
 }
 
-const GridContainer = styled.header`
+const GridContainer = styled.head`
   background: ${colors.yellow};
   display: grid;
-  grid-template-rows: 2vh auto 2vh;
+  grid-template-rows: 2vh 3vh 2vh;
   grid-template-columns: 20vw 60vw 20vw;
   grid-template-areas:
     ". ....... ......"

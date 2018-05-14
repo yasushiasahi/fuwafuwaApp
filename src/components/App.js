@@ -5,10 +5,7 @@ import { hot } from 'react-hot-loader'
 import Header from './Header.js'
 import Blog from './Blog.js'
 import Home from './Home.js'
-
-import { colors } from './styles.js'
-
-import yasukorori from './../assets/yasukorori.jpg'
+import Sidebar from './Sidebar.js'
 
 
 class App extends React.Component {
@@ -21,33 +18,20 @@ class App extends React.Component {
   render() {
     return (
       <Container>
+        <Sidebar/>
         <Header/>
         <Blog/>
+        <Home/>
       </Container>
     )
   }
 }
 
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-`
-
-const Main = styled.main`
-`
-
-const Yasu = styled.img`
-  width: 100vw;
+  position: relative;
 `
 
 export default hot(module)(App)
-
-
-// return (
-//       <Container>
-//         <Header />
-//         <Main>
-//           <Blog />
-//         </Main>
-//       </Container>
-//     )
