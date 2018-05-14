@@ -2,50 +2,46 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { colors } from './styles.js'
-import logo from './../assets/edged_logo.svg'
-import headBackground from './../assets/head_background.svg'
-import moreWonderfulLife from './../assets/more_wonderful_life.svg'
+
+import logo from './../assets/logo.svg'
+import hamburgerMenu from './../assets/hamburger_menu.svg'
 
 const Header = () => {
   return (
-    <Head>
-      <Wrapper>
-        <LogoWrapper>
-          <MoreWonderFulLife src={moreWonderfulLife}/>
-          <Logo src={logo}/>
-        </LogoWrapper>
-      </Wrapper>
-    </Head>
+    <GridContainer>
+      <CenterA
+        src={logo}
+        alt='ロゴ'/>
+      <RightA
+        src={hamburgerMenu}
+        alt='メニューアイコン'/>
+    </GridContainer>
   )
 }
 
-const Head = styled.header`
-  background: ${colors.base};
-`
-const Wrapper = styled.div`
-`
-
-const LogoWrapper = styled.div`
-
-  background-image: url(${headBackground});
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 25vw;
+const GridContainer = styled.header`
+  background: ${colors.yellow};
   display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: 8vw 12vw;
-  align-content: center;
+  grid-template-rows: 2vh auto 2vh;
+  grid-template-columns: 20vw 60vw 20vw;
+  grid-template-areas:
+    ". ....... ......"
+    ". centerA rightA"
+    ". ....... ......";
   justify-items: center;
   align-items: center;
 `
 
-const Logo = styled.img`
-  width: 95vw;
+const CenterA = styled.img`
+  grid-area: centerA;
+  width: 100%;
 `
 
-const MoreWonderFulLife = styled.img`
-  width: 75vw
+const RightA = styled.img`
+  grid-area: rightA;
+  height: 70%;
 `
+
 
 
 export default Header

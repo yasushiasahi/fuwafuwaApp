@@ -21,7 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <Container>
-        <Home/>
+        <Header/>
         <Blog/>
       </Container>
     )

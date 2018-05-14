@@ -29,8 +29,6 @@ const Home = () => {
 
 const GridContainer = styled.div`
   background: ${colors.yellow};
-  width: 100vw;
-  height: 100vh;
   display: grid;
   grid-template-rows: 30vh 70vh;
   grid-template-columns: 5vw 45vw 50vw;
