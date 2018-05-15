@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors } from './styles.js'
+import { colors, sizes } from './styles.js'
 import logo from './../assets/logo.svg'
 import hamburgerMenu from './../assets/hamburger_menu.svg'
 import closeMenu from './../assets/close_menu.svg'
@@ -28,8 +28,9 @@ const Header = props => {
 
 const GridContainer = styled.header`
   background: ${colors.yellow};
+  height: ${sizes.headerHeight};
   display: grid;
-  grid-template-rows: 2vh 3vh 2vh;
+  grid-template-rows: 25% 50% 25%;
   grid-template-columns: 20vw 60vw 20vw;
   grid-template-areas:
     ". ....... ......"

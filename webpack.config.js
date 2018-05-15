@@ -45,7 +45,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'フワフワ！美容室',
-      template: './src/html/template.html'
+      template: './src/html/template.html',
+      favicon: './src/favicon.ico'
     })
   ]
 };

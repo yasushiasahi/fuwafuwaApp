@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
-
+import { sizes } from './styles.js'
+// import Home from './Home.js'
 import Header from './Header.js'
-import Blog from './Blog.js'
-import Home from './Home.js'
 import Sidebar from './Sidebar.js'
 import Greeting from './Greeting.js'
-
+import Blog from './Blog.js'
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +18,6 @@ class App extends React.Component {
   }
 
   menuClickHandler () {
-    //console.log('click')
     this.setState({
       isSidebarOpen: !this.state.isSidebarOpen
     })
@@ -33,8 +31,9 @@ class App extends React.Component {
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Sidebar
           isSidebarOpen={this.state.isSidebarOpen}/>
+        <Space/>
         <Greeting/>
-        <Home/>
+        <Blog/>
       </Container>
     )
   }
@@ -42,9 +41,11 @@ class App extends React.Component {
 
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
   position: relative;
+`
+
+const Space = styled.div`
+  height: ${sizes.headerHeight};
 `
 
 export default hot(module)(App)

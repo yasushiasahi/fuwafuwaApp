@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors } from './styles.js'
+import { colors, sizes } from './styles.js'
 import yasukorori from './../assets/yasukorori.png'
 
 
@@ -36,7 +36,7 @@ const GridContainer = styled.aside`
     "bottomA";
   justify-items: center;
   position: fixed;
-  top: 7vh;
+  top: ${sizes.headerHeight};
   left: ${props => (props.isSidebarOpen ? '60vw' : '100vw')};
   z-index: 10;
   transition: all .5s;
