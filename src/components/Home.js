@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { colors } from './styles.js'
-
 import yasukorori from './../assets/yasukorori.png'
 import logo from './../assets/logo.svg'
+
 
 const Home = () => {
   return (
@@ -26,6 +25,7 @@ const Home = () => {
     </GridContainer>
   )
 }
+
 
 const GridContainer = styled.div`
   background: ${colors.yellow};
@@ -49,7 +49,7 @@ const Logo = styled.img`
 `
 
 const LeftA = styled.ul`
-  grid-area: leftA;
+
   list-style: none;
 `
 

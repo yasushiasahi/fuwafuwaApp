@@ -6,6 +6,8 @@ import { sizes } from './styles.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
 import Greeting from './Greeting.js'
+import SalonInfo from './SalonInfo.js'
+import Menu from './Menu.js'
 import Blog from './Blog.js'
 
 class App extends React.Component {
@@ -33,6 +35,8 @@ class App extends React.Component {
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Space/>
         <Greeting/>
+        <SalonInfo/>
+        <Menu/>
         <Blog/>
       </Container>
     )
