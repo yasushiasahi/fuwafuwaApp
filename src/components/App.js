@@ -17,9 +17,12 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = ({
-      isSidebarOpen: false
+      isSidebarOpen: false,
+      fullSizePicture: null
     })
     this.menuClickHandler = this.menuClickHandler.bind(this)
+    this.pictureClickHandler = this.pictureClickHandler.bind(this)
+    this.closeClickHandler = this.closeClickHandler.bind(this)
   }
 
   menuClickHandler () {
@@ -28,21 +31,38 @@ class App extends React.Component {
     })
   }
 
+  pictureClickHandler (pictureObj) {
+    this.setState({
+      fullSizePicture: (
+        <FullSizePicture
+          pictureObj={pictureObj}
+          closeClickHandler={this.closeClickHandler}/>
+      )
+    })
+  }
+
+  closeClickHandler () {
+    this.setState({
+      fullSizePicture: null
+    })
+  }
+
   render() {
     return (
       <Container>
+        {this.state.fullSizePicture}
         <Header
           menuClickHandler={this.menuClickHandler}
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Sidebar
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Space/>
-        <Home />
-        <Gallery/>
         <Greeting/>
         <SalonInfo/>
         <Menu/>
         <Blog/>
+        <Gallery
+          pictureClickHandler={this.pictureClickHandler}/>
       </Container>
     )
   }
@@ -56,5 +76,6 @@ const Container = styled.div`
 const Space = styled.div`
   height: ${sizes.headerHeight};
 `
+
 
 export default hot(module)(App)

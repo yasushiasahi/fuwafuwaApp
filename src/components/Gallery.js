@@ -1,29 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors, sc } from './styles.js'
+import pictureData from './../databases/pictureData.js'
 
-const jpegs = [
-  {id:0, title:'タイトルタイトル0' ,name:`p0.jpg`},
-  {id:1, title:'タイトルタイトル1' ,name:`p1.jpg`},
-  {id:2, title:'タイトルタイトル2' ,name:`p2.jpg`},
-  {id:3, title:'タイトルタイトル3' ,name:`p3.jpg`},
-  {id:4, title:'タイトルタイトル4' ,name:`p4.jpg`},
-  {id:5, title:'タイトルタイトル5' ,name:`p5.jpg`},
-  {id:6, title:'タイトルタイトル0' ,name:`p0.jpg`},
-  {id:7, title:'タイトルタイトル1' ,name:`p1.jpg`},
-  {id:8, title:'タイトルタイトル2' ,name:`p2.jpg`},
-  {id:9, title:'タイトルタイトル3' ,name:`p3.jpg`},
-  {id:10, title:'タイトルタイトル4' ,name:`p4.jpg`},
-  {id:11, title:'タイトルタイトル5' ,name:`p5.jpg`},
-]
 
-const Gallery = () => {
-  const pictures = jpegs.map(jpeg => {
+const Gallery = (props) => {
+  const { pictureClickHandler } = props
+
+  const pictures = pictureData.map(pictureObj => {
+    const {
+      id,
+      name,
+      title
+    } = pictureObj
+
     return(
       <Box
-        key={jpeg.id}
-        url={require(`./../images/gallery/${jpeg.name}`)}>
-        <PicTitle>{jpeg.title}</PicTitle>
+        key={id}
+        url={require(`./../images/gallery/${name}`)}
+        onClick={() => pictureClickHandler(pictureObj)}>
+        <PicTitle>{title}</PicTitle>
       </Box>
     )
   })
@@ -54,6 +50,8 @@ const Box = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  padding-top: 1vw;
 `
 
 const PicTitle = styled.span`
@@ -62,7 +60,6 @@ const PicTitle = styled.span`
   color: ${colors.black};
   background-color: rgba(255,255,255,.5);
 `
-
 
 const Container = styled.div`
   background: ${colors.lemon};

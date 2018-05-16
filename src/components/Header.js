@@ -51,7 +51,8 @@ const CenterA = styled.img`
 
 const RightA = styled.img`
   grid-area: rightA;
-  height: 70%;
+  padding-top: 0.5vh;
+  height: 80%;
 `
 
 

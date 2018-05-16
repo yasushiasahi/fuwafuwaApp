@@ -3,18 +3,31 @@ import styled from 'styled-components'
 import closePict from './../images/assets/close_menu.svg'
 
 
-const FullSizePicture = () => {
-  const picName = require('./../images/gallery/p0.jpg')
+const FullSizePicture = (props) => {
+  const {
+    pictureObj,
+    closeClickHandler
+  } = props
+
+  const {
+    name,
+    title,
+    explanation
+  } = pictureObj
+
+  const url = require(`./../images/gallery/${name}`)
+
   return (
     <Container>
       <GridWrapper>
         <Pic
-          src={picName}/>
+          src={url}/>
         <Info>
-          <PicTitle>タイトルタイトル0</PicTitle>
-          <Explanation>説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。説明がはいります。</Explanation>
+          <PicTitle>{title}</PicTitle>
+          <Explanation>{explanation}</Explanation>
         </Info>
-        <Button>
+        <Button
+          onClick={() => closeClickHandler()}>
           <ClosePict src={closePict}/>
         </Button>
       </GridWrapper>
@@ -52,6 +65,7 @@ const GridWrapper = styled.div`
 const Pic = styled.img`
   grid-area: pic;
   width: 100%;
+  padding: 1vw 1vw 0 1vw;
 `
 
 const Info = styled.div`
@@ -79,6 +93,7 @@ const Button = styled.div`
 
 const ClosePict = styled.img`
   grid-area: button;
+  display: block;
   width: 100%;
 `
 
