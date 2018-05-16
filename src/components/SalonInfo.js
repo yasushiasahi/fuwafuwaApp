@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import GoogleMap from './GoogleMap.js'
 import { colors, sc } from './styles.js'
 import interior_0 from './../images/salon_info/0_interior.jpg'
-import logo from './../assets/logo.svg'
+import logo from './../images/assets/logo.svg'
 
 
 const SalonInfo = () => {

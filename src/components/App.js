@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { sizes } from './styles.js'
-// import Home from './Home.js'
+import Home from './Home.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
+import FullSizePicture from './FullSizePicture.js'
 import Greeting from './Greeting.js'
 import SalonInfo from './SalonInfo.js'
 import Menu from './Menu.js'
@@ -36,6 +37,7 @@ class App extends React.Component {
         <Sidebar
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Space/>
+        <Home />
         <Gallery/>
         <Greeting/>
         <SalonInfo/>

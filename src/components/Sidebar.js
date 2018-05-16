@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors, sizes } from './styles.js'
-import yasukorori from './../assets/yasukorori.png'
+import yasukorori from './../images/assets/yasukorori.png'
 
 
 const Sidebar = props => {

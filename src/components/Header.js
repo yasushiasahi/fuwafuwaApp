@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors, sizes } from './styles.js'
-import logo from './../assets/logo.svg'
-import hamburgerMenu from './../assets/hamburger_menu.svg'
-import closeMenu from './../assets/close_menu.svg'
+import logo from './../images/assets/logo.svg'
+import hamburgerMenu from './../images/assets/hamburger_menu.svg'
+import closeMenu from './../images/assets/close_menu.svg'
 
 
 const Header = props => {

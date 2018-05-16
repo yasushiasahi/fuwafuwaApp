@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from './styles.js'
-import yasukorori from './../assets/yasukorori.png'
-import logo from './../assets/logo.svg'
+import yasukorori from './../images/assets/yasukorori.png'
+import logo from './../images/assets/logo.svg'
 
 
 const Home = () => {
@@ -49,7 +49,7 @@ const Logo = styled.img`
 `
 
 const LeftA = styled.ul`
-
+  grid-area: leftA;
   list-style: none;
 `
 
