@@ -9,6 +9,8 @@ import Greeting from './Greeting.js'
 import SalonInfo from './SalonInfo.js'
 import Menu from './Menu.js'
 import Blog from './Blog.js'
+import Gallery from './Gallery.js'
+
 
 class App extends React.Component {
   constructor() {
@@ -34,6 +36,7 @@ class App extends React.Component {
         <Sidebar
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Space/>
+        <Gallery/>
         <Greeting/>
         <SalonInfo/>
         <Menu/>
