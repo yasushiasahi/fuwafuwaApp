@@ -11,6 +11,7 @@ import SalonInfo from './SalonInfo.js'
 import Menu from './Menu.js'
 import Blog from './Blog.js'
 import Gallery from './Gallery.js'
+import Footer from './Footer.js'
 
 
 class App extends React.Component {
@@ -63,6 +64,7 @@ class App extends React.Component {
         <Blog/>
         <Gallery
           pictureClickHandler={this.pictureClickHandler}/>
+        <Footer/>
       </Container>
     )
   }

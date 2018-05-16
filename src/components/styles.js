@@ -12,7 +12,7 @@ export const colors = {
 }
 
 export const sizes = {
-  headerHeight: '7vh'
+  headerHeight: '10vw'
 }
 
 

@@ -14,10 +14,10 @@ const Header = props => {
 
   return (
     <GridContainer>
-      <CenterA
+      <Logo
         src={logo}
         alt='ロゴ'/>
-      <RightA
+      <Pict
         src={isSidebarOpen ? closeMenu : hamburgerMenu}
         alt='メニューアイコン'
         onClick={() => menuClickHandler()}/>
@@ -28,15 +28,11 @@ const Header = props => {
 
 const GridContainer = styled.header`
   background: ${colors.yellow};
-  height: ${sizes.headerHeight};
   display: grid;
-  grid-template-rows: 25% 50% 25%;
-  grid-template-columns: 20vw 60vw 20vw;
+  grid-template-rows: ${sizes.headerHeight};
+  grid-template-columns: 5vw 85vw 10vw;
   grid-template-areas:
-    ". ....... ......"
-    ". centerA rightA"
-    ". ....... ......";
-  justify-items: center;
+    ". logo pict";
   align-items: center;
   position: fixed;
   top: 0;
@@ -44,15 +40,14 @@ const GridContainer = styled.header`
   z-index: 10;
 `
 
-const CenterA = styled.img`
-  grid-area: centerA;
-  width: 100%;
+const Logo = styled.img`
+  grid-area: logo;
+  width: 50vw;
 `
 
-const RightA = styled.img`
-  grid-area: rightA;
-  padding-top: 0.5vh;
-  height: 80%;
+const Pict = styled.img`
+  grid-area: pict;
+  width: 5vw;
 `
 
 
