@@ -64,7 +64,7 @@ class BlogIndex extends React.Component {
             <Title isMoreThan20Charas={isMoreThan20Charas}>{title}</Title>
             <Date>{dateStr}</Date>
           </TitleWrappar>
-          <Description>
+          <Description isOpen={isOpen}>
             {biginningWithoutSpaces}
             <Link href={link}>ブログへ移動</Link>
           </Description>
@@ -75,7 +75,10 @@ class BlogIndex extends React.Component {
     return (
       <Container>
         <Wrappar>
-          {Blogs}
+          <sc.H1>最近のブログ一覧</sc.H1>
+          <GridContainer>
+            {Blogs}
+          </GridContainer>
         </Wrappar>
       </Container>
     )
@@ -83,10 +86,15 @@ class BlogIndex extends React.Component {
 }
 
 const Wrappar = styled.div`
-  background: ${colors.cream};
   width: 95vw;
   margin: 0 auto;
   padding: 2vw;
+  background: ${colors.cream};
+`
+
+const GridContainer = styled.div`
+  background: ${colors.cream};
+  margin: 0 auto;
   display: grid;
   grid-template-columns: auto auto;
   grid-auto-rows: 20.25vw;
@@ -95,8 +103,10 @@ const Wrappar = styled.div`
 
 const Box = styled.div`
   grid-row: ${props => props.isOpen ? 'span 2' : 'span 1'};
+  height: ${props => props.isOpen ? '42.5vw' : '20.25vw'};
   background-color: ${colors.lime};
-  overflow: hidden;
+  transition: ${props => props.isOpen ? '.5s' : '0s'};
+  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
 `
 
 const TitleWrappar = styled.div`
@@ -110,11 +120,11 @@ const TitleWrappar = styled.div`
     "title"
     "date";
   align-items: center;
-  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
 `
 
 const Title = styled.div`
   grid-area: title;
+  overflow: hidden;
   font-size: ${props => props.isMoreThan20Charas ? '3.5vw' : '4.6vw'};
   line-height: ${props => props.isMoreThan20Charas ? '5vw' : '5.6vw'};
 `
@@ -125,9 +135,14 @@ const Date = styled.div`
 `
 
 const Description = styled.div`
-  padding: 1vw;
+  padding: ${props => props.isOpen ? '1.2vw 1vw' : '0 1vw'};
   font-size: 3vw;
   line-height: 4vw;
+  overflow: hidden;
+  height: ${props => props.isOpen ? '22.25vw' : '0'};
+  transition: ${props => props.isOpen ? 'height .5s' : '0s'};
+  box-shadow: inset 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  box-sizing: border-box;
 `
 
 const Link = styled.a`

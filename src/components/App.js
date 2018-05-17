@@ -9,7 +9,6 @@ import FullSizePicture from './FullSizePicture.js'
 import Greeting from './Greeting.js'
 import SalonInfo from './SalonInfo.js'
 import Menu from './Menu.js'
-import Blog from './Blog.js'
 import BlogIndex from './BlogIndex.js'
 import Gallery from './Gallery.js'
 import Footer from './Footer.js'
@@ -59,13 +58,12 @@ class App extends React.Component {
         <Sidebar
           isSidebarOpen={this.state.isSidebarOpen}/>
         <Space/>
-        <BlogIndex/>
         <Greeting/>
         <SalonInfo/>
         <Menu/>
         <Gallery
           pictureClickHandler={this.pictureClickHandler}/>
-        <Blog/>
+        <BlogIndex/>
         <Footer/>
       </Container>
     )
