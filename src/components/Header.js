@@ -38,6 +38,7 @@ const GridContainer = styled.header`
   top: 0;
   left: 0;
   z-index: 10;
+  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
 `
 
 const Logo = styled.img`

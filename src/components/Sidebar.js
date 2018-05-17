@@ -29,17 +29,18 @@ const GridContainer = styled.aside`
   background: ${colors.yellow};
   display: grid;
   width: 40vw;
-  grid-template-rows: 50vh 43vh;
+  grid-template-rows: 50vh calc(50Vh - ${sizes.headerHeight} + 1px);
   grid-template-columns: auto;
   grid-template-areas:
     "middleA"
     "bottomA";
   justify-items: center;
   position: fixed;
-  top: ${sizes.headerHeight};
+  top: calc(${sizes.headerHeight} - 1px);
   left: ${props => (props.isSidebarOpen ? '60vw' : '100vw')};
   z-index: 10;
   transition: all .5s;
+  box-shadow: 0 .6vw .6vw 0 rgba(0,0,0,.6);
 `
 
 const TopA = styled.ul`
