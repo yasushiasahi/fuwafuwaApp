@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { sizes } from './styles.js'
+import { sizes, colors } from './styles.js'
 import Home from './Home.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
@@ -107,7 +107,6 @@ class App extends React.Component {
           isSidebarOpen={isSidebarOpen}
           menuClickHandler={this.menuClickHandler}
           handleMainView={this.handleMainView}/>
-        <Space/>
         <Main>
           {mainViewComponent}
         </Main>
@@ -123,11 +122,9 @@ const Container = styled.div`
   position: relative;
 `
 
-const Space = styled.div`
-  height: ${sizes.headerHeight};
-`
-
 const Main = styled.main`
+  background-color: ${colors.cream};
+  padding: calc(${sizes.headerHeight} + 2.5vw) 2.5vw 2.5vw 2.5vw;
 `
 
 

@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sc } from './styles.js'
+import { colors, sc, properties } from './styles.js'
 import pictureData from './../databases/pictureData.js'
 
 
-const Gallery = (props) => {
-  const { pictureClickHandler } = props
-
+const Gallery = ({ pictureClickHandler }) => {
   const pictures = pictureData.map(pictureObj => {
     const {
       id,
@@ -25,16 +23,18 @@ const Gallery = (props) => {
   })
 
   return (
-    <Container>
-      <Wrappar>
-        <sc.H1>ヤスコロリ画廊</sc.H1>
-        <GridContainer>
-          {pictures}
-        </GridContainer>
-      </Wrappar>
-    </Container>
+    <Wrappar>
+      <sc.H1>ヤスコロリ画廊</sc.H1>
+      <GridContainer>
+        {pictures}
+      </GridContainer>
+    </Wrappar>
   )
 }
+
+const Wrappar = styled.div`
+  padding: 2vw 0;
+`
 
 const GridContainer = styled.div`
   display: grid;
@@ -50,7 +50,7 @@ const Box = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  box-shadow: ${properties.boxShadow()};
   padding-top: 1vw;
 `
 
@@ -60,18 +60,5 @@ const PicTitle = styled.span`
   color: ${colors.black};
   background-color: rgba(255,255,255,.5);
 `
-
-const Container = styled.div`
-  background: ${colors.lemon};
-  padding-top: 4vw;
-`
-
-const Wrappar = styled.div`
-  width: 95vw;
-  margin: 0 auto;
-  padding: 2vw 0;
-  background: ${colors.cream};
-`
-
 
 export default Gallery

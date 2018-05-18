@@ -8,11 +8,19 @@ export const colors = {
   black: '#332e14',
   cream: '#fff7cc',
   skyblue: '#66ffe8',
-  lemon: '#fff099'
+  lemon: 'lime'
 }
 
 export const sizes = {
   headerHeight: '10vw'
+}
+
+export const properties = {
+  boxShadow: (isInset=false, isYoffsetMinus=false) => {
+    const inset = isInset ? 'inset' : ''
+    const yoffset = isYoffsetMinus ? '-.3vw' : '.3vw'
+    return `${inset} 0 ${yoffset} .6vw 0 rgba(0,0,0,.6)`
+  }
 }
 
 

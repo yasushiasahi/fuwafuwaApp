@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sc } from './styles.js'
+import { colors, sc, properties } from './styles.js'
 
 
 class BlogIndex extends React.Component {
@@ -19,7 +19,7 @@ class BlogIndex extends React.Component {
       .then(resJson => {
         const provBlogs = resJson.query.results.item.map((obj, index) => {
           obj.id = index
-          obj.isOpen = false
+          obj.isOpen = (index === 0) ? true : false
           return obj
         })
         this.setState({
@@ -73,23 +73,19 @@ class BlogIndex extends React.Component {
     })
 
     return (
-      <Container>
         <Wrappar>
           <sc.H1>最近のブログ一覧</sc.H1>
           <GridContainer>
             {Blogs}
           </GridContainer>
         </Wrappar>
-      </Container>
     )
   }
 }
 
+
 const Wrappar = styled.div`
-  width: 95vw;
-  margin: 0 auto;
   padding: 2vw;
-  background: ${colors.cream};
 `
 
 const GridContainer = styled.div`
@@ -106,7 +102,7 @@ const Box = styled.div`
   height: ${props => props.isOpen ? '42.5vw' : '20.25vw'};
   background-color: ${colors.lime};
   transition: ${props => props.isOpen ? '.5s' : '0s'};
-  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  box-shadow: ${properties.boxShadow()};
 `
 
 const TitleWrappar = styled.div`
@@ -141,17 +137,12 @@ const Description = styled.div`
   overflow: hidden;
   height: ${props => props.isOpen ? '22.25vw' : '0'};
   transition: ${props => props.isOpen ? 'height .5s' : '0s'};
-  box-shadow: inset 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  box-shadow: ${properties.boxShadow(true)};
   box-sizing: border-box;
 `
 
 const Link = styled.a`
   font-size: 3vw;
-`
-
-const Container = styled.div`
-  background: ${colors.lemon};
-  padding-top: 4vw;
 `
 
 export default BlogIndex

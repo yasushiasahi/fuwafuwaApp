@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import MainViewSwicther from './MainViewSwitcher.js'
-import { colors } from './styles.js'
+import { colors, properties } from './styles.js'
 import logo from './../images/assets/logo.svg'
 
 
@@ -20,7 +20,7 @@ const Footer = ({ handleMainView }) => (
 )
 
 
-const GridContainer = styled.header`
+const GridContainer = styled.footer`
   background-color: ${colors.yellow};
   display: grid;
   grid-template-rows: 8vw 10vw 9vw;
@@ -30,6 +30,7 @@ const GridContainer = styled.header`
     "links"
     "copyright";
   box-sizing: border-box;
+  box-shadow: ${properties.boxShadow(false,true)};
 `
 
 const Logo = styled.img`

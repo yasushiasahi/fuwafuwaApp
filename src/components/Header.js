@@ -1,29 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sizes } from './styles.js'
+import { colors, sizes, properties } from './styles.js'
 import logo from './../images/assets/logo.svg'
 import hamburgerMenu from './../images/assets/hamburger_menu.svg'
 import closeMenu from './../images/assets/close_menu.svg'
 
 
-const Header = props => {
-  const {
-    menuClickHandler,
-    isSidebarOpen
-  } = props
-
-  return (
-    <GridContainer>
-      <Logo
-        src={logo}
-        alt='ロゴ'/>
-      <Pict
-        src={isSidebarOpen ? closeMenu : hamburgerMenu}
-        alt='メニューアイコン'
-        onClick={() => menuClickHandler()}/>
-    </GridContainer>
-  )
-}
+const Header = ({
+  menuClickHandler,
+  isSidebarOpen
+}) => (
+  <GridContainer>
+    <Logo
+      src={logo}
+      alt='ロゴ'/>
+    <Pict
+      src={isSidebarOpen ? closeMenu : hamburgerMenu}
+      alt='メニューアイコン'
+      onClick={() => menuClickHandler()}/>
+  </GridContainer>
+)
 
 
 const GridContainer = styled.header`
@@ -38,7 +34,7 @@ const GridContainer = styled.header`
   top: 0;
   left: 0;
   z-index: 10;
-  box-shadow: 0 .3vw .6vw 0 rgba(0,0,0,.6);
+  box-shadow: ${properties.boxShadow()};
 `
 
 const Logo = styled.img`
