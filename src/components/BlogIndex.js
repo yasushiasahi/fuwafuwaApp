@@ -3,85 +3,51 @@ import styled from 'styled-components'
 import { colors, sc, properties } from './styles.js'
 
 
-class BlogIndex extends React.Component {
-  constructor() {
-    super()
-    this.state = ({
-      blogs: [],
-    })
-    this.hundleBlogClick = this.hundleBlogClick.bind(this)
-  }
 
-  componentDidMount() {
-    let url = `https://query.yahooapis.com/v1/public/yql?q=select%20title%2Cdate%2Clink%2Cdescription%20from%20rss%20where%20url%3D'https%3A%2F%2Ffuwafuwayo.exblog.jp%2Findex.xml'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
-    fetch(url)
-      .then(res => res.json())
-      .then(resJson => {
-        const provBlogs = resJson.query.results.item.map((obj, index) => {
-          obj.id = index
-          obj.isOpen = (index === 0) ? true : false
-          return obj
-        })
-        this.setState({
-          blogs: provBlogs
-        })
-      })
-      .catch(error => {
-        console.log(`エラー:${error}`);
-      });
-  }
 
-  hundleBlogClick (id) {
-    const provBlogs = this.state.blogs.map(blogObj => {
-      const blogObjCopy = Object.assign({}, blogObj)
-      if (blogObjCopy.id === id) blogObjCopy.isOpen = !blogObjCopy.isOpen
-      return blogObjCopy
-    })
-    this.setState({
-      blogs: provBlogs
-    })
-  }
-
-  render() {
-    const Blogs = this.state.blogs.map((blogObj) => {
-      const {
-        id,
-        title,
-        isOpen,
-        date,
-        description,
-        link
-      } = blogObj
-      const dateStr = date.slice(0,10)
-      const isMoreThan20Charas = title.length > 20
-      const biginningWithoutSpaces = description.replace(/\s+/g, "").slice(0,60) + '...　'
-
-      return (
-        <Box
-          key={id}
-          isOpen={isOpen}>
-          <TitleWrappar onClick={() => this.hundleBlogClick(id)}>
-            <Title isMoreThan20Charas={isMoreThan20Charas}>{title}</Title>
-            <Date>{dateStr}</Date>
-          </TitleWrappar>
-          <Description isOpen={isOpen}>
-            {biginningWithoutSpaces}
-            <Link href={link}>ブログへ移動</Link>
-          </Description>
-        </Box>
-      )
-    })
+const BlogIndex = ({
+  blogInfos,
+  toggleBlogBoxOpen
+}) => {
+  const Blogs = blogInfos.map((blogInfo) => {
+    const {
+      id,
+      title,
+      isOpen,
+      date,
+      description,
+      link
+    } = blogInfo
+    const dateStr = date.slice(0,10)
+    const isMoreThan20Charas = title.length > 20
+    const biginningWithoutSpaces = description.replace(/\s+/g, "").slice(0,60) + '...　'
 
     return (
-        <Wrappar>
-          <sc.H1>最近のブログ一覧</sc.H1>
-          <GridContainer>
-            {Blogs}
-          </GridContainer>
-        </Wrappar>
+      <Box
+        key={id}
+        isOpen={isOpen}>
+        <TitleWrappar onClick={() => toggleBlogBoxOpen(id)}>
+          <Title isMoreThan20Charas={isMoreThan20Charas}>{title}</Title>
+          <Date>{dateStr}</Date>
+        </TitleWrappar>
+        <Description isOpen={isOpen}>
+          {biginningWithoutSpaces}
+          <Link href={link}>ブログへ移動</Link>
+        </Description>
+      </Box>
     )
-  }
+  })
+
+  return (
+    <Wrappar>
+      <sc.H1>最近のブログ一覧</sc.H1>
+      <GridContainer>
+        {Blogs}
+      </GridContainer>
+    </Wrappar>
+  )
 }
+
 
 
 const Wrappar = styled.div`

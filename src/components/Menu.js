@@ -2,11 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import MenuBox from './MenuBox.js'
 import { sc } from './styles.js'
+import image_01 from './../images/menu/01_image.jpg'
 
 
 const Menu = () => (
   <Wrappar>
     <sc.H1>メニュー</sc.H1>
+    <sc.Img
+      src={image_01}/>
     <MenuBox
       head='カット'
       explain='ドライカットを基本に骨格や髪質を考慮して丁寧にカットします'
