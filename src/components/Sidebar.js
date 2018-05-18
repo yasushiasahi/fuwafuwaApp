@@ -7,14 +7,16 @@ import yasukorori from './../images/assets/yasukorori.png'
 
 const Sidebar = ({
   isSidebarShown,
-  handleMainView
+  handleHomeLinkClick,
+  switchMainView
 }) => (
   <GridContainer
     isSidebarShown={isSidebarShown}>
     <TopA>
       <MainViewSwitcher
         isParentSidebar={true}
-        handleMainView={handleMainView}/>
+        handleHomeLinkClick={handleHomeLinkClick}
+        switchMainView={switchMainView}/>
     </TopA>
     <BottomA
       src={yasukorori}/>

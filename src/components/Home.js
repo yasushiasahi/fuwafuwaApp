@@ -7,7 +7,8 @@ import logo from './../images/assets/logo.svg'
 
 
 const Home = ({
-  handleMainView,
+  handleHomeLinkClick,
+  switchMainView,
   isHomeShown
 }) => (
   <GridContainer
@@ -21,7 +22,8 @@ const Home = ({
     <LeftA>
       <MainViewSwicther
         isParentHome={true}
-        handleMainView={handleMainView}/>
+        handleHomeLinkClick={handleHomeLinkClick}
+        switchMainView={switchMainView}/>
     </LeftA>
   </GridContainer>
 )

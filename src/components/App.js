@@ -21,7 +21,7 @@ class App extends React.Component {
     this.state = ({
       isSidebarShown: false,
       isHomeShown: false,
-      mainViewComponent: null,
+      mainViewComponentName: '',
       fullSizePicture: null,
       blogInfos: []
     })
@@ -29,15 +29,17 @@ class App extends React.Component {
     this.menuClickHandler = this.menuClickHandler.bind(this)
     this.pictureClickHandler = this.pictureClickHandler.bind(this)
     this.closeClickHandler = this.closeClickHandler.bind(this)
-    this.handleMainView = this.handleMainView.bind(this)
     this.toggleHomeShown = this.toggleHomeShown.bind(this)
     this.getExciteBlogRssFeed = this.getExciteBlogRssFeed.bind(this)
     this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
+    this.provideMainView = this.provideMainView.bind(this)
+    this.switchMainView = this.switchMainView.bind(this)
+    this.handleHomeLinkClick = this.handleHomeLinkClick.bind(this)
   }
 
   componentDidMount () {
-    this.handleMainView('Home')
     this.getExciteBlogRssFeed()
+    this.toggleHomeShown()
   }
 
   getExciteBlogRssFeed () {
@@ -57,6 +59,14 @@ class App extends React.Component {
       .catch(error => {
         console.log(`エラー:${error}`);
       })
+  }
+
+  handleHomeLinkClick (isParentSidebar) {
+    isParentSidebar && this.menuClickHandler()
+    this.toggleHomeShown()
+    // this.setState({
+    //   mainViewComponentName: 'Home'
+    // })
   }
 
   menuClickHandler () {
@@ -98,7 +108,15 @@ class App extends React.Component {
     })
   }
 
-  handleMainView (componentName, isParentSidebar, isParentHome) {
+  switchMainView (componentName, isParentSidebar, isParentHome) {
+    this.setState({
+      mainViewComponentName: componentName
+    })
+    isParentHome && this.toggleHomeShown()
+    isParentSidebar && this.menuClickHandler()
+  }
+
+  provideMainView (componentName) {
     const { blogInfos } = this.state
     const {
       pictureClickHandler,
@@ -108,9 +126,8 @@ class App extends React.Component {
 
     switch (componentName) {
     case 'Home':
-      this.toggleHomeShown()
-      isParentSidebar && this.menuClickHandler()
-      return
+      provMainViewComponent = null
+      break
     case 'Greeting':
       provMainViewComponent = (<Greeting/>)
       break
@@ -133,14 +150,11 @@ class App extends React.Component {
           blogInfos={blogInfos}/>
       )
       break
+    default:
+      provMainViewComponent = null
     }
 
-    this.setState({
-      mainViewComponent: provMainViewComponent
-    })
-
-    isParentHome && this.toggleHomeShown()
-    isParentSidebar && this.menuClickHandler()
+    return provMainViewComponent
   }
 
   render() {
@@ -148,10 +162,10 @@ class App extends React.Component {
       fullSizePicture,
       isHomeShown,
       isSidebarShown,
-      mainViewComponent
     } = this.state
     const {
-      handleMainView,
+      handleHomeLinkClick,
+      switchMainView,
       menuClickHandler
     } = this
 
@@ -163,16 +177,18 @@ class App extends React.Component {
           isSidebarShown={isSidebarShown}/>
         <Sidebar
           isSidebarShown={isSidebarShown}
+          handleHomeLinkClick={handleHomeLinkClick}
           menuClickHandler={menuClickHandler}
-          handleMainView={handleMainView}/>
+          switchMainView={switchMainView}/>
         <Main>
           <Home
             isHomeShown={isHomeShown}
-            handleMainView={handleMainView}/>
-          {mainViewComponent}
+            switchMainView={switchMainView}/>
+          {this.provideMainView(this.state.mainViewComponentName)}
         </Main>
         <Footer
-          handleMainView={handleMainView}/>
+          handleHomeLinkClick={handleHomeLinkClick}
+          switchMainView={switchMainView}/>
       </Container>
     )
   }

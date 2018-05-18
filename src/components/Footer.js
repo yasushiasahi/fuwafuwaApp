@@ -5,14 +5,18 @@ import { colors, properties } from './styles.js'
 import logo from './../images/assets/logo.svg'
 
 
-const Footer = ({ handleMainView }) => (
+const Footer = ({
+  handleHomeLinkClick,
+  switchMainView
+  }) => (
   <GridContainer>
     <Logo
       src={logo}
       alt='ロゴ'/>
     <Links>
       <MainViewSwicther
-        handleMainView={handleMainView}
+        handleHomeLinkClick={handleHomeLinkClick}
+        switchMainView={switchMainView}
         isColumn={true}/>
     </Links>
     <Copyright>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</Copyright>

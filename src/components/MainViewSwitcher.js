@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 
 const MainViewSwitcher = ({
-  handleMainView,
+  handleHomeLinkClick,
+  switchMainView,
   isParentHome = false,
   isParentSidebar = false,
   isColumn = false,
@@ -12,18 +13,18 @@ const MainViewSwitcher = ({
     isColumn={isColumn}>
     {isParentHome || (
       <li
-        onClick={() => handleMainView('Home', isParentSidebar, isParentHome)}>ホーム</li>
+        onClick={() => handleHomeLinkClick(isParentSidebar)}>ホーム</li>
     )}
     <li
-      onClick={() => handleMainView('Greeting', isParentSidebar, isParentHome)}>ご挨拶</li>
+      onClick={() => switchMainView('Greeting', isParentSidebar, isParentHome)}>ご挨拶</li>
     <li
-      onClick={() => handleMainView('SalonInfo', isParentSidebar, isParentHome)}>お店情報</li>
+      onClick={() => switchMainView('SalonInfo', isParentSidebar, isParentHome)}>お店情報</li>
     <li
-      onClick={() => handleMainView('Menu', isParentSidebar, isParentHome)}>メニュー</li>
+      onClick={() => switchMainView('Menu', isParentSidebar, isParentHome)}>メニュー</li>
     <li
-      onClick={() => handleMainView('BlogIndex', isParentSidebar, isParentHome)}>ブログ</li>
+      onClick={() => switchMainView('BlogIndex', isParentSidebar, isParentHome)}>ブログ</li>
     <li
-      onClick={() => handleMainView('Gallery', isParentSidebar, isParentHome)}>画廊</li>
+      onClick={() => switchMainView('Gallery', isParentSidebar, isParentHome)}>画廊</li>
   </Ul>
 )
 
