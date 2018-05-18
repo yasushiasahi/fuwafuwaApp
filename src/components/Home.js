@@ -16,6 +16,7 @@ const Home = ({ handleMainView }) => (
         src={yasukorori} alt='店主似顔絵'/>
       <LeftA>
         <MainViewSwicther
+          isHome={true}
           handleMainView={handleMainView}/>
       </LeftA>
     </GridContainer>

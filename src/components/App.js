@@ -54,7 +54,7 @@ class App extends React.Component {
     })
   }
 
-  handleMainView (componentName) {
+  handleMainView (componentName, isFromSidebar) {
     let provMainViewComponent = null
     switch (componentName) {
     case 'Home':
@@ -86,6 +86,8 @@ class App extends React.Component {
     this.setState({
       mainViewComponent: provMainViewComponent
     })
+
+    isFromSidebar && this.menuClickHandler()
   }
 
   render() {
@@ -103,6 +105,7 @@ class App extends React.Component {
           isSidebarOpen={isSidebarOpen}/>
         <Sidebar
           isSidebarOpen={isSidebarOpen}
+          menuClickHandler={this.menuClickHandler}
           handleMainView={this.handleMainView}/>
         <Space/>
         <Main>

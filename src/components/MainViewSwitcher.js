@@ -4,25 +4,28 @@ import styled from 'styled-components'
 
 const MainViewSwitcher = ({
   handleMainView,
-  isColumn,
+  isHome = false,
+  isFromSidebar = false,
+  isColumn = false,
 }) => (
   <Ul
     isColumn={isColumn}>
+    {isHome || (
+      <li
+        onClick={() => handleMainView('Home', isFromSidebar)}>ホーム</li>
+    )}
     <li
-      onClick={() => handleMainView('Home')}>ホーム</li>
+      onClick={() => handleMainView('Greeting', isFromSidebar)}>ご挨拶</li>
     <li
-      onClick={() => handleMainView('Greeting')}>ご挨拶</li>
+      onClick={() => handleMainView('SalonInfo', isFromSidebar)}>お店情報</li>
     <li
-      onClick={() => handleMainView('SalonInfo')}>お店情報</li>
+      onClick={() => handleMainView('Menu', isFromSidebar)}>メニュー</li>
     <li
-      onClick={() => handleMainView('Menu')}>メニュー</li>
+      onClick={() => handleMainView('BlogIndex', isFromSidebar)}>ブログ</li>
     <li
-      onClick={() => handleMainView('BlogIndex')}>ブログ</li>
-    <li
-      onClick={() => handleMainView('Gallery')}>画廊</li>
+      onClick={() => handleMainView('Gallery', isFromSidebar)}>画廊</li>
   </Ul>
 )
-
 
 const Ul = styled.ul`
   list-style: none;
@@ -32,7 +35,7 @@ const Ul = styled.ul`
       user-select: none;
       margin-bottom: 2vw;
   }
-  ${props => props.isColumn && (`
+  ${props => (props.isColumn && `
     height: 100%;
     display: flex;
     align-items: center;

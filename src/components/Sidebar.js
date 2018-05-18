@@ -13,6 +13,7 @@ const Sidebar = ({
     isSidebarOpen={isSidebarOpen}>
     <TopA>
       <MainViewSwitcher
+        isFromSidebar={true}
         handleMainView={handleMainView}/>
     </TopA>
     <BottomA
