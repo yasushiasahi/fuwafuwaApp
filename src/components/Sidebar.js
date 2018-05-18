@@ -6,14 +6,14 @@ import yasukorori from './../images/assets/yasukorori.png'
 
 
 const Sidebar = ({
-  isSidebarOpen,
+  isSidebarShown,
   handleMainView
 }) => (
   <GridContainer
-    isSidebarOpen={isSidebarOpen}>
+    isSidebarShown={isSidebarShown}>
     <TopA>
       <MainViewSwitcher
-        isFromSidebar={true}
+        isParentSidebar={true}
         handleMainView={handleMainView}/>
     </TopA>
     <BottomA
@@ -34,7 +34,7 @@ const GridContainer = styled.aside`
   justify-items: center;
   position: fixed;
   top: calc(${sizes.headerHeight} - 1px);
-  left: ${props => (props.isSidebarOpen ? '60vw' : '100vw')};
+  left: ${props => (props.isSidebarShown ? '60vw' : '100vw')};
   z-index: 10;
   transition: all .5s;
   box-shadow: 0 .6vw .6vw 0 rgba(0,0,0,.6);

@@ -18,7 +18,8 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = ({
-      isSidebarOpen: false,
+      isSidebarShown: false,
+      isHomeShown: false,
       mainViewComponent: null,
       fullSizePicture: null
     })
@@ -26,6 +27,7 @@ class App extends React.Component {
     this.pictureClickHandler = this.pictureClickHandler.bind(this)
     this.closeClickHandler = this.closeClickHandler.bind(this)
     this.handleMainView = this.handleMainView.bind(this)
+    this.toggleHomeShown = this.toggleHomeShown.bind(this)
   }
 
   componentDidMount () {
@@ -34,7 +36,13 @@ class App extends React.Component {
 
   menuClickHandler () {
     this.setState({
-      isSidebarOpen: !this.state.isSidebarOpen
+      isSidebarShown: !this.state.isSidebarShown
+    })
+  }
+
+  toggleHomeShown () {
+    this.setState({
+      isHomeShown: !this.state.isHomeShown
     })
   }
 
@@ -54,15 +62,13 @@ class App extends React.Component {
     })
   }
 
-  handleMainView (componentName, isFromSidebar) {
+  handleMainView (componentName, isParentSidebar, isParentHome) {
     let provMainViewComponent = null
     switch (componentName) {
     case 'Home':
-      provMainViewComponent = (
-        <Home
-          handleMainView={this.handleMainView}/>
-      )
-      break
+      this.toggleHomeShown()
+      isParentSidebar && this.menuClickHandler()
+      return
     case 'Greeting':
       provMainViewComponent = (<Greeting/>)
       break
@@ -86,14 +92,15 @@ class App extends React.Component {
     this.setState({
       mainViewComponent: provMainViewComponent
     })
-
-    isFromSidebar && this.menuClickHandler()
+    isParentHome && this.toggleHomeShown()
+    isParentSidebar && this.menuClickHandler()
   }
 
   render() {
     const {
       fullSizePicture,
-      isSidebarOpen,
+      isHomeShown,
+      isSidebarShown,
       mainViewComponent
     } = this.state
 
@@ -102,12 +109,15 @@ class App extends React.Component {
         {fullSizePicture}
         <Header
           menuClickHandler={this.menuClickHandler}
-          isSidebarOpen={isSidebarOpen}/>
+          isSidebarShown={isSidebarShown}/>
         <Sidebar
-          isSidebarOpen={isSidebarOpen}
+          isSidebarShown={isSidebarShown}
           menuClickHandler={this.menuClickHandler}
           handleMainView={this.handleMainView}/>
         <Main>
+          <Home
+            isHomeShown={isHomeShown}
+            handleMainView={this.handleMainView}/>
           {mainViewComponent}
         </Main>
         <Footer
@@ -119,7 +129,11 @@ class App extends React.Component {
 
 
 const Container = styled.div`
+  background-color: ${colors.yellow};
   position: relative;
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
 `
 
 const Main = styled.main`

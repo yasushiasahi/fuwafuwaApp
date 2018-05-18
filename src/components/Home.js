@@ -6,21 +6,25 @@ import yasukorori from './../images/assets/yasukorori.png'
 import logo from './../images/assets/logo.svg'
 
 
-const Home = ({ handleMainView }) => (
-    <GridContainer>
-      <TopA>
-        ようこそ<br/>
-        <Logo src={logo} />へ
-      </TopA>
-      <RightA
-        src={yasukorori} alt='店主似顔絵'/>
-      <LeftA>
-        <MainViewSwicther
-          isHome={true}
-          handleMainView={handleMainView}/>
-      </LeftA>
-    </GridContainer>
-  )
+const Home = ({
+  handleMainView,
+  isHomeShown
+}) => (
+  <GridContainer
+    isHomeShown={isHomeShown}>
+    <TopA>
+      ようこそ<br/>
+      <Logo src={logo} />へ
+    </TopA>
+    <RightA
+      src={yasukorori} alt='店主似顔絵'/>
+    <LeftA>
+      <MainViewSwicther
+        isParentHome={true}
+        handleMainView={handleMainView}/>
+    </LeftA>
+  </GridContainer>
+)
 
 
 const GridContainer = styled.div`
@@ -34,7 +38,8 @@ const GridContainer = styled.div`
   position: absolute;
   z-index: 30;
   top: 0;
-  left: 0;
+  left: ${props => props.isHomeShown ? '0' : '100vw'};
+  transition: all .5s;
 `
 
 const TopA = styled.h1`

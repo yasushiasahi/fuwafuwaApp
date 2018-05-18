@@ -8,14 +8,14 @@ import closeMenu from './../images/assets/close_menu.svg'
 
 const Header = ({
   menuClickHandler,
-  isSidebarOpen
+  isSidebarShown
 }) => (
   <GridContainer>
     <Logo
       src={logo}
       alt='ロゴ'/>
     <Pict
-      src={isSidebarOpen ? closeMenu : hamburgerMenu}
+      src={isSidebarShown ? closeMenu : hamburgerMenu}
       alt='メニューアイコン'
       onClick={() => menuClickHandler()}/>
   </GridContainer>
