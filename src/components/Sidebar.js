@@ -1,28 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
+import MainViewSwitcher from './MainViewSwitcher.js'
 import { colors, sizes } from './styles.js'
 import yasukorori from './../images/assets/yasukorori.png'
 
 
-const Sidebar = props => {
-  const { isSidebarOpen } = props
-
-  return (
-    <GridContainer
-      isSidebarOpen={isSidebarOpen}>
-      <TopA>
-        <Li>ホーム</Li>
-        <Li>ご挨拶</Li>
-        <Li>お店情報</Li>
-        <Li>メニュー</Li>
-        <Li>ブログ</Li>
-        <Li>画廊</Li>
-      </TopA>
-      <BottomA
-        src={yasukorori}/>
-    </GridContainer>
-  )
-}
+const Sidebar = ({
+  isSidebarOpen,
+  handleMainView
+}) => (
+  <GridContainer
+    isSidebarOpen={isSidebarOpen}>
+    <TopA>
+      <MainViewSwitcher
+        handleMainView={handleMainView}/>
+    </TopA>
+    <BottomA
+      src={yasukorori}/>
+  </GridContainer>
+)
 
 
 const GridContainer = styled.aside`
@@ -43,13 +39,9 @@ const GridContainer = styled.aside`
   box-shadow: 0 .6vw .6vw 0 rgba(0,0,0,.6);
 `
 
-const TopA = styled.ul`
+const TopA = styled.div`
   grid-area: middleA;
-  list-style: none;
   align-self: center;
-`
-
-const Li = styled.li`
   font-size: 5vw;
 `
 

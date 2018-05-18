@@ -1,30 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from './styles.js'
+import MainViewSwicther from './MainViewSwitcher.js'
 import yasukorori from './../images/assets/yasukorori.png'
 import logo from './../images/assets/logo.svg'
 
 
-const Home = () => {
-  return (
+const Home = ({ handleMainView }) => (
     <GridContainer>
       <TopA>
         ようこそ<br/>
         <Logo src={logo} />へ
       </TopA>
-      <LeftA>
-        <Li>ホーム</Li>
-        <Li>ご挨拶</Li>
-        <Li>お店情報</Li>
-        <Li>メニュー</Li>
-        <Li>ブログ</Li>
-        <Li>画廊</Li>
-      </LeftA>
       <RightA
         src={yasukorori} alt='店主似顔絵'/>
+      <LeftA>
+        <MainViewSwicther
+          handleMainView={handleMainView}/>
+      </LeftA>
     </GridContainer>
   )
-}
 
 
 const GridContainer = styled.div`
@@ -35,6 +30,10 @@ const GridContainer = styled.div`
   grid-template-areas:
     ". topA topA"
     ". leftA rightA";
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  left: 0;
 `
 
 const TopA = styled.h1`
@@ -50,10 +49,6 @@ const Logo = styled.img`
 
 const LeftA = styled.ul`
   grid-area: leftA;
-  list-style: none;
-`
-
-const Li = styled.li`
   font-size: 5vw;
 `
 

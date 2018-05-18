@@ -1,28 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sizes } from './styles.js'
+import MainViewSwicther from './MainViewSwitcher.js'
+import { colors } from './styles.js'
 import logo from './../images/assets/logo.svg'
 
 
-const Footer = () => {
+const Footer = ({ handleMainView }) => (
+  <GridContainer>
+    <Logo
+      src={logo}
+      alt='ロゴ'/>
+    <Links>
+      <MainViewSwicther
+        handleMainView={handleMainView}
+        isColumn={true}/>
+    </Links>
+    <Copyright>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</Copyright>
+  </GridContainer>
+)
 
-  return (
-    <GridContainer>
-      <Logo
-        src={logo}
-        alt='ロゴ'/>
-      <Links>
-        <Link>ホーム</Link>
-        <Link>ご挨拶</Link>
-        <Link>お店情報</Link>
-        <Link>メニュー</Link>
-        <Link>ブログ</Link>
-        <Link>画廊</Link>
-      </Links>
-      <Copyright>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</Copyright>
-    </GridContainer>
-  )
-}
 
 const GridContainer = styled.header`
   background-color: ${colors.yellow};
@@ -43,15 +39,8 @@ const Logo = styled.img`
   align-self: end;
 `
 
-const Links = styled.ul`
+const Links = styled.div`
   grid-area: links;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
-`
-
-const Link = styled.li`
   font-size: 3vw;
 `
 

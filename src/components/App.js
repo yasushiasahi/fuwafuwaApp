@@ -19,11 +19,17 @@ class App extends React.Component {
     super()
     this.state = ({
       isSidebarOpen: false,
+      mainViewComponent: null,
       fullSizePicture: null
     })
     this.menuClickHandler = this.menuClickHandler.bind(this)
     this.pictureClickHandler = this.pictureClickHandler.bind(this)
     this.closeClickHandler = this.closeClickHandler.bind(this)
+    this.handleMainView = this.handleMainView.bind(this)
+  }
+
+  componentDidMount () {
+    this.handleMainView('Home')
   }
 
   menuClickHandler () {
@@ -48,23 +54,62 @@ class App extends React.Component {
     })
   }
 
-  render() {
-    return (
-      <Container>
-        {this.state.fullSizePicture}
-        <Header
-          menuClickHandler={this.menuClickHandler}
-          isSidebarOpen={this.state.isSidebarOpen}/>
-        <Sidebar
-          isSidebarOpen={this.state.isSidebarOpen}/>
-        <Space/>
-        <Greeting/>
-        <SalonInfo/>
-        <Menu/>
+  handleMainView (componentName) {
+    let provMainViewComponent = null
+    switch (componentName) {
+    case 'Home':
+      provMainViewComponent = (
+        <Home
+          handleMainView={this.handleMainView}/>
+      )
+      break
+    case 'Greeting':
+      provMainViewComponent = (<Greeting/>)
+      break
+    case 'SalonInfo':
+      provMainViewComponent = (<SalonInfo/>)
+      break
+    case 'Menu':
+      provMainViewComponent = (<Menu/>)
+      break
+    case 'Gallery':
+      provMainViewComponent = (
         <Gallery
           pictureClickHandler={this.pictureClickHandler}/>
-        <BlogIndex/>
-        <Footer/>
+      )
+      break
+    case 'BlogIndex':
+      provMainViewComponent = (<BlogIndex/>)
+      break
+    }
+
+    this.setState({
+      mainViewComponent: provMainViewComponent
+    })
+  }
+
+  render() {
+    const {
+      fullSizePicture,
+      isSidebarOpen,
+      mainViewComponent
+    } = this.state
+
+    return (
+      <Container>
+        {fullSizePicture}
+        <Header
+          menuClickHandler={this.menuClickHandler}
+          isSidebarOpen={isSidebarOpen}/>
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          handleMainView={this.handleMainView}/>
+        <Space/>
+        <Main>
+          {mainViewComponent}
+        </Main>
+        <Footer
+          handleMainView={this.handleMainView}/>
       </Container>
     )
   }
@@ -77,6 +122,9 @@ const Container = styled.div`
 
 const Space = styled.div`
   height: ${sizes.headerHeight};
+`
+
+const Main = styled.main`
 `
 
 

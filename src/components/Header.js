@@ -49,6 +49,7 @@ const Logo = styled.img`
 const Pict = styled.img`
   grid-area: pict;
   width: 5vw;
+  cursor: pointer;
 `
 
 
