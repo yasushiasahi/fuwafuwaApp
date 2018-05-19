@@ -23,7 +23,8 @@ class App extends React.Component {
       isHomeShown: false,
       mainViewComponentName: '',
       fullSizePicture: null,
-      blogInfos: []
+      blogInfos: [],
+      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ろうぜ！！' }
     })
 
     this.menuClickHandler = this.menuClickHandler.bind(this)
@@ -162,6 +163,7 @@ class App extends React.Component {
       fullSizePicture,
       isHomeShown,
       isSidebarShown,
+      balloonText
     } = this.state
     const {
       handleHomeLinkClick,
@@ -182,6 +184,7 @@ class App extends React.Component {
           switchMainView={switchMainView}/>
         <Main>
           <Home
+            balloonText={balloonText}
             isHomeShown={isHomeShown}
             switchMainView={switchMainView}/>
           {this.provideMainView(this.state.mainViewComponentName)}

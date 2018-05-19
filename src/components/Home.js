@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { colors } from './styles.js'
 import MainViewSwicther from './MainViewSwitcher.js'
+import BalloonSvg from './BalloonSvg.js'
 import yasukorori from './../images/assets/yasukorori.png'
 import logo from './../images/assets/logo.svg'
 
 
 const Home = ({
+  balloonText,
   handleHomeLinkClick,
   switchMainView,
   isHomeShown
@@ -25,6 +27,10 @@ const Home = ({
         handleHomeLinkClick={handleHomeLinkClick}
         switchMainView={switchMainView}/>
     </LeftA>
+    <BalloonAria>
+      <BalloonSvg
+        balloonText={balloonText}/>
+    </BalloonAria>
   </GridContainer>
 )
 
@@ -32,16 +38,21 @@ const Home = ({
 const GridContainer = styled.div`
   background: ${colors.yellow};
   display: grid;
-  grid-template-rows: 30vh 70vh;
+  grid-template-rows: 30vh 30vh 40vh;
   grid-template-columns: 5vw 45vw 50vw;
   grid-template-areas:
     ". topA topA"
-    ". leftA rightA";
-  position: absolute;
+    ". leftA ..."
+    ". balloon rightA";
+  position: fixed;
   z-index: 30;
   top: 0;
   left: ${props => props.isHomeShown ? '0' : '100vw'};
   transition: all .5s;
+`
+
+const BalloonAria = styled.div`
+  grid-area: balloon;
 `
 
 const TopA = styled.h1`
@@ -66,5 +77,7 @@ const RightA = styled.img`
   justify-self: end;
   align-self: end;
 `
+
+
 
 export default Home
