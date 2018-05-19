@@ -24,7 +24,7 @@ class App extends React.Component {
       mainViewComponentName: '',
       fullSizePicture: null,
       blogInfos: [],
-      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ろうぜ！！' }
+      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ろう' }
     })
 
     this.menuClickHandler = this.menuClickHandler.bind(this)
@@ -50,7 +50,7 @@ class App extends React.Component {
       .then(resJson => {
         const provBlogInfos = resJson.query.results.item.map((obj, index) => {
           obj.id = index
-          obj.isOpen = (index === 5) ? true : false
+          obj.isOpen = (index === 0) ? true : false
           return obj
         })
         this.setState({

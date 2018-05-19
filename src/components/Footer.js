@@ -47,6 +47,9 @@ const Logo = styled.img`
 const Links = styled.div`
   grid-area: links;
   font-size: 3vw;
+  img {
+    height: 5vw;
+  }
 `
 
 const Copyright = styled.div`

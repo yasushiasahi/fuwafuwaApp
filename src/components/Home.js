@@ -5,7 +5,8 @@ import MainViewSwicther from './MainViewSwitcher.js'
 import BalloonSvg from './BalloonSvg.js'
 import yasukorori from './../images/assets/yasukorori.png'
 import logo from './../images/assets/logo.svg'
-
+import youkoso from './../images/assets/youkoso.svg'
+import he from './../images/assets/he.svg'
 
 const Home = ({
   balloonText,
@@ -16,8 +17,8 @@ const Home = ({
   <GridContainer
     isHomeShown={isHomeShown}>
     <TopA>
-      ようこそ<br/>
-      <Logo src={logo} />へ
+      <Logo src={youkoso}/><br/>
+      <Logo src={logo} /><Logo src={he}/>
     </TopA>
     <RightA
       src={yasukorori} alt='店主似顔絵'/>
@@ -59,16 +60,20 @@ const TopA = styled.h1`
   grid-area: topA;
   font-size: 9vw;
   align-self: center;
+  line-height: 12vw;
 `
 
 const Logo = styled.img`
-  width: 75vw;
-  margin-right: 5vw;
+  height: 7.3vw;
+  margin-right: 3vw;
 `
 
 const LeftA = styled.ul`
   grid-area: leftA;
   font-size: 5vw;
+  img {
+  height: 7vw;
+  }
 `
 
 const RightA = styled.img`

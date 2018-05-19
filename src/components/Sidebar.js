@@ -46,6 +46,9 @@ const TopA = styled.div`
   grid-area: middleA;
   align-self: center;
   font-size: 5vw;
+  img {
+    height: 7vw;
+  }
 `
 
 const BottomA = styled.img`
