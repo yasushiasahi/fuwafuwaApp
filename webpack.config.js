@@ -1,13 +1,18 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'development', // production or development
+  devtool: 'inline-source-map', // developmentにしてればこれいらないもか
+
   devServer: {
     contentBase: 'dist',
     open: true,
-    port: 3001
+    port: 3001,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   },
+
   module: {
     rules: [
       {
@@ -16,18 +21,12 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: [['env', { 'modules': false }], 'react'],
-              plugins: ['react-hot-loader/babel', 'babel-plugin-styled-components'],
+              presets: [['env', { modules: false }], 'react'],
+              plugins: ['react-hot-loader/babel', 'babel-plugin-styled-components']
             }
-          },
-          {
-            loader: 'stylelint-custom-processor-loader',
-            options: {
-              emitWarning: true,
-            },
-          },
+          }
         ],
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -42,6 +41,7 @@ module.exports = {
       }
     ]
   },
+
   plugins: [
     new HtmlWebpackPlugin({
       title: 'フワフワ！美容室',
@@ -49,4 +49,4 @@ module.exports = {
       favicon: './src/favicon.ico'
     })
   ]
-};
+}

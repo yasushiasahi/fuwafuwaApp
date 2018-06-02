@@ -1,0 +1,7 @@
+
+-----------< 2018/06/02 09:24.49 apiHelper.js JSON.parse.fsReadFileP.catch.err 48/27 >--------------
+Error: ENOENT: no such file or directory, open 'databases/userdata.json'
+
+-----------< 2018/06/02 09:30.57 apiHelper.js JSON.parse.fsReadFileP.catch.err 48/27 >--------------
+Error: ENOENT: no such file or directory, open '/Users/asahi/ASAHI/Projects/fuwafuwa_hair_salon/Codes/serverdatabases/userdata.json'
+
