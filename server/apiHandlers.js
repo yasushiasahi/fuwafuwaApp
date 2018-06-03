@@ -2,7 +2,7 @@
 
 const path = require('path')
 const usersFilePath = path.join(__dirname, `databases/userdata.json`)
-const galleryFilePath = 'databases/gallerydata.json'
+const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
 const pictureDir = 'public/images/gallery/'
 const {
   removePicture,
@@ -37,7 +37,7 @@ const signIn = async request => {
 const logIn = async request => {
   console.log('/api/LogInが呼ばれた')
 
-  const { reqUserName, reqPassword } = await parseReqBody(request)
+  const { userName: reqUserName, password: reqPassword } = await parseReqBody(request)
   const users = await getDatabase(usersFilePath)
   const targetIndex = users.findIndex(user => user.userName === reqUserName)
   if (targetIndex === -1) throw { errMsg: `${reqUserName}は登録されていません` }
@@ -47,13 +47,13 @@ const logIn = async request => {
   const newToken = getToken(reqUserName)
   users[targetIndex].token = newToken
   await writeFile(usersFilePath, users)
-  return { reqUserName, newToken }
+  return { userName: reqUserName, token: newToken }
 }
 
 const checkToken = async request => {
   console.log('/api/checkTokenが呼ばれた')
 
-  const { reqUserName, reqToken } = await parseReqBody(request)
+  const { userName: reqUserName, token: reqToken } = await parseReqBody(request)
   const users = await getDatabase(usersFilePath)
   const targetIndex = users.findIndex(user => user.userName === reqUserName)
   if (users[targetIndex].token !== reqToken) {

@@ -16,7 +16,13 @@
 .env.test.local
 .env.production.local
 .tern-port
+GPATH
+GRTAGS
+GTAGS
 
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+yarn-error.
+
+/server/databases/*
+/server/logs/*

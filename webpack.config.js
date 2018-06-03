@@ -21,7 +21,18 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: [['env', { modules: false }], 'react'],
+              presets: [
+                [
+                  'env',
+                  {
+                    modules: false,
+                    targets: {
+                      node: 'current'
+                    }
+                  }
+                ],
+                'react'
+              ],
               plugins: ['react-hot-loader/babel', 'babel-plugin-styled-components']
             }
           }
