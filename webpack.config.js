@@ -35,18 +35,31 @@ module.exports = {
               ],
               plugins: ['react-hot-loader/babel', 'babel-plugin-styled-components']
             }
-          }
+          },
+          'stylelint-custom-processor-loader'
         ],
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.jpg$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: '[path][name].[ext]'
+              name: '[name].[ext]',
+              outputPath: 'images/',
+              publicPath: path => {
+                return `./images/${path}`
+              }
             }
+          }
+        ]
+      },
+      {
+        test: /\.(png|svg)$/,
+        use: [
+          {
+            loader: 'url-loader'
           }
         ]
       }
