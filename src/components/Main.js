@@ -9,17 +9,16 @@ import BlogIndex from './BlogIndex.js'
 import Gallery from './Gallery.js'
 
 const Main = ({
-  blogInfos,
-  pictureClickHandler,
-  toggleBlogBoxOpen,
   balloonText,
-  switchMainView,
+  pictureClickHandler,
+  blogInfos,
+  toggleBlogBoxOpen,
   mainViewComponentName
 }) => {
   const provideMainView = componentName => {
     switch (componentName) {
       case 'Home':
-        return <Home balloonText={balloonText} switchMainView={switchMainView} />
+        return <Home balloonText={balloonText} />
       case 'Greeting':
         return <Greeting />
       case 'SalonInfo':

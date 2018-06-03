@@ -8,35 +8,30 @@ import goaisatsu from './../images/assets/goaisatsu.svg'
 import menyu from './../images/assets/menyu.svg'
 import omisezyouhou from './../images/assets/omisezyouhou.svg'
 
-const MainViewSwitcher = ({
-  switchMainView,
-  isParentHome = false,
-  isParentSidebar = false,
-  isColumn = false
-}) => (
-    <Ul isColumn={isColumn}>
-      {isParentHome || (
-        <li onClick={() => switchMainView('Home', isParentSidebar, isParentHome)}>
-          <img src={homu} />
-        </li>
-      )}
-      <li onClick={() => switchMainView('Greeting', isParentSidebar, isParentHome)}>
-        <img src={goaisatsu} />
+const MainViewSwitcher = ({ isColumn = false }) => {
+  const linkContents = [
+    { componentName: 'Home', src: homu, alt: 'ホームリンク' },
+    { componentName: 'Greeting', src: goaisatsu, alt: 'ご挨拶リンク' },
+    { componentName: 'SalonInfo', src: omisezyouhou, alt: 'お店情報リンク' },
+    { componentName: 'Menu', src: menyu, alt: 'メニューリンク' },
+    { componentName: 'BlogIndex', src: burogu, alt: 'ブログリンク' },
+    { componentName: 'Gallery', src: garou, alt: '画廊リンク' }
+  ]
+
+  const links = linkContents.map(linkObj => {
+    return (
+      <li
+        key={linkObj.componentName}
+        onClick={() => {
+          location.hash = `#${linkObj.componentName}`
+        }}>
+        <img src={linkObj.src} alt={linkObj.alt} />
       </li>
-      <li onClick={() => switchMainView('SalonInfo', isParentSidebar, isParentHome)}>
-        <img src={omisezyouhou} />
-      </li>
-      <li onClick={() => switchMainView('Menu', isParentSidebar, isParentHome)}>
-        <img src={menyu} />
-      </li>
-      <li onClick={() => switchMainView('BlogIndex', isParentSidebar, isParentHome)}>
-        <img src={burogu} />
-      </li>
-      <li onClick={() => switchMainView('Gallery', isParentSidebar, isParentHome)}>
-        <img src={garou} />
-      </li>
-    </Ul>
-  )
+    )
+  })
+
+  return <Ul isColumn={isColumn}>{links}</Ul>
+}
 
 const Ul = styled.ul`
   list-style: none;

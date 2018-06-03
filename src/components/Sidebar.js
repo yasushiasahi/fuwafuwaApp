@@ -4,42 +4,31 @@ import MainViewSwitcher from './MainViewSwitcher.js'
 import { colors, sizes } from './styles.js'
 import yasukorori from './../images/assets/yasukorori.png'
 
-
-const Sidebar = ({
-  isSidebarShown,
-  handleHomeLinkClick,
-  switchMainView
-}) => (
-  <GridContainer
-    isSidebarShown={isSidebarShown}>
+const Sidebar = ({ isSidebarShown }) => (
+  <GridContainer isSidebarShown={isSidebarShown}>
     <TopA>
-      <MainViewSwitcher
-        isParentSidebar={true}
-        handleHomeLinkClick={handleHomeLinkClick}
-        switchMainView={switchMainView}/>
+      <MainViewSwitcher />
     </TopA>
-    <BottomA
-      src={yasukorori}/>
+    <BottomA src={yasukorori} />
   </GridContainer>
 )
-
 
 const GridContainer = styled.aside`
   background: ${colors.yellow};
   display: grid;
   width: 40vw;
-  grid-template-rows: 50vh calc(50Vh - ${sizes.headerHeight} + 1px);
+  grid-template-rows: 50vh calc(50vh - ${sizes.headerHeight} + 1px);
   grid-template-columns: auto;
   grid-template-areas:
-    "middleA"
-    "bottomA";
+    'middleA'
+    'bottomA';
   justify-items: center;
   position: fixed;
   top: calc(${sizes.headerHeight} - 1px);
   left: ${props => (props.isSidebarShown ? '60vw' : '100vw')};
   z-index: 10;
-  transition: all .5s;
-  box-shadow: 0 .6vw .6vw 0 rgba(0,0,0,.6);
+  transition: all 0.5s;
+  box-shadow: 0 0.6vw 0.6vw 0 rgba(0, 0, 0, 0.6);
 `
 
 const TopA = styled.div`

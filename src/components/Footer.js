@@ -4,25 +4,15 @@ import MainViewSwicther from './MainViewSwitcher.js'
 import { colors, properties } from './styles.js'
 import logo from './../images/assets/logo.svg'
 
-
-const Footer = ({
-  handleHomeLinkClick,
-  switchMainView
-  }) => (
+const Footer = () => (
   <GridContainer>
-    <Logo
-      src={logo}
-      alt='ロゴ'/>
+    <Logo src={logo} alt="ロゴ" />
     <Links>
-      <MainViewSwicther
-        handleHomeLinkClick={handleHomeLinkClick}
-        switchMainView={switchMainView}
-        isColumn={true}/>
+      <MainViewSwicther isColumn={true} />
     </Links>
     <Copyright>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</Copyright>
   </GridContainer>
 )
-
 
 const GridContainer = styled.footer`
   background-color: ${colors.yellow};
@@ -30,11 +20,11 @@ const GridContainer = styled.footer`
   grid-template-rows: 8vw 10vw 9vw;
   grid-template-columns: auto;
   grid-template-areas:
-    "logo"
-    "links"
-    "copyright";
+    'logo'
+    'links'
+    'copyright';
   box-sizing: border-box;
-  box-shadow: ${properties.boxShadow(false,true)};
+  box-shadow: ${properties.boxShadow(false, true)};
 `
 
 const Logo = styled.img`

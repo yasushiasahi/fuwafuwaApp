@@ -8,7 +8,7 @@ import logo from './../images/assets/logo.svg'
 import youkoso from './../images/assets/youkoso.svg'
 import he from './../images/assets/he.svg'
 
-const Home = ({ balloonText, switchMainView }) => (
+const Home = ({ balloonText }) => (
   <GridContainer>
     <TopA>
       <Logo src={youkoso} />
@@ -18,7 +18,7 @@ const Home = ({ balloonText, switchMainView }) => (
     </TopA>
     <RightA src={yasukorori} alt="店主似顔絵" />
     <LeftA>
-      <MainViewSwicther isParentHome={true} switchMainView={switchMainView} />
+      <MainViewSwicther />
     </LeftA>
     <BalloonAria>
       <BalloonSvg balloonText={balloonText} />

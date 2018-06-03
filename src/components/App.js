@@ -28,18 +28,29 @@ class App extends React.Component {
     this.closeClickHandler = this.closeClickHandler.bind(this)
     this.getExciteBlogRssFeed = this.getExciteBlogRssFeed.bind(this)
     this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
-    this.switchMainView = this.switchMainView.bind(this)
-    this.handleHomeLinkClick = this.handleHomeLinkClick.bind(this)
     this.apiSignIn = this.apiSignIn.bind(this)
     this.apiLogIn = this.apiLogIn.bind(this)
     this.apiCheckToken = this.apiCheckToken.bind(this)
     this.handleInputsChange = this.handleInputsChange.bind(this)
+    this.handleHashChage = this.handleHashChage.bind(this)
   }
 
   componentDidMount() {
+    this.handleHashChage()
+    if (location.hash) {
+      this.setState({
+        mainViewComponentName: location.hash.slice(1)
+      })
+    } else {
+      location.hash = '#Home'
+    }
+
     this.getExciteBlogRssFeed()
-    this.apiGetGallery()
-    this.switchMainView('Home')
+    // this.apiGetGallery()
+  }
+
+  changeLocationHash(name) {
+    location.hash = name
   }
 
   async apiGetGallery() {
@@ -136,11 +147,6 @@ class App extends React.Component {
     })
   }
 
-  handleHomeLinkClick(isParentSidebar) {
-    isParentSidebar && this.menuClickHandler()
-    this.toggleHomeShown()
-  }
-
   menuClickHandler() {
     this.setState({
       isSidebarShown: !this.state.isSidebarShown
@@ -172,11 +178,19 @@ class App extends React.Component {
     })
   }
 
-  switchMainView(componentName, isParentSidebar, isParentHome) {
-    this.setState({
-      mainViewComponentName: componentName
+  handleHashChage() {
+    window.addEventListener('hashchange', () => {
+      if (this.state.isSidebarShown) {
+        this.setState({
+          mainViewComponentName: location.hash.slice(1),
+          isSidebarShown: false
+        })
+      } else {
+        this.setState({
+          mainViewComponentName: location.hash.slice(1)
+        })
+      }
     })
-    isParentSidebar && this.menuClickHandler()
   }
 
   render() {
@@ -190,8 +204,6 @@ class App extends React.Component {
       errorMessege
     } = this.state
     const {
-      handleHomeLinkClick,
-      switchMainView,
       menuClickHandler,
       pictureClickHandler,
       toggleBlogBoxOpen,
@@ -205,12 +217,7 @@ class App extends React.Component {
       <Container>
         {fullSizePicture}
         <Header menuClickHandler={menuClickHandler} isSidebarShown={isSidebarShown} />
-        <Sidebar
-          isSidebarShown={isSidebarShown}
-          handleHomeLinkClick={handleHomeLinkClick}
-          menuClickHandler={menuClickHandler}
-          switchMainView={switchMainView}
-        />
+        <Sidebar isSidebarShown={isSidebarShown} />
         {/*
           {errorMessege && <h2>{errorMessege}</h2>}
           <div>
@@ -232,14 +239,13 @@ class App extends React.Component {
           </div>
           */}
         <Main
-          blogInfos={blogInfos}
-          pictureClickHandler={pictureClickHandler}
-          toggleBlogBoxOpen={toggleBlogBoxOpen}
-          balloonText={balloonText}
-          switchMainView={switchMainView}
           mainViewComponentName={mainViewComponentName}
+          balloonText={balloonText}
+          blogInfos={blogInfos}
+          toggleBlogBoxOpen={toggleBlogBoxOpen}
+          pictureClickHandler={pictureClickHandler}
         />
-        <Footer handleHomeLinkClick={handleHomeLinkClick} switchMainView={switchMainView} />
+        <Footer />
       </Container>
     )
   }
