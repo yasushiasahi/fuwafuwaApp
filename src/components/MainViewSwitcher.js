@@ -8,7 +8,7 @@ import goaisatsu from './../images/assets/goaisatsu.svg'
 import menyu from './../images/assets/menyu.svg'
 import omisezyouhou from './../images/assets/omisezyouhou.svg'
 
-const MainViewSwitcher = ({ isColumn = false }) => {
+const MainViewSwitcher = () => {
   const linkContents = [
     { componentName: 'Home', src: homu, alt: 'ホームリンク' },
     { componentName: 'Greeting', src: goaisatsu, alt: 'ご挨拶リンク' },
@@ -30,31 +30,19 @@ const MainViewSwitcher = ({ isColumn = false }) => {
     )
   })
 
-  return <Ul isColumn={isColumn}>{links}</Ul>
+  return <Ul>{links}</Ul>
 }
 
 const Ul = styled.ul`
-  list-style: none;
   cursor: pointer;
   user-select: none;
+
   li {
-    user-select: none;
-    margin-bottom: 2vw;
     img {
       box-shadow: ${properties.boxShadow()};
+      display: block;
     }
   }
-  ${props =>
-    props.isColumn &&
-    `
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    li {
-      margin-bottom: 0;
-    }
-  `};
 `
 
 export default MainViewSwitcher

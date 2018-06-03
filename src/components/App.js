@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { colors } from './styles.js'
 import Header from './Header.js'
@@ -257,6 +257,32 @@ const Container = styled.div`
   min-height: 100vh;
   max-width: 100vw;
   overflow: hidden;
+`
+
+injectGlobal`
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  div {
+    box-sizing: border-box;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  h1 {
+    margin: 0;
+  }
 `
 
 export default hot(module)(App)

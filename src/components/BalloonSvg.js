@@ -1,36 +1,37 @@
 import React from 'react'
-import styled, {keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 class BalloonSvg extends React.Component {
   constructor(props) {
     super(props)
-    this.state = ({
-      isShown: false
-    })
+    this.svg = React.createRef()
     this.handleAnimationStart = this.handleAnimationStart.bind(this)
   }
 
-  handleAnimationStart () {
-    this.setState({
-      isShown: true
-    })
-    console.log('お茶子超かわいい')
+  handleAnimationStart() {
+    this.svg.current.style.opacity = 1
   }
 
   render() {
-    const {
-      top,
-      middle,
-      bottom
-    } = this.props.balloonText
+    const { top, middle, bottom } = this.props.balloonText
 
     return (
-      <Animation
-        onAnimationStart={() => this.handleAnimationStart()}
-        isShown={this.state.isShown}>
-        <svg version="1.1" x="0px" y="0px" viewBox="0 0 319.3 218.2" enableBackground="new 0 0 319.3 218.2">
-          <polygon id="path_1_" fill="#FFF7CC" stroke="#332E14" strokeWidth={5} points="25.1,177.8 86.6,215.6 236.5,197.2 257.6,167.2
-	                                                                                266.1,116.4 317.7,75.7 261.1,90.6 265.1,76.7 261.1,53.8 238.6,12.9 71.7,2.6 2.7,79.2 " />
+      <Animation onAnimationStart={() => this.handleAnimationStart()}>
+        <svg
+          ref={this.svg}
+          opacity="0"
+          version="1.1"
+          x="0px"
+          y="0px"
+          viewBox="0 0 319.3 218.2"
+          enableBackground="new 0 0 319.3 218.2">
+          <polygon
+            id="path_1_"
+            fill="#FFF7CC"
+            stroke="#332E14"
+            strokeWidth={5}
+            points="25.1,177.8 86.6,215.6 236.5,197.2 257.6,167.2 266.1,116.4 317.7,75.7 261.1,90.6 265.1,76.7 261.1,53.8 238.6,12.9 71.7,2.6 2.7,79.2 "
+          />
           <rect x="40.9" y="42.1" fill="none" width={196} height={142} />
           <text transform="matrix(0.9976 0 0 1 42.2255 66.8152)" fontSize="40px">
             {top}
@@ -47,13 +48,18 @@ class BalloonSvg extends React.Component {
   }
 }
 
-
 const pop = keyframes`
-  0% { transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); opacity:0; }
+  0% {
+    transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    opacity: 0;
+  }
   1.7% { transform: matrix3d(0.147, 0, 0, 0, 0, 0.103, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   3.4% { transform: matrix3d(0.316, 0, 0, 0, 0, 0.299, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   4.7% { transform: matrix3d(0.45, 0, 0, 0, 0, 0.487, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-  5.11% { transform: matrix3d(0.491, 0, 0, 0, 0, 0.546, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); opacity:1;}
+  5.11% {
+    transform: matrix3d(0.491, 0, 0, 0, 0, 0.546, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    opacity: 1;
+  }
   6.81% { transform: matrix3d(0.659, 0, 0, 0, 0, 0.769, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   8.76% { transform: matrix3d(0.832, 0, 0, 0, 0, 0.932, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   9.41% { transform: matrix3d(0.883, 0, 0, 0, 0, 0.964, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
@@ -79,11 +85,7 @@ const pop = keyframes`
 
 const Animation = styled.div`
   width: 100%;
-  height: 100%;
-  display: inline-block;
   animation: ${pop} 2s ease-in-out 1s;
-  opacity: ${props => props.isShown ? '1' : '0'};
-
 `
 
 export default BalloonSvg

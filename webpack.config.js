@@ -7,7 +7,7 @@ module.exports = {
   devServer: {
     contentBase: 'dist',
     open: true,
-    port: 3001,
+    port: 8080,
     proxy: {
       '/api': 'http://localhost:3000'
     }
@@ -40,6 +40,7 @@ module.exports = {
         ],
         exclude: /node_modules/
       },
+
       {
         test: /\.jpg$/,
         use: [
@@ -55,6 +56,7 @@ module.exports = {
           }
         ]
       },
+
       {
         test: /\.(png|svg)$/,
         use: [

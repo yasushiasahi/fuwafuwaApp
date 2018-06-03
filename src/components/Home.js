@@ -10,66 +10,72 @@ import he from './../images/assets/he.svg'
 
 const Home = ({ balloonText }) => (
   <GridContainer>
-    <TopA>
-      <Logo src={youkoso} />
+    <WelcomeMsg>
+      <img src={youkoso} />
       <br />
-      <Logo src={logo} />
-      <Logo src={he} />
-    </TopA>
-    <RightA src={yasukorori} alt="店主似顔絵" />
-    <LeftA>
+      <img src={logo} />
+      <img src={he} />
+    </WelcomeMsg>
+    <Picture>
+      <img src={yasukorori} alt="店主似顔絵" />
+    </Picture>
+    <Links>
       <MainViewSwicther />
-    </LeftA>
-    <BalloonAria>
+    </Links>
+    <Balloon>
       <BalloonSvg balloonText={balloonText} />
-    </BalloonAria>
+    </Balloon>
   </GridContainer>
 )
 
 const GridContainer = styled.div`
   background: ${colors.yellow};
   display: grid;
-  grid-template-rows: 30vh 30vh 40vh;
+  grid-template-rows: 30vh 40vh 30vh;
   grid-template-columns: 5vw 45vw 50vw;
   grid-template-areas:
-    '. topA topA'
-    '. leftA ...'
-    '. balloon rightA';
+    '. WelcomeMsg WelcomeMsg'
+    '. Links      Picture'
+    '. Balloon    Picture';
   position: absolute;
   z-index: 30;
   top: 0;
   left: 0;
 `
 
-const BalloonAria = styled.div`
-  grid-area: balloon;
+const Balloon = styled.div`
+  grid-area: Balloon;
 `
 
-const TopA = styled.h1`
-  grid-area: topA;
-  font-size: 9vw;
+const WelcomeMsg = styled.h1`
+  grid-area: WelcomeMsg;
   align-self: center;
   line-height: 12vw;
-`
 
-const Logo = styled.img`
-  height: 7.3vw;
-  margin-right: 3vw;
-`
-
-const LeftA = styled.ul`
-  grid-area: leftA;
-  font-size: 5vw;
   img {
-    height: 7vw;
+    height: 7.3vw;
+    margin-right: 3vw;
   }
 `
 
-const RightA = styled.img`
-  grid-area: rightA;
-  height: 70vh;
+const Picture = styled.div`
+  grid-area: Picture;
   justify-self: end;
-  align-self: end;
+
+  img {
+    height: 100%;
+  }
+`
+
+const Links = styled.div`
+  grid-area: Links;
+
+  li {
+    margin-bottom: 4vw;
+    img {
+      height: 7vw;
+    }
+  }
 `
 
 export default Home

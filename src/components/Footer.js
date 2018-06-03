@@ -6,11 +6,15 @@ import logo from './../images/assets/logo.svg'
 
 const Footer = () => (
   <GridContainer>
-    <Logo src={logo} alt="ロゴ" />
+    <Logo>
+      <img src={logo} alt="ロゴ" />
+    </Logo>
     <Links>
-      <MainViewSwicther isColumn={true} />
+      <MainViewSwicther />
     </Links>
-    <Copyright>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</Copyright>
+    <Copyright>
+      <p>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</p>
+    </Copyright>
   </GridContainer>
 )
 
@@ -27,26 +31,43 @@ const GridContainer = styled.footer`
   box-shadow: ${properties.boxShadow(false, true)};
 `
 
-const Logo = styled.img`
+const Logo = styled.div`
   grid-area: logo;
-  width: 50vw;
   justify-self: center;
   align-self: end;
+  width: 50%;
+
+  img {
+    width: 100%;
+  }
 `
 
 const Links = styled.div`
   grid-area: links;
-  font-size: 3vw;
-  img {
-    height: 5vw;
+
+  ul {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    li {
+      margin-bottom: 0;
+      img {
+        height: 5vw;
+      }
+    }
   }
 `
 
 const Copyright = styled.div`
   grid-area: copyright;
-  text-align: center;
-  font-size: 2.5vw;
-  line-height: 9vw;
+  justify-self: center;
+  align-self: center;
+
+  p {
+    font-size: 2.5vw;
+  }
 `
 
 export default Footer

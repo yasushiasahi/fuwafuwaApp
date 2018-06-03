@@ -16,14 +16,12 @@ export const sizes = {
 }
 
 export const properties = {
-  boxShadow: (isInset=false, isYoffsetMinus=false) => {
+  boxShadow: (isInset = false, isYoffsetMinus = false) => {
     const inset = isInset ? 'inset' : ''
     const yoffset = isYoffsetMinus ? '-.3vw' : '.3vw'
     return `${inset} 0 ${yoffset} .6vw 0 rgba(0,0,0,.6)`
   }
 }
-
-
 
 const H1 = styled.h1`
   font-size: 7vw;
@@ -31,12 +29,26 @@ const H1 = styled.h1`
   text-align: center;
   background-size: 30px 30px;
   background-color: #ffe866;
-  background-image: linear-gradient(45deg, rgba(232, 102, 255, 0.5) 25%, transparent 25%,
-                    transparent 50%, rgba(232, 102, 255, 0.5) 50%, rgba(232, 102, 255, 0.5) 75%,
-                    transparent 75%, transparent),
-                  linear-gradient(-45deg, rgba(232, 102, 255, 0.5) 25%, transparent 25%,
-                    transparent 50%, rgba(232, 102, 255, 0.5) 50%, rgba(232, 102, 255, 0.5) 75%,
-                    transparent 75%, transparent);
+  background-image: linear-gradient(
+      45deg,
+      rgba(232, 102, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(232, 102, 255, 0.5) 50%,
+      rgba(232, 102, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    ),
+    linear-gradient(
+      -45deg,
+      rgba(232, 102, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(232, 102, 255, 0.5) 50%,
+      rgba(232, 102, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    );
   border-radius: 6vw;
   margin-bottom: 4vw;
 `
