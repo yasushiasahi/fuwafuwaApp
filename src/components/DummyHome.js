@@ -8,7 +8,7 @@ import logo from './../images/assets/logo.svg'
 import youkoso from './../images/assets/youkoso.svg'
 import he from './../images/assets/he.svg'
 
-const Home = ({ balloonText, switchMainView }) => (
+const DummyHome = ({ balloonText, switchMainView }) => (
   <GridContainer>
     <TopA>
       <Logo src={youkoso} />
@@ -72,4 +72,4 @@ const RightA = styled.img`
   align-self: end;
 `
 
-export default Home
+export default DummyHome

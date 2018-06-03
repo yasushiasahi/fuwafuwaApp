@@ -8,53 +8,50 @@ import goaisatsu from './../images/assets/goaisatsu.svg'
 import menyu from './../images/assets/menyu.svg'
 import omisezyouhou from './../images/assets/omisezyouhou.svg'
 
-
 const MainViewSwitcher = ({
-  handleHomeLinkClick,
   switchMainView,
   isParentHome = false,
   isParentSidebar = false,
-  isColumn = false,
+  isColumn = false
 }) => (
-  <Ul
-    isColumn={isColumn}>
-    {isParentHome || (
-      <li
-        onClick={() => handleHomeLinkClick(isParentSidebar)}>
-        <img src={homu}/>
+    <Ul isColumn={isColumn}>
+      {isParentHome || (
+        <li onClick={() => switchMainView('Home', isParentSidebar, isParentHome)}>
+          <img src={homu} />
+        </li>
+      )}
+      <li onClick={() => switchMainView('Greeting', isParentSidebar, isParentHome)}>
+        <img src={goaisatsu} />
       </li>
-    )}
-    <li  onClick={() => switchMainView('Greeting', isParentSidebar, isParentHome)}>
-    <img src={goaisatsu}/>
-    </li>
-    <li  onClick={() => switchMainView('SalonInfo', isParentSidebar, isParentHome)}>
-    <img src={omisezyouhou}/>
-    </li>
-    <li  onClick={() => switchMainView('Menu', isParentSidebar, isParentHome)}>
-    <img src={menyu}/>
-    </li>
-    <li  onClick={() => switchMainView('BlogIndex', isParentSidebar, isParentHome)}>
-    <img src={burogu}/>
-    </li>
-    <li  onClick={() => switchMainView('Gallery', isParentSidebar, isParentHome)}>
-    <img src={garou}/>
-    </li>
+      <li onClick={() => switchMainView('SalonInfo', isParentSidebar, isParentHome)}>
+        <img src={omisezyouhou} />
+      </li>
+      <li onClick={() => switchMainView('Menu', isParentSidebar, isParentHome)}>
+        <img src={menyu} />
+      </li>
+      <li onClick={() => switchMainView('BlogIndex', isParentSidebar, isParentHome)}>
+        <img src={burogu} />
+      </li>
+      <li onClick={() => switchMainView('Gallery', isParentSidebar, isParentHome)}>
+        <img src={garou} />
+      </li>
     </Ul>
-)
-
+  )
 
 const Ul = styled.ul`
   list-style: none;
   cursor: pointer;
   user-select: none;
   li {
-      user-select: none;
-      margin-bottom: 2vw;
-      img {
-        box-shadow: ${properties.boxShadow()};
-      }
+    user-select: none;
+    margin-bottom: 2vw;
+    img {
+      box-shadow: ${properties.boxShadow()};
+    }
   }
-  ${props => (props.isColumn && `
+  ${props =>
+    props.isColumn &&
+    `
     height: 100%;
     display: flex;
     align-items: center;
@@ -62,8 +59,7 @@ const Ul = styled.ul`
     li {
       margin-bottom: 0;
     }
-  `)}
+  `};
 `
-
 
 export default MainViewSwitcher

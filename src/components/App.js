@@ -1,17 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { sizes, colors } from './styles.js'
-import Home from './Home.js'
+import { colors } from './styles.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
-import FullSizePicture from './FullSizePicture.js'
-import Greeting from './Greeting.js'
-import SalonInfo from './SalonInfo.js'
-import Menu from './Menu.js'
-import BlogIndex from './BlogIndex.js'
-import Gallery from './Gallery.js'
+import Main from './Main.js'
 import Footer from './Footer.js'
+import FullSizePicture from './FullSizePicture.js'
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +14,6 @@ class App extends React.Component {
 
     this.state = {
       isSidebarShown: false,
-      isHomeShown: false,
       mainViewComponentName: '',
       fullSizePicture: null,
       blogInfos: [],
@@ -32,10 +26,8 @@ class App extends React.Component {
     this.menuClickHandler = this.menuClickHandler.bind(this)
     this.pictureClickHandler = this.pictureClickHandler.bind(this)
     this.closeClickHandler = this.closeClickHandler.bind(this)
-    this.toggleHomeShown = this.toggleHomeShown.bind(this)
     this.getExciteBlogRssFeed = this.getExciteBlogRssFeed.bind(this)
     this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
-    this.provideMainView = this.provideMainView.bind(this)
     this.switchMainView = this.switchMainView.bind(this)
     this.handleHomeLinkClick = this.handleHomeLinkClick.bind(this)
     this.apiSignIn = this.apiSignIn.bind(this)
@@ -47,7 +39,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getExciteBlogRssFeed()
     this.apiGetGallery()
-    this.toggleHomeShown()
+    this.switchMainView('Home')
   }
 
   async apiGetGallery() {
@@ -155,12 +147,6 @@ class App extends React.Component {
     })
   }
 
-  toggleHomeShown() {
-    this.setState({
-      isHomeShown: !this.state.isHomeShown
-    })
-  }
-
   toggleBlogBoxOpen(id) {
     const provBlogInfos = this.state.blogInfos.map(blogInfo => {
       const copyblogInfo = Object.assign({}, blogInfo)
@@ -190,49 +176,16 @@ class App extends React.Component {
     this.setState({
       mainViewComponentName: componentName
     })
-    isParentHome && this.toggleHomeShown()
     isParentSidebar && this.menuClickHandler()
-  }
-
-  provideMainView(componentName) {
-    const { blogInfos } = this.state
-    const { pictureClickHandler, toggleBlogBoxOpen } = this
-    let provMainViewComponent = null
-
-    switch (componentName) {
-      case 'Home':
-        provMainViewComponent = null
-        break
-      case 'Greeting':
-        provMainViewComponent = <Greeting />
-        break
-      case 'SalonInfo':
-        provMainViewComponent = <SalonInfo />
-        break
-      case 'Menu':
-        provMainViewComponent = <Menu />
-        break
-      case 'Gallery':
-        provMainViewComponent = <Gallery pictureClickHandler={pictureClickHandler} />
-        break
-      case 'BlogIndex':
-        provMainViewComponent = (
-          <BlogIndex toggleBlogBoxOpen={toggleBlogBoxOpen} blogInfos={blogInfos} />
-        )
-        break
-      default:
-        provMainViewComponent = null
-    }
-
-    return provMainViewComponent
   }
 
   render() {
     const {
       fullSizePicture,
-      isHomeShown,
       isSidebarShown,
       balloonText,
+      blogInfos,
+      mainViewComponentName,
       inputTexts: { userName, password },
       errorMessege
     } = this.state
@@ -240,6 +193,8 @@ class App extends React.Component {
       handleHomeLinkClick,
       switchMainView,
       menuClickHandler,
+      pictureClickHandler,
+      toggleBlogBoxOpen,
       apiSignIn,
       apiLogIn,
       apiCheckToken,
@@ -256,7 +211,7 @@ class App extends React.Component {
           menuClickHandler={menuClickHandler}
           switchMainView={switchMainView}
         />
-        <Main>
+        {/*
           {errorMessege && <h2>{errorMessege}</h2>}
           <div>
             <input
@@ -275,13 +230,15 @@ class App extends React.Component {
             <button onClick={() => apiLogIn()}>ログイン</button>
             <button onClick={() => apiCheckToken()}>チェックトークン</button>
           </div>
-          <Home
-            balloonText={balloonText}
-            isHomeShown={isHomeShown}
-            switchMainView={switchMainView}
-          />
-          {this.provideMainView(this.state.mainViewComponentName)}
-        </Main>
+          */}
+        <Main
+          blogInfos={blogInfos}
+          pictureClickHandler={pictureClickHandler}
+          toggleBlogBoxOpen={toggleBlogBoxOpen}
+          balloonText={balloonText}
+          switchMainView={switchMainView}
+          mainViewComponentName={mainViewComponentName}
+        />
         <Footer handleHomeLinkClick={handleHomeLinkClick} switchMainView={switchMainView} />
       </Container>
     )
@@ -294,11 +251,6 @@ const Container = styled.div`
   min-height: 100vh;
   max-width: 100vw;
   overflow: hidden;
-`
-
-const Main = styled.main`
-  background-color: ${colors.cream};
-  padding: calc(${sizes.headerHeight} + 2.5vw) 2.5vw 2.5vw 2.5vw;
 `
 
 export default hot(module)(App)
