@@ -3,7 +3,7 @@
 const path = require('path')
 const usersFilePath = path.join(__dirname, `databases/userdata.json`)
 const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
-const pictureDir = 'public/images/gallery/'
+const pictureDir = path.join(__dirname, '../dist/images/gallery/')
 const {
   removePicture,
   getGalleryDataAndFindTargetIndex,
@@ -73,11 +73,10 @@ const uploadPicture = async request => {
   console.log('/api/UploadPictureが呼ばれた')
 
   const {
-    file: { path: tmpFilePath, name: originalFileName },
+    picture: { path: tmpFilePath, name: originalFileName },
     fields: { userName, title, description }
   } = await getFormData(request)
-  const id = getUniqueStr()
-  const pictureName = `${id}${originalFileName.match(/(\.jpg|\.jpeg|\.png|\.gif)$/)[0]}`
+  const pictureName = `${getUniqueStr()}${originalFileName.match(/(\.jpg|\.jpeg|\.png|\.gif)$/)[0]}`
   await renameFile(tmpFilePath, `${pictureDir}${pictureName}`)
   let gallery = await getDatabase(galleryFilePath)
   gallery.push({ title, description, pictureName, userName })

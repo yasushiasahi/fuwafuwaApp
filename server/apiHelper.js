@@ -10,7 +10,8 @@ const fsWriteFileP = util.promisify(fs.writeFile)
 const fsRenameP = util.promisify(fs.rename)
 const fsUnlinkP = util.promisify(fs.unlink)
 const pictureDir = 'public/images/gallery/'
-const galleryFilePath = 'databases/gallerydata.json'
+const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
+const tmpDir = path.join(__dirname, 'tmp')
 
 const removePicture = async targetPictureName => {
   console.log('removePicture が呼ばれた')
@@ -54,12 +55,15 @@ const getFormData = request => {
   console.log('getFormData が呼ばれた')
   const form = formidable.IncomingForm()
   form.encoding = 'utf-8'
-  form.uploadDir = path.join(__dirname, '../tmp')
+  form.uploadDir = tmpDir
   return new Promise((resolve, reject) => {
     form.parse(request, (err, fields, files) => {
       if (err) reject({ err, place: getTrace(), errMsg: 'ファイルを保存できませんでした' })
-      const { file = {} } = files
-      return resolve({ fields, file })
+
+      //console.log('files = ', files)
+
+      const { picture = {} } = files
+      return resolve({ fields, picture })
     })
   })
 }
@@ -79,6 +83,8 @@ const parseReqBody = request => {
 }
 
 const getHash = password => {
+  console.log('getHash が呼ばれた')
+
   const salt = 'ifeee:foeaofgi4'
   const hash = crypto.createHash('sha512')
   hash.update(password + salt)
@@ -86,10 +92,14 @@ const getHash = password => {
 }
 
 const getToken = userName => {
+  console.log('getToken が呼ばれた')
+
   return getHash(`${userName}: ${new Date().getTime().toString()} `)
 }
 
 const getUniqueStr = () => {
+  console.log('getUniqueStr が呼ばれた')
+
   return new Date().getTime().toString(16) + Math.floor(100 * Math.random()).toString(16)
 }
 

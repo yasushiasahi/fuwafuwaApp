@@ -64,8 +64,27 @@ const Img = styled.img`
   margin-bottom: 4vw;
 `
 
+const Input = styled.input`
+  display: block;
+  height: 8vw;
+  margin-bottom: 3vw;
+  font-size: 3vw;
+  border: 1px solid ${colors.black};
+`
+
+const Button = styled.span`
+  display: inline-block;
+  background-color: ${colors.lime};
+  padding: 1vw 2vw;
+  margin-top: 1vw;
+  margin-right: 4vw;
+  box-shadow: ${properties.boxShadow()};
+`
+
 export const sc = {
   H1,
   P,
-  Img
+  Img,
+  Input,
+  Button
 }

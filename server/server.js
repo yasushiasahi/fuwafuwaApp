@@ -34,7 +34,7 @@ const handleApis = async (request, response) => {
 
 const sendBackStaticFiles = async (request, response) => {
   console.log(`${request.url}にアクセスされた`)
-  const url = `public${request.url.endsWith('/') ? request.url + 'index.html' : request.url}`
+  const url = `dist${request.url.endsWith('/') ? request.url + 'index.html' : request.url}`
   const getHeadInfos = url => {
     const types = {
       '.html': 'text/html',

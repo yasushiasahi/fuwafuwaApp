@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { colors } from './styles.js'
+import { fetchApi, getCookie } from './helpers.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
 import Main from './Main.js'
@@ -17,10 +18,11 @@ class App extends React.Component {
       mainViewComponentName: '',
       fullSizePicture: null,
       blogInfos: [],
-      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ろう' },
-      inputTexts: { userName: '', password: '' },
-      errorMessege: '',
-      galleryData: null
+      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ましょう' },
+      inputTexts: { userName: '', password: '', title: '', description: '' },
+      errorMessage: '',
+      galleryData: [],
+      isLogIn: false
     }
 
     this.menuClickHandler = this.menuClickHandler.bind(this)
@@ -28,11 +30,11 @@ class App extends React.Component {
     this.closeClickHandler = this.closeClickHandler.bind(this)
     this.getExciteBlogRssFeed = this.getExciteBlogRssFeed.bind(this)
     this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
-    this.apiSignIn = this.apiSignIn.bind(this)
-    this.apiLogIn = this.apiLogIn.bind(this)
-    this.apiCheckToken = this.apiCheckToken.bind(this)
+    this.apiLogInOrSignIn = this.apiLogInOrSignIn.bind(this)
     this.handleInputsChange = this.handleInputsChange.bind(this)
     this.handleHashChage = this.handleHashChage.bind(this)
+    this.changeState = this.changeState.bind(this)
+    this.judgeLogIn = this.judgeLogIn.bind(this)
   }
 
   componentDidMount() {
@@ -45,33 +47,34 @@ class App extends React.Component {
       location.hash = '#Home'
     }
 
+    this.judgeLogIn()
     this.getExciteBlogRssFeed()
     // this.apiGetGallery()
   }
 
-  changeLocationHash(name) {
-    location.hash = name
-  }
-
   async apiGetGallery() {
-    const response = await this.fetchApi('getGallery')
+    const response = await fetchApi('getGallery')
     this.setState({
       galleryData: response.body
     })
   }
 
-  async apiCheckToken() {
-    const cookies = document.cookie.replace(/\s/g, '').split(';')
-    let userName = ''
-    let token = ''
-    for (const cookie of cookies) {
-      if (cookie.match(/^userName/)) userName = cookie.replace(/userName=/, '')
-      if (cookie.match(/^token/)) token = cookie.replace(/token=/, '') + 'h'
+  async judgeLogIn() {
+    const cookie = document.cookie
+    if (cookie.includes('userName') && cookie.includes('token')) {
+      const { status, body } = await fetchApi('checkToken', {
+        userName: getCookie('userName'),
+        token: getCookie('token')
+      })
+      if (!status) {
+        this.changeState('errorMessage', body)
+        return
+      }
+      this.changeState('isLogIn', true)
     }
-    return await this.fetchApi('checkToken', { userName, token })
   }
 
-  async apiLogIn() {
+  async apiLogInOrSignIn(url) {
     const { userName, password } = this.state.inputTexts
     if (!/^[a-zA-Z\d]{4,}$/.test(userName) || !/^[a-zA-Z\d-_~#$%&@:;*+?!,.¥]{8,}$/.test(password)) {
       this.setState({
@@ -79,7 +82,7 @@ class App extends React.Component {
       })
       return
     }
-    const response = await this.fetchApi('logIn', { userName, password })
+    const response = await fetchApi(url, { userName, password })
     if (!response.status) {
       this.setState({
         errorMessege: response.body
@@ -88,55 +91,32 @@ class App extends React.Component {
     }
     document.cookie = `userName=${response.body.userName}`
     document.cookie = `token=${response.body.token}`
-  }
-
-  async apiSignIn() {
-    const { userName, password } = this.state.inputTexts
-    if (!/^[a-zA-Z\d]{4,}$/.test(userName) || !/^[a-zA-Z\d-_~#$%&@:;*+?!,.¥]{8,}$/.test(password)) {
+    if (this.state.errorMessege) {
       this.setState({
-        errorMessege: 'ユーザーネームまたはパスワードを正しく入力してください'
+        errorMessege: ''
       })
-      return
-    }
-    const response = await this.fetchApi('signIn', { userName, password })
-    if (!response.status) {
+    } else {
       this.setState({
-        errorMessege: response.body
+        isLogin: true,
+        errorMessege: ''
       })
-      return
     }
-    document.cookie = `userName=${response.body.userName}`
-    document.cookie = `token=${response.body.token}`
+    location.hash = '#Home'
   }
 
-  async fetchApi(url, requestBody) {
-    return await fetch(`/api/${url}`, {
-      method: 'POST',
-      body: JSON.stringify(requestBody)
-    })
-      .then(res => res.json())
-      .catch(() => {
-        return { status: false, body: 'サーバーとの通信に失敗' }
-      })
-  }
-
-  getExciteBlogRssFeed() {
+  async getExciteBlogRssFeed() {
     const url = `https://query.yahooapis.com/v1/public/yql?q=select%20title%2Cdate%2Clink%2Cdescription%20from%20rss%20where%20url%3D'https%3A%2F%2Ffuwafuwayo.exblog.jp%2Findex.xml'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
-    fetch(url)
+    const response = await fetch(url)
       .then(res => res.json())
-      .then(resJson => {
-        const provBlogInfos = resJson.query.results.item.map((obj, index) => {
-          obj.id = index
-          obj.isOpen = index === 0 ? true : false
-          return obj
-        })
-        this.setState({
-          blogInfos: provBlogInfos
-        })
-      })
-      .catch(error => {
-        console.log(`エラー:${error}`)
-      })
+      .then(json => json)
+    const prevBlogInfos = response.query.results.item.map((obj, index) => {
+      obj.id = index
+      obj.isOpen = index === 0 ? true : false
+      return obj
+    })
+    this.setState({
+      blogInfos: prevBlogInfos
+    })
   }
 
   handleInputsChange(event) {
@@ -144,6 +124,12 @@ class App extends React.Component {
     inputTextsCopy[event.target.name] = event.target.value
     this.setState({
       inputTexts: inputTextsCopy
+    })
+  }
+
+  changeState(key, value) {
+    this.setState({
+      [key]: value
     })
   }
 
@@ -200,50 +186,50 @@ class App extends React.Component {
       balloonText,
       blogInfos,
       mainViewComponentName,
-      inputTexts: { userName, password },
-      errorMessege
+      inputTexts: { userName, password, title, description },
+      errorMessage,
+      galleryData,
+      isLogIn
     } = this.state
     const {
       menuClickHandler,
       pictureClickHandler,
       toggleBlogBoxOpen,
-      apiSignIn,
-      apiLogIn,
+      apiLogInOrSignIn,
       apiCheckToken,
-      handleInputsChange
+      handleInputsChange,
+      changeState
     } = this
 
     return (
       <Container>
         {fullSizePicture}
-        <Header menuClickHandler={menuClickHandler} isSidebarShown={isSidebarShown} />
+        <Header
+          menuClickHandler={menuClickHandler}
+          isSidebarShown={isSidebarShown}
+          isLogIn={isLogIn}
+        />
         <Sidebar isSidebarShown={isSidebarShown} />
-        {/*
-          {errorMessege && <h2>{errorMessege}</h2>}
-          <div>
-            <input
-              type="text"
-              name="userName"
-              value={userName}
-              onChange={e => handleInputsChange(e)}
-            />
-            <input
-              type="text"
-              name="password"
-              value={password}
-              onChange={e => handleInputsChange(e)}
-            />
-            <button onClick={() => apiSignIn()}>登録</button>
-            <button onClick={() => apiLogIn()}>ログイン</button>
-            <button onClick={() => apiCheckToken()}>チェックトークン</button>
-          </div>
-          */}
         <Main
           mainViewComponentName={mainViewComponentName}
-          balloonText={balloonText}
-          blogInfos={blogInfos}
-          toggleBlogBoxOpen={toggleBlogBoxOpen}
-          pictureClickHandler={pictureClickHandler}
+          errorMessage={errorMessage}
+          passToHome={{ balloonText }}
+          passToGallery={{
+            isLogIn,
+            title,
+            description,
+            changeState,
+            handleInputsChange,
+            pictureClickHandler,
+            galleryData
+          }}
+          passToBlogIndex={{ blogInfos, toggleBlogBoxOpen }}
+          passToAdminLogIn={{
+            userName,
+            password,
+            handleInputsChange,
+            changeState
+          }}
         />
         <Footer />
       </Container>
@@ -282,6 +268,10 @@ injectGlobal`
 
   h1 {
     margin: 0;
+  }
+
+  input {
+    box-sizing: border-box;
   }
 `
 

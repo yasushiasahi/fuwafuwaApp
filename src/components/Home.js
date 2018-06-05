@@ -8,7 +8,7 @@ import logo from './../images/assets/logo.svg'
 import youkoso from './../images/assets/youkoso.svg'
 import he from './../images/assets/he.svg'
 
-const Home = ({ balloonText }) => (
+const Home = ({ passToHome: { balloonText } }) => (
   <GridContainer>
     <WelcomeMsg>
       <img src={youkoso} />
