@@ -2,41 +2,30 @@ import React from 'react'
 import styled from 'styled-components'
 import closePict from './../images/assets/close_menu.svg'
 
-
-const FullSizePicture = (props) => {
-  const {
-    pictureObj,
-    closeClickHandler
-  } = props
-
-  const {
-    name,
-    title,
-    explanation
-  } = pictureObj
-
-  const url = require(`./../images/gallery/${name}`)
+const FullSizePicture = ({
+  pictureObj: { title, pictureName, description },
+  closeClickHandler
+}) => {
+  const src = `./images/gallery/${pictureName}`
 
   return (
-    <Container>
-      <GridWrapper>
-        <Pic
-          src={url}/>
+    <Wrapper>
+      <GridContainer>
+        <Pic src={src} />
         <Info>
           <PicTitle>{title}</PicTitle>
-          <Explanation>{explanation}</Explanation>
+          <Explanation>{description}</Explanation>
         </Info>
-        <Button
-          onClick={() => closeClickHandler()}>
-          <ClosePict src={closePict}/>
+        <Button onClick={() => closeClickHandler()}>
+          <ClosePict src={closePict} />
         </Button>
-      </GridWrapper>
-    </Container>
+      </GridContainer>
+    </Wrapper>
   )
 }
 
-const Container = styled.div`
-  background-color: rgba(0,0,0,.7);
+const Wrapper = styled.div`
+  background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   top: 0;
   left: 0;
@@ -48,14 +37,14 @@ const Container = styled.div`
   align-items: center;
 `
 
-const GridWrapper = styled.div`
+const GridContainer = styled.div`
   width: 95vw;
   display: grid;
   grid-template-columns: 85% 15%;
   grid-template-rows: auto auto;
   grid-template-areas:
-    "pic pic"
-    "info button";
+    'pic pic'
+    'info button';
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -69,7 +58,7 @@ const Pic = styled.img`
 
 const Info = styled.div`
   grid-area: info;
-  padding: 2vw 0  2vw 2vw;
+  padding: 2vw 0 2vw 2vw;
   color: #eee;
 `
 
@@ -87,7 +76,7 @@ const Button = styled.div`
   width: 60%;
   padding: 1vw;
   justify-self: center;
-  background-color: rgba(255,255,255,.6);
+  background-color: rgba(255, 255, 255, 0.6);
 `
 
 const ClosePict = styled.img`

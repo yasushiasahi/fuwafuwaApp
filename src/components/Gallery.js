@@ -2,12 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { colors, sc, properties } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
-import pictureData from './../databases/pictureData.js'
+import pictureData from '../databases/pictureData.js'
 
 class Gallery extends React.Component {
   constructor(props) {
     super(props)
     this.fileInput = React.createRef()
+    this.isUpdate = false
+    this.updatePictureName = null
   }
 
   render() {
@@ -51,9 +53,82 @@ class Gallery extends React.Component {
         changeState('errorMessage', body)
         return
       }
-      changeState('galleryData', body)
+      changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
+      changeState('galleryData', body)
+    }
+
+    const selectUpdatePic = (
+      event,
+      { title: updateIitle, description: updateDescription, pictureName: updatePictureName }
+    ) => {
+      event.stopPropagation()
+      this.updatePictureName = updatePictureName
+      this.isUpdate = true
+      changeState('inputTexts', {
+        userName: '',
+        password: '',
+        title: updateIitle,
+        description: updateDescription
+      })
+    }
+
+    const update = async () => {
+      const response = await fetchApi('checkToken', {
+        userName: getCookie('userName'),
+        token: getCookie('token')
+      })
+      if (!response.status) {
+        changeState('errorMessage', response.body)
+        return
+      }
+
+      const picture = this.fileInput.files[0]
+      const formData = new FormData()
+      formData.append('pictureName', this.updatePictureName)
+      formData.append('title', title)
+      formData.append('description', description)
+      picture && formData.append('picture', picture)
+
+      const { status, body } = await fetchApi('updatePicture', formData)
+      if (!status) {
+        changeState('errorMessage', body)
+        return
+      }
+      changeState('errorMessage', '')
+      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
+      this.fileInput.value = null
+      this.isUpdate = false
+      changeState('galleryData', body)
+    }
+
+    const deletePicture = async () => {
+      const response = await fetchApi('checkToken', {
+        userName: getCookie('userName'),
+        token: getCookie('token')
+      })
+      if (!response.status) {
+        changeState('errorMessage', response.body)
+        return
+      }
+
+      const { status, body } = await fetchApi('deletePicture', {
+        pictureName: this.updatePictureName
+      })
+      console.log('body = ', body)
+      console.log('status = ', status)
+
+      if (!status) {
+        changeState('errorMessage', body)
+        return
+      }
+      console.log('ほげほげ')
+      changeState('errorMessage', '')
+      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
+      this.fileInput.value = null
+      this.isUpdate = false
+      changeState('galleryData', body)
     }
 
     const uploadForm = (
@@ -75,18 +150,24 @@ class Gallery extends React.Component {
           onChange={e => handleInputsChange(e)}
         />
         <input type="file" ref={input => (this.fileInput = input)} />
-        <sc.Button onClick={() => upload()}>アップロード</sc.Button>
+        {this.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
+        {this.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
+        {this.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
       </FromAria>
     )
 
-    const pictures = pictureData.map(pictureObj => {
-      const { id, name, title } = pictureObj
+    const boxs = galleryData.map(obj => {
+      const { title, pictureName } = obj
       return (
         <Box
-          key={id}
-          url={require(`./../images/gallery/${name}`)}
-          onClick={() => pictureClickHandler(pictureObj)}>
+          key={pictureName.slice(0, -4)}
+          url={`./images/gallery/${pictureName}`}
+          onClick={() => pictureClickHandler(obj)}>
           <PicTitle>{title}</PicTitle>
+          <br />
+          <br />
+          <br />
+          <sc.Button onClick={e => selectUpdatePic(e, obj)}>編集</sc.Button>
         </Box>
       )
     })
@@ -95,7 +176,7 @@ class Gallery extends React.Component {
       <Wrappar>
         {isLogIn && uploadForm}
         <sc.H1>ヤスコロリ画廊</sc.H1>
-        <GridContainer>{pictures}</GridContainer>
+        <GridContainer>{boxs}</GridContainer>
       </Wrappar>
     )
   }

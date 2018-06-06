@@ -24,8 +24,9 @@ const AdminLogIn = ({
     document.cookie = `userName=${body.userName}`
     document.cookie = `token=${body.token}`
     changeState('errorMessage', '')
+    changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
     changeState('isLogIn', true)
-    ///location.hash = '#Home'
+    location.hash = '#Home'
   }
 
   return (

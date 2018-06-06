@@ -35,6 +35,7 @@ class App extends React.Component {
     this.handleHashChage = this.handleHashChage.bind(this)
     this.changeState = this.changeState.bind(this)
     this.judgeLogIn = this.judgeLogIn.bind(this)
+    this.apiGetGalleryData = this.apiGetGalleryData.bind(this)
   }
 
   componentDidMount() {
@@ -49,11 +50,11 @@ class App extends React.Component {
 
     this.judgeLogIn()
     this.getExciteBlogRssFeed()
-    // this.apiGetGallery()
+    this.apiGetGalleryData()
   }
 
-  async apiGetGallery() {
-    const response = await fetchApi('getGallery')
+  async apiGetGalleryData() {
+    const response = await fetchApi('getGallery', {})
     this.setState({
       galleryData: response.body
     })
@@ -195,8 +196,6 @@ class App extends React.Component {
       menuClickHandler,
       pictureClickHandler,
       toggleBlogBoxOpen,
-      apiLogInOrSignIn,
-      apiCheckToken,
       handleInputsChange,
       changeState
     } = this

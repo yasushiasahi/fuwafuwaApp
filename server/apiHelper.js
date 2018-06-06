@@ -9,13 +9,13 @@ const fsReadFileP = util.promisify(fs.readFile)
 const fsWriteFileP = util.promisify(fs.writeFile)
 const fsRenameP = util.promisify(fs.rename)
 const fsUnlinkP = util.promisify(fs.unlink)
-const pictureDir = 'public/images/gallery/'
+const pictureDir = path.join(__dirname, '../dist/images/gallery/')
 const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
 const tmpDir = path.join(__dirname, 'tmp')
 
 const removePicture = async targetPictureName => {
   console.log('removePicture が呼ばれた')
-  return fsUnlinkP(`${pictureDir}hoge${targetPictureName}`).catch(err => {
+  return fsUnlinkP(`${pictureDir}${targetPictureName}`).catch(err => {
     throw { err, place: getTrace(), errMsg: 'ファイルの削除に失敗しました' }
   })
 }
@@ -59,9 +59,6 @@ const getFormData = request => {
   return new Promise((resolve, reject) => {
     form.parse(request, (err, fields, files) => {
       if (err) reject({ err, place: getTrace(), errMsg: 'ファイルを保存できませんでした' })
-
-      //console.log('files = ', files)
-
       const { picture = {} } = files
       return resolve({ fields, picture })
     })

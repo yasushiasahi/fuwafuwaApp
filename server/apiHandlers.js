@@ -89,7 +89,7 @@ const deletePicture = async request => {
 
   const { pictureName } = await parseReqBody(request)
   let { gallery, targetIndex } = await getGalleryDataAndFindTargetIndex(pictureName)
-  await removePicture(`${gallery[targetIndex].pictureName}`)
+  await removePicture(gallery[targetIndex].pictureName)
   gallery.splice(targetIndex, 1)
   await writeFile(galleryFilePath, gallery)
   return gallery
@@ -99,16 +99,17 @@ const updatePicture = async request => {
   console.log('/api/updataPictureが呼ばれた')
 
   const {
-    file: { path: tmpFilePath },
+    picture: { path: tmpFilePath, name: originalFileName },
     fields: { title, description, pictureName }
   } = await getFormData(request)
   let { gallery, targetIndex } = await getGalleryDataAndFindTargetIndex(pictureName)
-  tmpFilePath !== undefined && (await renameFile(tmpFilePath, `${pictureDir}${pictureName}`))
-  for (const key in { title, description }) {
-    if ({ title, description }[key] !== undefined) {
-      gallery[targetIndex][key] = { title, description }[key]
-    }
+  let newPictureName = pictureName
+  if (tmpFilePath !== undefined) {
+    await removePicture(pictureName)
+    newPictureName = `${getUniqueStr()}${originalFileName.match(/(\.jpg|\.jpeg|\.png|\.gif)$/)[0]}`
+    await renameFile(tmpFilePath, `${pictureDir}${newPictureName}`)
   }
+  gallery.splice(targetIndex, 1, { title, description, pictureName: newPictureName })
   await writeFile(galleryFilePath, gallery)
   return gallery
 }
