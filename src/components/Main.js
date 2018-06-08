@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sizes } from './styles.js'
+import { media } from './styles.js'
 import Home from './Home.js'
 import Greeting from './Greeting.js'
 import SalonInfo from './SalonInfo.js'
@@ -8,6 +8,7 @@ import Menu from './Menu.js'
 import BlogIndex from './BlogIndex.js'
 import Gallery from './Gallery.js'
 import AdminLogIn from './AdminLogIn.js'
+import Footer from './Footer.js'
 
 const Main = ({
   mainViewComponentName,
@@ -39,16 +40,31 @@ const Main = ({
   }
 
   return (
-    <MainAria>
-      {errorMessage && <ErrMsg>{errorMessage}</ErrMsg>}
-      {provideMainView(mainViewComponentName)}
-    </MainAria>
+    <Wrapper>
+      <MainAria>
+        {errorMessage && <ErrMsg>{errorMessage}</ErrMsg>}
+        {provideMainView(mainViewComponentName)}
+      </MainAria>
+      <Footer />
+    </Wrapper>
   )
 }
 
+const Wrapper = styled.div`
+  grid-area: Main;
+
+  ${media.desktop`
+    width: 740px;
+    justify-self: center;
+  `};
+`
+
 const MainAria = styled.main`
-  background-color: ${colors.cream};
-  padding: calc(${sizes.headerHeight} + 2.5vw) 2.5vw 2.5vw 2.5vw;
+  padding: 4vw;
+
+  ${media.desktop`
+    padding: 0
+  `};
 `
 
 const ErrMsg = styled.p`

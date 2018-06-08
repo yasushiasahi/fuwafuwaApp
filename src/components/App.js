@@ -1,12 +1,11 @@
 import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { colors } from './styles.js'
+import { media, colors, sizes } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
 import Main from './Main.js'
-import Footer from './Footer.js'
 import FullSizePicture from './FullSizePicture.js'
 
 class App extends React.Component {
@@ -230,19 +229,33 @@ class App extends React.Component {
             changeState
           }}
         />
-        <Footer />
       </Container>
     )
   }
 }
 
 const Container = styled.div`
-  background-color: ${colors.yellow};
-  position: relative;
-  min-height: 100vh;
-  max-width: 100vw;
-  overflow: hidden;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 10vw auto auto;
+  grid-template-columns: auto 0px;
+  grid-template-areas:
+    'Header Header'
+    'Main   Sidebar'
+    'Footer Sidebar';
+
+  background-color: ${colors.cream};
+
+  ${media.desktop`
+    grid-template-rows: 60px auto auto;
+    grid-template-columns: auto 250px;
+  `};
 `
+
+// position: relative;
+// min-height: 100vh;
+// max-width: 100vw;
+// overflow: hidden;
 
 injectGlobal`
   body {

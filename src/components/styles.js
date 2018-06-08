@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const colors = {
   yellow: '#ffe866',
@@ -22,6 +22,21 @@ export const properties = {
     return `${inset} 0 ${yoffset} .6vw 0 rgba(0,0,0,.6)`
   }
 }
+
+const mediaSizes = {
+  desktop: 992,
+  tablet: 768,
+  phone: 376
+}
+
+export const media = Object.keys(mediaSizes).reduce((acc, label) => {
+  acc[label] = (...args) => css`
+    @media (min-width: ${mediaSizes[label]}px) {
+      ${css(...args)};
+    }
+  `
+  return acc
+}, {})
 
 const H1 = styled.h1`
   font-size: 7vw;
@@ -51,6 +66,11 @@ const H1 = styled.h1`
     );
   border-radius: 6vw;
   margin-bottom: 4vw;
+
+  ${media.desktop`
+    font-size: 40px;
+    margin: 30px 0;
+  `};
 `
 
 const P = styled.p`

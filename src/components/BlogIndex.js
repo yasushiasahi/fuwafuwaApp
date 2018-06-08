@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sc, properties } from './styles.js'
+import { media, colors, sc, properties } from './styles.js'
 
 const BlogIndex = ({ passToBlogIndex: { blogInfos, toggleBlogBoxOpen } }) => {
   const Blogs = blogInfos.map(blogInfo => {
@@ -24,16 +24,14 @@ const BlogIndex = ({ passToBlogIndex: { blogInfos, toggleBlogBoxOpen } }) => {
   })
 
   return (
-    <Wrappar>
+    <div>
       <sc.H1>最近のブログ一覧</sc.H1>
       <GridContainer>{Blogs}</GridContainer>
-    </Wrappar>
+    </div>
   )
 }
 
-const Wrappar = styled.div`
-  padding: 2vw;
-`
+//const Wrappar = styled.div``
 
 const GridContainer = styled.div`
   background: ${colors.cream};
@@ -42,6 +40,11 @@ const GridContainer = styled.div`
   grid-template-columns: auto auto;
   grid-auto-rows: 20.25vw;
   grid-gap: 2vw;
+
+  ${media.desktop`
+    grid-auto-rows: 175px;
+    grid-gap: 20px;
+  `};
 `
 
 const Box = styled.div`
@@ -50,6 +53,10 @@ const Box = styled.div`
   background-color: ${colors.lime};
   transition: ${props => (props.isOpen ? '.5s' : '0s')};
   box-shadow: ${properties.boxShadow()};
+
+  ${media.desktop`
+    height: ${props => (props.isOpen ? '370px' : '175px')};
+  `};
 `
 
 const TitleWrappar = styled.div`
@@ -63,6 +70,10 @@ const TitleWrappar = styled.div`
     'title'
     'date';
   align-items: center;
+
+  ${media.desktop`
+    height: 175px;
+  `};
 `
 
 const Title = styled.div`
@@ -70,11 +81,20 @@ const Title = styled.div`
   overflow: hidden;
   font-size: ${props => (props.isMoreThan20Charas ? '3.5vw' : '4.6vw')};
   line-height: ${props => (props.isMoreThan20Charas ? '5vw' : '5.6vw')};
+
+  ${media.desktop`
+    font-size: ${props => (props.isMoreThan20Charas ? '30px' : '40px')};
+    line-height: ${props => (props.isMoreThan20Charas ? '40px' : '50px')};
+  `};
 `
 
 const Date = styled.div`
   grid-area: date;
   font-size: 3vw;
+
+  ${media.desktop`
+    font-size: 15px;
+  `};
 `
 
 const Description = styled.div`
@@ -86,10 +106,19 @@ const Description = styled.div`
   transition: ${props => (props.isOpen ? 'height .5s' : '0s')};
   box-shadow: ${properties.boxShadow(true)};
   box-sizing: border-box;
+
+  ${media.desktop`
+    font-size: 18px;
+    height: ${props => (props.isOpen ? '195px' : '0')};
+  `};
 `
 
 const Link = styled.a`
   font-size: 3vw;
+
+  ${media.desktop`
+    font-size: 15px;
+  `};
 `
 
 export default BlogIndex
