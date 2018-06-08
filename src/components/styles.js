@@ -77,6 +77,11 @@ const P = styled.p`
   font-size: 4vw;
   color: ${colors.black};
   margin-bottom: 4vw;
+
+  ${media.desktop`
+    font-size: 20px;
+    margin-bottom: 10px;
+  `};
 `
 
 const Img = styled.img`
