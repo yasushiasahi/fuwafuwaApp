@@ -1,10 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports = {
-  mode: 'development', // production or development
-  devtool: 'inline-source-map', // developmentにしてればこれいらないもか
+const isProduction = process.env.NODE_ENV === 'production'
 
-  devServer: {
+module.exports = {
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction && 'inline-source-map',
+
+  devServer: isProduction && {
     contentBase: 'dist',
     open: true,
     port: 8080,
@@ -36,7 +38,7 @@ module.exports = {
               plugins: ['react-hot-loader/babel', 'babel-plugin-styled-components']
             }
           },
-          'stylelint-custom-processor-loader'
+          isProduction && 'stylelint-custom-processor-loader'
         ],
         exclude: /node_modules/
       },
