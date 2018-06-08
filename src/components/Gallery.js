@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors, sc, properties } from './styles.js'
+import { media, colors, sc, properties } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
-import pictureData from '../databases/pictureData.js'
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -112,18 +111,13 @@ class Gallery extends React.Component {
         changeState('errorMessage', response.body)
         return
       }
-
       const { status, body } = await fetchApi('deletePicture', {
         pictureName: this.updatePictureName
       })
-      console.log('body = ', body)
-      console.log('status = ', status)
-
       if (!status) {
         changeState('errorMessage', body)
         return
       }
-      console.log('ほげほげ')
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
@@ -167,17 +161,17 @@ class Gallery extends React.Component {
           <br />
           <br />
           <br />
-          <sc.Button onClick={e => selectUpdatePic(e, obj)}>編集</sc.Button>
+          {isLogIn && <sc.Button onClick={e => selectUpdatePic(e, obj)}>編集</sc.Button>}
         </Box>
       )
     })
 
     return (
-      <Wrappar>
+      <div>
         {isLogIn && uploadForm}
         <sc.H1>ヤスコロリ画廊</sc.H1>
         <GridContainer>{boxs}</GridContainer>
-      </Wrappar>
+      </div>
     )
   }
 }
@@ -191,16 +185,16 @@ const Textarea = styled.textarea`
   border: 1px solid ${colors.black};
 `
 
-const Wrappar = styled.div`
-  padding: 2vw 0;
-`
-
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 30%);
   grid-auto-rows: ${91 * 0.3 * 1.3}vw;
   grid-row-gap: 2vw;
   justify-content: space-evenly;
+
+  ${media.desktop`
+    grid-auto-rows: 300px;
+  `};
 `
 
 const Box = styled.div`
@@ -218,6 +212,10 @@ const PicTitle = styled.span`
   font-weight: bold;
   color: ${colors.black};
   background-color: rgba(255, 255, 255, 0.5);
+
+  ${media.desktop`
+    font-size: 20px;
+  `};
 `
 
 export default Gallery
