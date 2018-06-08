@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { colors } from './styles.js'
+import { media, colors } from './styles.js'
 import MainViewSwicther from './MainViewSwitcher.js'
 import BalloonSvg from './BalloonSvg.js'
 import yasukorori from './../images/assets/yasukorori.png'
@@ -41,6 +41,17 @@ const GridContainer = styled.div`
   z-index: 30;
   top: 0;
   left: 0;
+
+  ${media.desktop`
+    width: 100vw;
+    grid-template-rows: 30vh 40vh 30vh;
+    grid-template-columns: auto 360px 320px auto;
+    grid-template-areas:
+      '. WelcomeMsg WelcomeMsg .'
+      '. Links      Picture    .'
+      '. Balloon    Picture    .';
+    justify-self: center;
+  `};
 `
 
 const Balloon = styled.div`
@@ -56,6 +67,15 @@ const WelcomeMsg = styled.h1`
     height: 7.3vw;
     margin-right: 3vw;
   }
+
+  ${media.desktop`
+    line-height: 60px;
+
+    img {
+      height: 50px;
+      margin-right: 20px;
+    }
+  `};
 `
 
 const Picture = styled.div`
@@ -64,6 +84,7 @@ const Picture = styled.div`
 
   img {
     height: 100%;
+    display: inline-block;
   }
 `
 
@@ -76,6 +97,15 @@ const Links = styled.div`
       height: 7vw;
     }
   }
+
+  ${media.desktop`
+    li {
+      margin-bottom: 15px;
+      img {
+        height: 40px;
+      }
+    }
+  `};
 `
 
 export default Home
