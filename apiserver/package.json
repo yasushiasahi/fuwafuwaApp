@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "pm2 start ./apiServer.js"
+  },
+  "devDependencies": {
+    "pm2": "^2.10.4"
+  },
+  "dependencies": {
+    "formidable": "^1.2.1"
+  },
+  "private": true
+}

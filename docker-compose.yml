@@ -1,9 +1,18 @@
 version: '3'
 
 services:
+  apiserver:
+    build: ./apiserver
+    ports:
+      - 3000:3000
+    volumes:
+      - ./dist:/app/dist
+      - ./data:/app/data
   nginx:
     build: ./nginx
     ports:
       - 80:80
     volumes:
       - ./dist:/dist:ro
+    links:
+      - apiserver

@@ -3,6 +3,7 @@ FROM node
 WORKDIR /server
 
 run mkdir dist
+run mkdir data
 
 WORKDIR api
 
