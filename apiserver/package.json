@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "pm2 start ./apiServer.js"
+    "start": "pm2 start apiServer.js"
   },
   "devDependencies": {
     "pm2": "^2.10.4"
