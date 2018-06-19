@@ -10,7 +10,7 @@ const fsWriteFileP = util.promisify(fs.writeFile)
 const fsRenameP = util.promisify(fs.rename)
 const fsUnlinkP = util.promisify(fs.unlink)
 const pictureDir = path.join(__dirname, '../dist/images/gallery/')
-const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
+const galleryFilePath = path.join(__dirname, '../data/databases/gallerydata.json')
 const tmpDir = path.join(__dirname, 'tmp')
 
 const removePicture = async targetPictureName => {

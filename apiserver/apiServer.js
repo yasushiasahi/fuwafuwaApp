@@ -8,15 +8,13 @@ const server = http.createServer()
 const fsReadFileP = util.promisify(fs.readFile)
 const api = require('./apiHandlers.js')
 
-const portNo = process.argv[2]
-
 server.on('request', (request, response) => {
   typeof api[request.url.split('/')[2]] === 'function'
     ? handleApis(request, response)
     : sendBackStaticFiles(request, response)
 })
 
-server.listen(portNo, () => console.log('server listening'))
+server.listen(3000, () => console.log('server listening'))
 
 const handleApis = async (request, response) => {
   console.log('"handleApi"通過')
@@ -64,7 +62,7 @@ const logError = (err, { file, name, line, column }) => {
   const sec = `0${now.getSeconds()}`.slice(-2)
   const time = `${year}/${mon}/${day} ${hour}:${min}.${sec}`
   const log = `-----------< ${time} ${file} ${name} ${line}/${column} >--------------\n${err}\n\n`
-  fs.appendFile(path.join(__dirname, './logs/errorLog.txt'), log, 'utf8', () => {
+  fs.appendFile(path.join(__dirname, '../data/logs/errorLog.txt'), log, 'utf8', () => {
     return
   })
 }

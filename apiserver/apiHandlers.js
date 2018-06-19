@@ -1,8 +1,8 @@
 'use strict'
 
 const path = require('path')
-const usersFilePath = path.join(__dirname, `databases/userdata.json`)
-const galleryFilePath = path.join(__dirname, 'databases/gallerydata.json')
+const usersFilePath = path.join(__dirname, `../data/databases/userdata.json`)
+const galleryFilePath = path.join(__dirname, '../data/databases/gallerydata.json')
 const pictureDir = path.join(__dirname, '../dist/images/gallery/')
 const {
   removePicture,
