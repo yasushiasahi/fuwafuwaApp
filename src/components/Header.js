@@ -29,8 +29,7 @@ const Wrapper = styled.div`
 const GridContainer = styled.header`
   background: ${props => (props.isLogIn ? colors.blue : colors.yellow)};
   width: 100%;
-  height: 10vw;
-
+  height: ${sizes.mobileHeaderHeight};
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 5% 50% 35% 10%;
@@ -42,7 +41,7 @@ const GridContainer = styled.header`
   box-shadow: ${properties.boxShadow()};
 
   ${media.desktop`
-    height: 60px;
+    height: ${sizes.desktopHeaderHeight};
   `};
 `
 // z-index: 10;

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, injectGlobal } from 'styled-components'
 
 export const colors = {
   yellow: '#ffe866',
@@ -12,7 +12,11 @@ export const colors = {
 }
 
 export const sizes = {
-  headerHeight: '10vw'
+  mobileHeaderHeight: '10vw',
+  mobileFooterHeight: '25vw',
+  desktopHeaderHeight: '60px',
+  desktopFooterHeight: '180px',
+  desktopMainWidth: '740px'
 }
 
 export const properties = {
@@ -41,6 +45,8 @@ export const media = Object.keys(mediaSizes).reduce((acc, label) => {
 const H1 = styled.h1`
   font-size: 7vw;
   color: ${colors.black};
+  border-radius: 6vw;
+  margin: 4vw 0;
   text-align: center;
   background-size: 30px 30px;
   background-color: #ffe866;
@@ -64,12 +70,10 @@ const H1 = styled.h1`
       transparent 75%,
       transparent
     );
-  border-radius: 6vw;
-  margin-bottom: 4vw;
 
   ${media.desktop`
     font-size: 40px;
-    margin: 30px 0;
+    margin:20px 0;
   `};
 `
 
@@ -79,7 +83,7 @@ const P = styled.p`
   margin-bottom: 4vw;
 
   ${media.desktop`
-    font-size: 20px;
+    font-size: 1rem;
     margin-bottom: 10px;
   `};
 `
@@ -91,19 +95,33 @@ const Img = styled.img`
 
 const Input = styled.input`
   display: block;
-  height: 8vw;
+  padding: 2vw 1vw;
   margin-bottom: 3vw;
-  font-size: 3vw;
   border: 1px solid ${colors.black};
+
+  ${media.desktop`
+    padding: .3rem;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  `};
 `
 
-const Button = styled.span`
+const Button = styled.button`
   display: inline-block;
   background-color: ${colors.lime};
   padding: 1vw 2vw;
   margin-top: 1vw;
   margin-right: 4vw;
+  font-size: 1rem;
   box-shadow: ${properties.boxShadow()};
+  cursor: pointer;
+  border: none;
+  outline: none;
+  appearance: none;
+
+  ${media.desktop`
+    padding: .2rem .5rem;
+  `};
 `
 
 export const sc = {
@@ -113,3 +131,34 @@ export const sc = {
   Input,
   Button
 }
+
+injectGlobal`
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+  }
+
+  div {
+    box-sizing: border-box;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  input {
+    box-sizing: border-box;
+  }
+`

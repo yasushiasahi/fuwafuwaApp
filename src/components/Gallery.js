@@ -6,9 +6,44 @@ import { fetchApi, getCookie } from './helpers.js'
 class Gallery extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      fileInputMessege: '画像ファイルを選択してください',
+      fileInputColor: colors.lime
+    }
+
     this.fileInput = React.createRef()
     this.isUpdate = false
     this.updatePictureName = null
+  }
+
+  handleFileInputChanage() {
+    console.log(this.fileInput.files)
+    let provFileInputMessege = ''
+    let provFileInputColor = ''
+    if (!this.fileInput.files.length) {
+      provFileInputMessege = 'ファイルが選択されていません'
+      provFileInputColor = colors.pink
+      return
+    }
+    const { name, type } = this.fileInput.files[0]
+    switch (type) {
+      case 'image/jpeg':
+      case 'image/pjpeg':
+      case 'image/png':
+      case 'image/gif':
+        provFileInputMessege = `${name} が選択されました`
+        provFileInputColor = colors.skyblue
+        break
+      default:
+        provFileInputMessege = `${type.split('/')[1]}形式は選択できません`
+        provFileInputColor = colors.pink
+        break
+    }
+    this.setState({
+      fileInputMessege: provFileInputMessege,
+      fileInputColor: provFileInputColor
+    })
   }
 
   render() {
@@ -126,7 +161,7 @@ class Gallery extends React.Component {
     }
 
     const uploadForm = (
-      <FromAria>
+      <FormAria>
         <p>タイトル</p>
         <sc.Input
           type="text"
@@ -143,11 +178,21 @@ class Gallery extends React.Component {
           value={description}
           onChange={e => handleInputsChange(e)}
         />
-        <input type="file" ref={input => (this.fileInput = input)} />
+        <br />
+        <InputLabel fileInputColor={this.state.fileInputColor}>
+          {this.state.fileInputMessege}
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={input => (this.fileInput = input)}
+            onChange={() => this.handleFileInputChanage()}
+          />
+        </InputLabel>
+        <br />
         {this.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
         {this.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
         {this.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
-      </FromAria>
+      </FormAria>
     )
 
     const boxs = galleryData.map(obj => {
@@ -159,30 +204,62 @@ class Gallery extends React.Component {
           onClick={() => pictureClickHandler(obj)}>
           <PicTitle>{title}</PicTitle>
           <br />
-          <br />
-          <br />
           {isLogIn && <sc.Button onClick={e => selectUpdatePic(e, obj)}>編集</sc.Button>}
         </Box>
       )
     })
 
     return (
-      <div>
+      <Wrapper>
         {isLogIn && uploadForm}
         <sc.H1>ヤスコロリ画廊</sc.H1>
         <GridContainer>{boxs}</GridContainer>
-      </div>
+      </Wrapper>
     )
   }
 }
 
-const FromAria = styled.div`
+const Wrapper = styled.div`
+  padding-bottom: 4vw;
+
+  ${media.desktop`
+    padding-bottom: 20px;
+  `};
+`
+
+const FormAria = styled.div`
+  margin: 4vw 0;
   padding: 2vw;
   border: 1px solid ${colors.black};
+
+  ${media.desktop`
+    margin: 20px 0;
+  `};
 `
 
 const Textarea = styled.textarea`
+  margin-bottom: 3vw;
+  padding: 1vw;
   border: 1px solid ${colors.black};
+
+  ${media.desktop`
+    padding: .3rem;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  `};
+`
+
+const InputLabel = styled.label`
+  display: inline-block;
+  padding: 1vw 3vw;
+  margin-bottom: 3vw;
+  box-shadow: ${properties.boxShadow()};
+  background-color: ${props => props.fileInputColor};
+
+  ${media.desktop`
+    padding: .2rem .5rem;
+    margin-bottom: 10px;
+  `};
 `
 
 const GridContainer = styled.div`
@@ -208,7 +285,7 @@ const Box = styled.div`
 `
 
 const PicTitle = styled.span`
-  font-size: 2.5vw;
+  font-size: 1rem;
   font-weight: bold;
   color: ${colors.black};
   background-color: rgba(255, 255, 255, 0.5);

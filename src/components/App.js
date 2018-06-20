@@ -1,11 +1,12 @@
 import React from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { media, colors, sizes } from './styles.js'
+import { media, colors } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
 import Main from './Main.js'
+import Footer from './Footer.js'
 import FullSizePicture from './FullSizePicture.js'
 
 class App extends React.Component {
@@ -229,6 +230,7 @@ class App extends React.Component {
             changeState
           }}
         />
+        <Footer />
       </Container>
     )
   }
@@ -243,48 +245,12 @@ const Container = styled.div`
     'Header Header'
     'Main   Sidebar'
     'Footer Sidebar';
-
   background-color: ${colors.cream};
 
   ${media.desktop`
     grid-template-rows: 60px auto auto;
     grid-template-columns: auto 250px;
   `};
-`
-
-// position: relative;
-// min-height: 100vh;
-// max-width: 100vw;
-// overflow: hidden;
-
-injectGlobal`
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-
-  div {
-    box-sizing: border-box;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  input {
-    box-sizing: border-box;
-  }
 `
 
 export default hot(module)(App)

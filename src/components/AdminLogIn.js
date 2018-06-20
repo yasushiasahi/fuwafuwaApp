@@ -30,32 +30,37 @@ const AdminLogIn = ({
   }
 
   return (
-    <Wrapper>
+    <div>
       <sc.H1>管理者ログイン</sc.H1>
-      <p>ユーザー名</p>
-      <sc.Input
-        type="text"
-        name="userName"
-        size="30"
-        value={userName}
-        onChange={e => handleInputsChange(e)}
-      />
-      <p>パスワード</p>
-      <sc.Input
-        type="password"
-        name="password"
-        size="30"
-        value={password}
-        onChange={e => handleInputsChange(e)}
-      />
-      <sc.Button onClick={() => apiLogInOrSignIn('logIn')}>ログイン</sc.Button>
-      <sc.Button onClick={() => apiLogInOrSignIn('signIn')}>新規登録</sc.Button>
-    </Wrapper>
+      <FlexContainer>
+        <div>
+          <p>ユーザー名</p>
+          <sc.Input
+            type="text"
+            name="userName"
+            size="30"
+            value={userName}
+            onChange={e => handleInputsChange(e)}
+          />
+          <p>パスワード</p>
+          <sc.Input
+            type="password"
+            name="password"
+            size="30"
+            value={password}
+            onChange={e => handleInputsChange(e)}
+          />
+          <sc.Button onClick={() => apiLogInOrSignIn('logIn')}>ログイン</sc.Button>
+          <sc.Button onClick={() => apiLogInOrSignIn('signIn')}>新規登録</sc.Button>
+        </div>
+      </FlexContainer>
+    </div>
   )
 }
 
-const Wrapper = styled.div`
-  padding: 2vw;
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 export default AdminLogIn

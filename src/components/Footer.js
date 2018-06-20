@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import MainViewSwicther from './MainViewSwitcher.js'
-import { media } from './styles.js'
+import { media, colors, sizes } from './styles.js'
 import logo from './../images/assets/logo.svg'
 
 const Footer = () => (
@@ -22,27 +22,32 @@ const Footer = () => (
 
 const Wrapper = styled.div`
   grid-area: Footer;
+  background-color: ${colors.yellow};
 `
 
 const GridContainer = styled.footer`
+  height: ${sizes.mobileFooterHeight};
   display: grid;
-  grid-template-rows: 8vw 10vw 9vw;
+  grid-template-rows: auto auto auto;
   grid-template-columns: auto;
   grid-template-areas:
     'logo'
     'links'
     'copyright';
+  align-content: space-evenly;
+
   box-sizing: border-box;
 
   ${media.desktop`
-    grid-template-rows: 100px 70px 50px;
+    width: ${sizes.desktopMainWidth};
+    height: ${sizes.desktopFooterHeight};
+    margin: 0 auto;
   `};
 `
 
 const Logo = styled.div`
   grid-area: logo;
   justify-self: center;
-  align-self: end;
   width: 50%;
 
   img {
@@ -52,12 +57,10 @@ const Logo = styled.div`
 
 const Links = styled.div`
   grid-area: links;
-  align-self: end;
 
   ul {
     height: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-evenly;
 
     li {
@@ -79,7 +82,6 @@ const Links = styled.div`
 const Copyright = styled.div`
   grid-area: copyright;
   justify-self: center;
-  align-self: center;
 
   p {
     font-size: 2.5vw;

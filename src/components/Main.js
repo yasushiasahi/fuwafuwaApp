@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media } from './styles.js'
+import { media, sizes } from './styles.js'
 import Home from './Home.js'
 import Greeting from './Greeting.js'
 import SalonInfo from './SalonInfo.js'
@@ -8,7 +8,6 @@ import Menu from './Menu.js'
 import BlogIndex from './BlogIndex.js'
 import Gallery from './Gallery.js'
 import AdminLogIn from './AdminLogIn.js'
-import Footer from './Footer.js'
 
 const Main = ({
   mainViewComponentName,
@@ -45,33 +44,39 @@ const Main = ({
         {errorMessage && <ErrMsg>{errorMessage}</ErrMsg>}
         {provideMainView(mainViewComponentName)}
       </MainAria>
-      <Footer />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   grid-area: Main;
+  min-height: calc(100vh - ${sizes.mobileHeaderHeight} - ${sizes.mobileFooterHeight});
 
   ${media.desktop`
-    width: 740px;
+    width: ${sizes.desktopMainWidth};
+    min-height: calc(100vh - ${sizes.desktopHeaderHeight} - ${sizes.desktopFooterHeight});
     justify-self: center;
   `};
 `
 
 const MainAria = styled.main`
-  padding: 4vw;
+  padding: 0 4vw;
 
   ${media.desktop`
-    padding: 0
+    padding: 0;
   `};
 `
 
 const ErrMsg = styled.p`
-  color: red;
+  background-color: red;
+  color: white;
+  font-weight: bold;
   padding: 1vw;
   margin-bottom: 3vw;
-  border: 1px solid red;
+
+  ${media.desktop`
+    margin: 20px 0;
+  `};
 `
 
 export default Main
