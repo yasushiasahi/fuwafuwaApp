@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media,sizes } from './styles.js'
+import { media } from './styles.js'
 import closePict from './../images/assets/close_menu.svg'
 
 const FullSizePicture = ({
@@ -66,12 +66,10 @@ const GridContainer = styled.div`
 const Pic = styled.img`
   grid-area: pic;
   width: 100%;
-  padding: 1vw 1vw 0 1vw;
 
   ${media.desktop`
     width: auto;
     height: 95vh
-    padding: 0;
   `};
 `
 
@@ -100,11 +98,15 @@ const Explanation = styled.div`
 
 const Button = styled.div`
   grid-area: button;
-  width: 30%;
+  width: 60%;
   padding: 1vw;
   justify-self: center;
   background-color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
+
+  ${media.desktop`
+    width: 30%;
+  `};
 `
 
 const ClosePict = styled.img`

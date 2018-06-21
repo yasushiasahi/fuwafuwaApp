@@ -12,12 +12,12 @@ const h = location.hash.slice(1)
 
 const MainViewSwitcher = () => (
   <Ul>
-    {h === 'Home' ? null : <Link componentName="Home" src={homu} alt="ホームリンク" />}
-    {h === 'Greeting' ? null : <Link componentName="Greeting" src={goaisatsu} alt="ご挨拶リンク" />}
-    {h === 'SalonInfo' ? null : <Link componentName="SalonInfo" src={omise} alt="お店情報リンク" />}
-    {h === 'Menu' ? null : <Link componentName="Menu" src={menyu} alt="メニューリンク" />}
-    {h === 'BlogIndex' ? null : <Link componentName="BlogIndex" src={burogu} alt="ブログリンク" />}
-    {h === 'Gallery' ? null : <Link componentName="Gallery" src={garou} alt="画廊リンク" />}
+    {h === 'Home' || <Link componentName="Home" src={homu} alt="ホームリンク" />}
+    {h === 'Greeting' || <Link componentName="Greeting" src={goaisatsu} alt="ご挨拶リンク" />}
+    {h === 'SalonInfo' || <Link componentName="SalonInfo" src={omise} alt="お店情報リンク" />}
+    {h === 'Menu' || <Link componentName="Menu" src={menyu} alt="メニューリンク" />}
+    {h === 'BlogIndex' || <Link componentName="BlogIndex" src={burogu} alt="ブログリンク" />}
+    {h === 'Gallery' || <Link componentName="Gallery" src={garou} alt="画廊リンク" />}
   </Ul>
 )
 

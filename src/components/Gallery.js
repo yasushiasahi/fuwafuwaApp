@@ -9,7 +9,8 @@ class Gallery extends React.Component {
 
     this.state = {
       fileInputMessege: '画像ファイルを選択してください',
-      fileInputColor: colors.lime
+      fileInputColor: colors.lime,
+      isUpdate: false
     }
 
     this.fileInput = React.createRef()
@@ -18,7 +19,6 @@ class Gallery extends React.Component {
   }
 
   handleFileInputChanage() {
-    console.log(this.fileInput.files)
     let provFileInputMessege = ''
     let provFileInputColor = ''
     if (!this.fileInput.files.length) {
@@ -99,7 +99,9 @@ class Gallery extends React.Component {
     ) => {
       event.stopPropagation()
       this.updatePictureName = updatePictureName
-      this.isUpdate = true
+      this.setState({
+        isUpdate: true
+      })
       changeState('inputTexts', {
         userName: '',
         password: '',
@@ -133,7 +135,9 @@ class Gallery extends React.Component {
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
-      this.isUpdate = false
+      this.setState({
+        isUpdate: true
+      })
       changeState('galleryData', body)
     }
 
@@ -156,8 +160,18 @@ class Gallery extends React.Component {
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
-      this.isUpdate = false
+      this.setState({
+        isUpdate: true
+      })
       changeState('galleryData', body)
+    }
+
+    const quitUpdate = () => {
+      this.setState({
+        isUpdate: false
+      })
+      changeState('errorMessage', '')
+      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
     }
 
     const uploadForm = (
@@ -191,9 +205,10 @@ class Gallery extends React.Component {
         </InputLabel>
 
         <br />
-        {this.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
-        {this.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
-        {this.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
+        {this.state.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
+        {this.state.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
+        {this.state.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
+        {this.state.isUpdate && <sc.Button onClick={() => quitUpdate()}>キャンセル</sc.Button>}
       </FormAria>
     )
 
