@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { media,sizes } from './styles.js'
 import closePict from './../images/assets/close_menu.svg'
 
 const FullSizePicture = ({
@@ -48,12 +49,30 @@ const GridContainer = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  ${media.desktop`
+    width: 100%;
+    max-width: 992px;
+    height: 100%;
+    grid-template-rows: 20% 80%;
+    grid-template-columns: auto 300px;
+    grid-template-areas:
+      'pic button'
+      'pic info';
+
+  `};
 `
 
 const Pic = styled.img`
   grid-area: pic;
   width: 100%;
   padding: 1vw 1vw 0 1vw;
+
+  ${media.desktop`
+    width: auto;
+    height: 95vh
+    padding: 0;
+  `};
 `
 
 const Info = styled.div`
@@ -65,22 +84,30 @@ const Info = styled.div`
 const PicTitle = styled.div`
   font-size: 4vw;
   margin-bottom: 1vw;
+
+  ${media.desktop`
+    font-size: 2rem;
+  `};
 `
 
 const Explanation = styled.div`
   font-size: 3vw;
+
+  ${media.desktop`
+    font-size: 1.5rem;
+  `};
 `
 
 const Button = styled.div`
   grid-area: button;
-  width: 60%;
+  width: 30%;
   padding: 1vw;
   justify-self: center;
   background-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
 `
 
 const ClosePict = styled.img`
-  grid-area: button;
   display: block;
   width: 100%;
 `

@@ -170,10 +170,11 @@ class Gallery extends React.Component {
           value={title}
           onChange={e => handleInputsChange(e)}
         />
+
         <p>解説</p>
         <Textarea
           name="description"
-          cols="40"
+          cols="35"
           rows="4"
           value={description}
           onChange={e => handleInputsChange(e)}
@@ -188,6 +189,7 @@ class Gallery extends React.Component {
             onChange={() => this.handleFileInputChanage()}
           />
         </InputLabel>
+
         <br />
         {this.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
         {this.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
