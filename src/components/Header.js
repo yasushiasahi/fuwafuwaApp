@@ -1,17 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { media, colors, sizes, properties } from './styles.js'
-import { getCookie } from './helpers.js'
 import logo from './../images/assets/logo.svg'
 import hamburgerMenu from './../images/assets/hamburger_menu.svg'
 import closeMenu from './../images/assets/close_menu.svg'
 
-const Header = ({ isLogIn, menuClickHandler, isSidebarShown }) => {
+const Header = ({ menuClickHandler, isSidebarShown }) => {
   return (
     <Wrapper>
-      <GridContainer isLogIn={isLogIn}>
+      <GridContainer>
         <Logo src={logo} alt="ロゴ" />
-        <Status>{isLogIn && <span>{getCookie('userName')}でログイン中</span>}</Status>
         <Pict
           src={isSidebarShown ? closeMenu : hamburgerMenu}
           alt="メニューアイコン"
@@ -25,46 +23,43 @@ const Header = ({ isLogIn, menuClickHandler, isSidebarShown }) => {
 const Wrapper = styled.div`
   grid-area: Header;
   position: relative;
+  background: ${colors.yellow};
 `
 const GridContainer = styled.header`
-  background: ${props => (props.isLogIn ? colors.blue : colors.yellow)};
+  position: fixed;
   width: 100%;
   height: ${sizes.mobileHeaderHeight};
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 5% 50% 35% 10%;
-  grid-template-areas: '. logo Status pict';
+  grid-template-areas: '. Logo . Pict';
   align-items: center;
 
-  position: fixed;
-
   box-shadow: ${properties.boxShadow()};
+  background: ${colors.yellow};
 
   ${media.desktop`
+    width: ${sizes.desktopSideberWidth};
     height: ${sizes.desktopHeaderHeight};
+    grid-template-columns: 90%;
+    grid-template-areas: 'Logo';
+    justify-content: center;
   `};
 `
-// z-index: 10;
 
 const Logo = styled.img`
-  grid-area: logo;
-  height: 50%;
-`
-
-const Status = styled.div`
-  grid-area: Status;
-  justify-self: center;
-
-  span {
-    font-size: 3vw;
-    color: ${colors.cream};
-  }
+  grid-area: Logo;
+  width: 100%;
 `
 
 const Pict = styled.img`
-  grid-area: pict;
+  grid-area: Pict;
   height: 50%;
   cursor: pointer;
+
+  ${media.desktop`
+    display: none;
+  `};
 `
 
 export default Header

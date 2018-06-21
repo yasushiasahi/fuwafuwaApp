@@ -54,7 +54,7 @@ const Wrapper = styled.div`
 
   ${media.desktop`
     width: ${sizes.desktopMainWidth};
-    min-height: calc(100vh - ${sizes.desktopHeaderHeight} - ${sizes.desktopFooterHeight});
+    min-height: calc(100vh - ${sizes.desktopFooterHeight});
     justify-self: center;
   `};
 `

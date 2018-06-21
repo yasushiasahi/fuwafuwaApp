@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { media, colors } from './styles.js'
+import { media, colors, sizes } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
@@ -203,12 +203,8 @@ class App extends React.Component {
     return (
       <Container>
         {fullSizePicture}
-        <Header
-          menuClickHandler={menuClickHandler}
-          isSidebarShown={isSidebarShown}
-          isLogIn={isLogIn}
-        />
-        <Sidebar isSidebarShown={isSidebarShown} />
+        <Header menuClickHandler={menuClickHandler} isSidebarShown={isSidebarShown} />
+        <Sidebar isSidebarShown={isSidebarShown} isLogIn={isLogIn} changeState={changeState} />
         <Main
           mainViewComponentName={mainViewComponentName}
           errorMessage={errorMessage}
@@ -239,7 +235,7 @@ class App extends React.Component {
 const Container = styled.div`
   width: 100vw;
   display: grid;
-  grid-template-rows: 10vw auto auto;
+  grid-template-rows: ${sizes.mobileHeaderHeight} auto auto;
   grid-template-columns: auto 0px;
   grid-template-areas:
     'Header Header'
@@ -248,8 +244,12 @@ const Container = styled.div`
   background-color: ${colors.cream};
 
   ${media.desktop`
-    grid-template-rows: 60px auto auto;
+    grid-template-rows: ${sizes.desktopHeaderHeight} auto auto;
     grid-template-columns: auto 250px;
+    grid-template-areas:
+      'Main   Header'
+      'Main   Sidebar'
+      'Footer Sidebar';
   `};
 `
 

@@ -1,4 +1,4 @@
-import styled, { css, injectGlobal } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const colors = {
   yellow: '#ffe866',
@@ -16,7 +16,8 @@ export const sizes = {
   mobileFooterHeight: '25vw',
   desktopHeaderHeight: '60px',
   desktopFooterHeight: '180px',
-  desktopMainWidth: '740px'
+  desktopMainWidth: '740px',
+  desktopSideberWidth: '250px'
 }
 
 export const properties = {
@@ -131,34 +132,3 @@ export const sc = {
   Input,
   Button
 }
-
-injectGlobal`
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background-color: black;
-    margin: 0;
-    padding: 0;
-  }
-
-  div {
-    box-sizing: border-box;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  input {
-    box-sizing: border-box;
-  }
-`

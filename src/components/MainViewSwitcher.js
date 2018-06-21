@@ -6,16 +6,18 @@ import burogu from './../images/assets/burogu.svg'
 import garou from './../images/assets/garou.svg'
 import goaisatsu from './../images/assets/goaisatsu.svg'
 import menyu from './../images/assets/menyu.svg'
-import omisezyouhou from './../images/assets/omisezyouhou.svg'
+import omise from './../images/assets/omisezyouhou.svg'
+
+const h = location.hash.slice(1)
 
 const MainViewSwitcher = () => (
   <Ul>
-    <Link componentName="Home" src={homu} alt="ホームリンク" />
-    <Link componentName="Greeting" src={goaisatsu} alt="ご挨拶リンク" />
-    <Link componentName="SalonInfo" src={omisezyouhou} alt="お店情報リンク" />
-    <Link componentName="Menu" src={menyu} alt="メニューリンク" />
-    <Link componentName="BlogIndex" src={burogu} alt="ブログリンク" />
-    <Link componentName="Gallery" src={garou} alt="画廊リンク" />
+    {h === 'Home' ? null : <Link componentName="Home" src={homu} alt="ホームリンク" />}
+    {h === 'Greeting' ? null : <Link componentName="Greeting" src={goaisatsu} alt="ご挨拶リンク" />}
+    {h === 'SalonInfo' ? null : <Link componentName="SalonInfo" src={omise} alt="お店情報リンク" />}
+    {h === 'Menu' ? null : <Link componentName="Menu" src={menyu} alt="メニューリンク" />}
+    {h === 'BlogIndex' ? null : <Link componentName="BlogIndex" src={burogu} alt="ブログリンク" />}
+    {h === 'Gallery' ? null : <Link componentName="Gallery" src={garou} alt="画廊リンク" />}
   </Ul>
 )
 
