@@ -12,6 +12,7 @@ services:
       - 80:80
     volumes:
       - ./dist:/dist:ro
+      - ./data/databases/gallery:/dist/images/gallery:ro
       - ./data/logs:/var/log/nginx
     links:
       - apiserver
