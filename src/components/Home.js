@@ -84,7 +84,7 @@ const Picture = styled.div`
 
   img {
     height: 100%;
-    display: inline-block;
+    display: block;
   }
 `
 
