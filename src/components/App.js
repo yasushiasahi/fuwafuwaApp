@@ -8,6 +8,7 @@ import Sidebar from './Sidebar.js'
 import Main from './Main.js'
 import Footer from './Footer.js'
 import FullSizePicture from './FullSizePicture.js'
+import bg from './../images/assets/background_image.png'
 
 class App extends React.Component {
   constructor() {
@@ -241,7 +242,10 @@ const Container = styled.div`
     'Header Header'
     'Main   Sidebar'
     'Footer Sidebar';
+
   background-color: ${colors.cream};
+  background-image: url(${bg});
+  background-attachment: fixed;
 
   ${media.desktop`
     grid-template-rows: ${sizes.desktopHeaderHeight} auto auto;

@@ -6,7 +6,6 @@ import App from './components/App.js'
 injectGlobal`
   body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: black;
     margin: 0;
     padding: 0;
   }

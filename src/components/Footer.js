@@ -22,7 +22,6 @@ const Footer = () => (
 
 const Wrapper = styled.div`
   grid-area: Footer;
-  background-color: ${colors.yellow};
 `
 
 const GridContainer = styled.footer`
