@@ -9,9 +9,9 @@ const fsReadFileP = util.promisify(fs.readFile)
 const fsWriteFileP = util.promisify(fs.writeFile)
 const fsRenameP = util.promisify(fs.rename)
 const fsUnlinkP = util.promisify(fs.unlink)
-const pictureDir = path.join(__dirname, '../dist/images/gallery/')
+const pictureDir = path.join(__dirname, '../data/databases/gallery/')
 const galleryFilePath = path.join(__dirname, '../data/databases/gallerydata.json')
-const tmpDir = path.join(__dirname, 'tmp')
+const tmpDir = path.join(__dirname, '../data/tmp/')
 
 const removePicture = async targetPictureName => {
   console.log('removePicture が呼ばれた')

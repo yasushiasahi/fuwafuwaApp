@@ -4,7 +4,6 @@ services:
   apiserver:
     build: ./apiserver
     volumes:
-      - ./dist:/app/dist
       - ./data:/app/data
   nginx:
     build: ./nginx
@@ -12,7 +11,7 @@ services:
       - 80:80
     volumes:
       - ./dist:/dist:ro
-      - ./data/databases/gallery:/dist/images/gallery:ro
+      - ./data/databases/gallery:/dist/gallery
       - ./data/logs:/var/log/nginx
     links:
       - apiserver

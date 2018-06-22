@@ -6,13 +6,10 @@ import closePict from './../images/assets/close_menu.svg'
 const FullSizePicture = ({
   pictureObj: { title, pictureName, description },
   closeClickHandler
-}) => {
-  const src = `./images/gallery/${pictureName}`
-
-  return (
+}) => (
     <Wrapper>
       <GridContainer>
-        <Pic src={src} />
+        <Pic src={`./gallery/${pictureName}`} />
         <Info>
           <PicTitle>{title}</PicTitle>
           <Explanation>{description}</Explanation>
@@ -23,7 +20,6 @@ const FullSizePicture = ({
       </GridContainer>
     </Wrapper>
   )
-}
 
 const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.7);

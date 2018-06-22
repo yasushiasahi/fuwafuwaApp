@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { media, colors, sc, properties } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
+import { fail } from 'assert'
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -90,6 +91,11 @@ class Gallery extends React.Component {
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
+      this.setState({
+        fileInputMessege: '画像ファイルを選択してください',
+        fileInputColor: colors.lime
+      })
+
       changeState('galleryData', body)
     }
 
@@ -135,10 +141,12 @@ class Gallery extends React.Component {
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
       this.fileInput.value = null
-      this.setState({
-        isUpdate: true
-      })
       changeState('galleryData', body)
+      this.setState({
+        isUpdate: false,
+        fileInputMessege: '画像ファイルを選択してください',
+        fileInputColor: colors.lime
+      })
     }
 
     const deletePicture = async () => {
@@ -164,11 +172,18 @@ class Gallery extends React.Component {
         isUpdate: true
       })
       changeState('galleryData', body)
+      this.setState({
+        isUpdate: false,
+        fileInputMessege: '画像ファイルを選択してください',
+        fileInputColor: colors.lime
+      })
     }
 
     const quitUpdate = () => {
       this.setState({
-        isUpdate: false
+        isUpdate: false,
+        fileInputMessege: '画像ファイルを選択してください',
+        fileInputColor: colors.lime
       })
       changeState('errorMessage', '')
       changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
@@ -184,7 +199,6 @@ class Gallery extends React.Component {
           value={title}
           onChange={e => handleInputsChange(e)}
         />
-
         <p>解説</p>
         <Textarea
           name="description"
@@ -194,7 +208,7 @@ class Gallery extends React.Component {
           onChange={e => handleInputsChange(e)}
         />
         <br />
-        <InputLabel fileInputColor={this.state.fileInputColor}>
+        <FileInputLabel fileInputColor={this.state.fileInputColor}>
           {this.state.fileInputMessege}
           <input
             type="file"
@@ -202,13 +216,12 @@ class Gallery extends React.Component {
             ref={input => (this.fileInput = input)}
             onChange={() => this.handleFileInputChanage()}
           />
-        </InputLabel>
-
+        </FileInputLabel>
         <br />
         {this.state.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
         {this.state.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
         {this.state.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
-        {this.state.isUpdate && <sc.Button onClick={() => quitUpdate()}>キャンセル</sc.Button>}
+        <sc.Button onClick={() => quitUpdate()}>キャンセル</sc.Button>
       </FormAria>
     )
 
@@ -217,7 +230,7 @@ class Gallery extends React.Component {
       return (
         <Box
           key={pictureName.slice(0, -4)}
-          url={`./images/gallery/${pictureName}`}
+          url={`./gallery/${pictureName}`}
           onClick={() => pictureClickHandler(obj)}>
           <PicTitle>{title}</PicTitle>
           <br />
@@ -266,11 +279,12 @@ const Textarea = styled.textarea`
   `};
 `
 
-const InputLabel = styled.label`
+const FileInputLabel = styled.label`
   display: inline-block;
   padding: 1vw 3vw;
   margin-bottom: 3vw;
   box-shadow: ${properties.boxShadow()};
+  cursor: pointer;
   background-color: ${props => props.fileInputColor};
 
   ${media.desktop`
