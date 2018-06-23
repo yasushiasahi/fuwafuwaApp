@@ -9,9 +9,11 @@ services:
     build: ./nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./dist:/dist:ro
       - ./data/databases/gallery:/dist/gallery
       - ./data/logs:/var/log/nginx
+      - /etc/letsencrypt:/etc/letsencrypt
     links:
       - apiserver
