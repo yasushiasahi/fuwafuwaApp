@@ -51,6 +51,8 @@ class App extends React.Component {
     this.judgeLogIn()
     this.getExciteBlogRssFeed()
     this.apiGetGalleryData()
+
+    document.body.removeChild(document.getElementById('loading'))
   }
 
   async apiGetGalleryData() {
