@@ -10,8 +10,8 @@ import Footer from './Footer.js'
 import FullSizePicture from './FullSizePicture.js'
 
 class App extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       isSidebarShown: false,
@@ -52,7 +52,7 @@ class App extends React.Component {
     this.getExciteBlogRssFeed()
     this.apiGetGalleryData()
 
-    document.body.removeChild(document.getElementById('loading'))
+    document.body.replaceChild(this.props.root, document.body.firstChild)
   }
 
   async apiGetGalleryData() {

@@ -4,6 +4,7 @@ import data from './data.json'
 let body = document.body
 let loadingElement = document.createElement('div')
 let lottieElement = document.createElement('div')
+let link = document.createElement('link')
 const loadingElementStyles = {
   backgroundColor: '#ffe866',
   width: '100vw',
@@ -25,7 +26,6 @@ for (const property in lottieElementStyles) {
   lottieElement.style[property] = lottieElementStyles[property]
 }
 
-loadingElement.id = 'loading'
 loadingElement.appendChild(lottieElement)
 body.insertBefore(loadingElement, body.firstChild)
 
@@ -36,3 +36,7 @@ lottie.loadAnimation({
   autoplay: true,
   animationData: data
 })
+
+link.setAttribute('href', 'https://fonts.googleapis.com/earlyaccess/notosansjp.css')
+link.setAttribute('rel', 'stylesheet')
+document.head.appendChild(link)

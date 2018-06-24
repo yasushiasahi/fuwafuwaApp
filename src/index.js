@@ -33,5 +33,5 @@ injectGlobal`
   }
 `
 
-const rootElement = document.getElementById('root')
-ReactDom.render(<App />, rootElement)
+const root = document.createElement('div')
+ReactDom.render(<App root={root} />, root)
