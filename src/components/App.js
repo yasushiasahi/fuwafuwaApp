@@ -8,7 +8,6 @@ import Sidebar from './Sidebar.js'
 import Main from './Main.js'
 import Footer from './Footer.js'
 import FullSizePicture from './FullSizePicture.js'
-import bg from './../images/assets/background_image.png'
 
 class App extends React.Component {
   constructor() {
@@ -200,9 +199,9 @@ class App extends React.Component {
       handleInputsChange,
       changeState
     } = this
-
+    const bgsIndex = Math.floor(Math.random() * 17)
     return (
-      <Container>
+      <Container bgsIndex={bgsIndex}>
         {fullSizePicture}
         <Header menuClickHandler={menuClickHandler} isSidebarShown={isSidebarShown} />
         <Sidebar isSidebarShown={isSidebarShown} isLogIn={isLogIn} changeState={changeState} />
@@ -233,6 +232,44 @@ class App extends React.Component {
   }
 }
 
+import bg_01 from './../images/assets/bg_01.png'
+import bg_02 from './../images/assets/bg_02.png'
+import bg_03 from './../images/assets/bg_03.png'
+import bg_04 from './../images/assets/bg_04.png'
+import bg_05 from './../images/assets/bg_05.png'
+import bg_06 from './../images/assets/bg_06.png'
+import bg_07 from './../images/assets/bg_07.png'
+import bg_08 from './../images/assets/bg_08.png'
+import bg_09 from './../images/assets/bg_09.png'
+import bg_10 from './../images/assets/bg_10.png'
+import bg_11 from './../images/assets/bg_11.png'
+import bg_12 from './../images/assets/bg_12.png'
+import bg_13 from './../images/assets/bg_13.png'
+import bg_14 from './../images/assets/bg_14.png'
+import bg_15 from './../images/assets/bg_15.png'
+import bg_16 from './../images/assets/bg_16.png'
+import bg_17 from './../images/assets/bg_17.png'
+
+const bgs = [
+  bg_01,
+  bg_02,
+  bg_03,
+  bg_04,
+  bg_05,
+  bg_06,
+  bg_07,
+  bg_08,
+  bg_09,
+  bg_10,
+  bg_11,
+  bg_12,
+  bg_13,
+  bg_14,
+  bg_15,
+  bg_16,
+  bg_17
+]
+
 const Container = styled.div`
   width: 100vw;
   display: grid;
@@ -244,7 +281,7 @@ const Container = styled.div`
     'Footer Sidebar';
 
   background-color: ${colors.cream};
-  background-image: url(${bg});
+  background-image: url(${props => bgs[props.bgsIndex]});
   background-attachment: fixed;
 
   ${media.desktop`

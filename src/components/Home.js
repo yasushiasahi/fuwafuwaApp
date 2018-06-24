@@ -7,6 +7,7 @@ import yasukorori from './../images/assets/yasukorori.png'
 import logo from './../images/assets/logo.svg'
 import youkoso from './../images/assets/youkoso.svg'
 import he from './../images/assets/he.svg'
+import bg from './../images/assets/home_bg.png'
 
 const Home = ({ passToHome: { balloonText } }) => (
   <GridContainer>
@@ -41,6 +42,8 @@ const GridContainer = styled.div`
   z-index: 30;
   top: 0;
   left: 0;
+
+  background-image: url(${bg});
 
   ${media.desktop`
     width: 100vw;
