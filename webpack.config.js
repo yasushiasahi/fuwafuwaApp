@@ -68,7 +68,17 @@ isProduction
       new HtmlWebpackPlugin({
         title: 'フワフワ！美容室',
         favicon: './src/favicon.ico',
-        meta: { viewport: 'width=device-width,initial-scale=1' }
+        meta: [
+          {
+            description:
+              '福岡市南区、玉川町の美容室･美容院･ヘアサロン。明るい白髪染めとヘッドスパのスペシャリストがあなたの魅力を最大限に引き出します。'
+          },
+          {
+            keywords:
+              'フワフワ,フワフワ美容室,フワフワ!美容室,フワフワ！美容室,福岡,南区,玉川町,美容院,美容室,ヘアサロン,予約'
+          },
+          { viewport: 'width=device-width,initial-scale=1' }
+        ]
       })
     ]
   })

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { media, sizes } from './styles.js'
 import Home from './Home.js'
 import Greeting from './Greeting.js'
+import BrightHairDye from './BrightHairDye.js'
 import SalonInfo from './SalonInfo.js'
 import Menu from './Menu.js'
 import BlogIndex from './BlogIndex.js'
@@ -23,6 +24,8 @@ const Main = ({
         return <Home passToHome={passToHome} />
       case 'Greeting':
         return <Greeting />
+      case 'BrightHairDye':
+        return <BrightHairDye />
       case 'SalonInfo':
         return <SalonInfo />
       case 'Menu':

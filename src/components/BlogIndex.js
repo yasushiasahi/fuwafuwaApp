@@ -17,7 +17,9 @@ const BlogIndex = ({ passToBlogIndex: { blogInfos, toggleBlogBoxOpen } }) => {
         </TitleWrappar>
         <Description isOpen={isOpen}>
           {biginningWithoutSpaces}
-          <Link href={link}>ブログへ移動</Link>
+          <Link href={link} rel="noopener noreferrer" target="_blank">
+            ブログへ移動
+          </Link>
         </Description>
       </Box>
     )
@@ -70,6 +72,7 @@ const TitleWrappar = styled.div`
     'title'
     'date';
   align-items: center;
+  cursor: pointer;
 
   ${media.desktop`
     height: 175px;
@@ -108,7 +111,8 @@ const Description = styled.div`
   box-sizing: border-box;
 
   ${media.desktop`
-    font-size: 18px;
+    font-size: 1.5rem;
+    line-height: 2rem;
     height: ${props => (props.isOpen ? '195px' : '0')};
   `};
 `

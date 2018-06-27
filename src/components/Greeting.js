@@ -7,7 +7,7 @@ import illust_2 from './../images/greeting/2_illust.jpg'
 
 const Greeting = () => (
   <div>
-    <sc.H1>ご挨拶 と 自己紹介</sc.H1>
+    <sc.H1>荒木ヤスコロリの生態</sc.H1>
     <sc.P>こんにちわ。</sc.P>
     <sc.P>私は荒木ヤスコロリ。</sc.P>
     <sc.P>コロリ星からやってきた美と愛の伝道師です。</sc.P>
