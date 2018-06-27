@@ -66,6 +66,7 @@ isProduction
     },
     plugins: [
       new HtmlWebpackPlugin({
+        template: './src/index.html',
         title: 'フワフワ！美容室',
         favicon: './src/favicon.ico',
         meta: [
@@ -157,6 +158,7 @@ isProduction
     },
     plugins: [
       new HtmlWebpackPlugin({
+        template: './src/index.html',
         title: 'フワフワ！美容室',
         favicon: './src/favicon.ico',
         meta: { viewport: 'width=device-width,initial-scale=1' }
