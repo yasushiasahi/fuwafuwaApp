@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import bg from '../images/assets/head_background_2.svg'
 
 export const colors = {
   yellow: '#ffe866',
@@ -45,32 +46,15 @@ export const media = Object.keys(mediaSizes).reduce((acc, label) => {
 
 const H1 = styled.h1`
   font-size: 7vw;
-  color: ${colors.black};
+  color: white;
+  text-shadow: 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000;
   border-radius: 6vw;
   margin: 4vw 0;
   text-align: center;
-  background-size: 30px 30px;
-  background-color: #ffe866;
-  background-image: linear-gradient(
-      45deg,
-      rgba(232, 102, 255, 0.5) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(232, 102, 255, 0.5) 50%,
-      rgba(232, 102, 255, 0.5) 75%,
-      transparent 75%,
-      transparent
-    ),
-    linear-gradient(
-      -45deg,
-      rgba(232, 102, 255, 0.5) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(232, 102, 255, 0.5) 50%,
-      rgba(232, 102, 255, 0.5) 75%,
-      transparent 75%,
-      transparent
-    );
+  background-image: url(${bg});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 
   ${media.desktop`
     font-size: 40px;
