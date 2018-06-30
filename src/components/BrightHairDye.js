@@ -1,13 +1,21 @@
 import React from 'react'
-import { sc } from './styles.js'
+import styled from 'styled-components'
+import { sc, media } from './styles.js'
 import img1 from './../images/bright_hair_dye/bright_hair_dye_01.jpg'
 import img2 from './../images/bright_hair_dye/bright_hair_dye_02.jpg'
 import img3 from './../images/bright_hair_dye/bright_hair_dye_03.jpg'
+import img4 from './../images/bright_hair_dye/bright_hair_dye_04.jpg'
+import img5 from './../images/bright_hair_dye/bright_hair_dye_05.jpg'
+import img6 from './../images/bright_hair_dye/bright_hair_dye_06.jpg'
 
 const BrightHairDye = () => (
   <div>
     <sc.H1>明るい白髪染め</sc.H1>
-    <sc.Img src={img1} />
+    <FlexContainer>
+      <FlexItem src={img4} alt="実際のカーラリング例" />
+      <FlexItem src={img5} alt="実際のカーラリング例" />
+      <FlexItem src={img6} alt="実際のカーラリング例" />
+    </FlexContainer>
     <sc.P>本当に明るくなる「明るい白髪染め」</sc.P>
     <sc.P>こんにちわ。</sc.P>
     <sc.P>フワフワ！美容室の荒木ヤスコロリと申します。</sc.P>
@@ -32,11 +40,10 @@ const BrightHairDye = () => (
     <sc.P>
       様々なやり方を私達なりに工夫してきた結果、今のフワフワ流「明るい白髪染め」にたどり着きました。
     </sc.P>
-    <br />
-    <br />
+    <Img src={img1} alt="実際のカーラリング例" />
     <sc.P>私達の「明るい白髪染め」は、本当に明るく染まります。</sc.P>
     <sc.P>かくいう私自身も白髪染めで染めています。</sc.P>
-    <sc.Img src={img2} />
+    <Img src={img2} alt="ヤスコロリの写真1" />
     <sc.P>
       フワフワ！美容室で「明るい白髪染め」を初めてされるときは初回のみダブルカラー（2回カラー）で染めさせて頂いています。
     </sc.P>
@@ -68,10 +75,41 @@ const BrightHairDye = () => (
     <sc.P>「アッシュ、ベージュ、グレー系でも染まる」</sc.P>
     <sc.P>白髪染めの概念を覆す、白髪染め界の暴れん坊。</sc.P>
     <sc.P>こちらは少落ち着いたしピンクベージュ。抑えめの明るさでも透明感があります。</sc.P>
-    <sc.Img src={img3} />
+    <Img src={img3} alt="実際のカーラリング例" />
     <sc.P>白髪染めが暗く染まる問題に悩まれている大人女子のみなさん</sc.P>
     <sc.P>是非一度私にご相談ください( ｀ー´)ノ </sc.P>
+    <br />
+    <br />
+    <br />
+    <br />
   </div>
 )
+
+const Img = sc.Img.extend`
+  width: 70%;
+  margin: 3vw 0;
+
+  ${media.desktop`
+    margin: 30px 0;
+  `};
+`
+
+const FlexContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 48%);
+  grid-gap: 10px;
+  justify-content: center;
+  margin: 3vw 0;
+
+  ${media.desktop`
+    grid-template-columns: repeat(auto-fill, 31%);
+    margin: 30px 0;
+  `};
+`
+
+const FlexItem = styled.img`
+  width: 100%;
+  object-fit: contain;
+`
 
 export default BrightHairDye
