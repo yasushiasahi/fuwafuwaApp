@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { media, colors, sc, properties } from './styles.js'
 import { fetchApi, getCookie } from './helpers.js'
-import { fail } from 'assert'
 
 class Gallery extends React.Component {
   constructor(props) {

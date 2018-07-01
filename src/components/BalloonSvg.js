@@ -12,8 +12,18 @@ class BalloonSvg extends React.Component {
     this.svg.current.style.opacity = 1
   }
 
+  setBalloonText() {
+    let balloonText = { top: '', middle: '', bottom: '' }
+    const texts = this.props.balloonTexts
+    if (texts.length != 0) {
+      const randIndex = Math.floor(Math.random() * texts.length)
+      balloonText = texts[randIndex]
+    }
+    return balloonText
+  }
+
   render() {
-    const { top, middle, bottom } = this.props.balloonText
+    const { top, middle, bottom } = this.setBalloonText()
 
     return (
       <Animation onAnimationStart={() => this.handleAnimationStart()}>

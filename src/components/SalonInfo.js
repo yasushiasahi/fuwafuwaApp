@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { extend } from 'styled-components'
+import styled from 'styled-components'
 import { media, sc } from './styles.js'
 import interior_0 from './../images/salon_info/0_interior.jpg'
 import logo from './../images/assets/logo.svg'
@@ -12,14 +12,14 @@ const SalonInfo = () => (
     <sc.P>電話　092-710-2528</sc.P>
     <sc.P>営業　10:00~20:00(日曜10:00~17:30)</sc.P>
     <sc.P>定休　毎週火曜</sc.P>
-    <sc.P>
-      ご予約はこちらから<a
+    <P>
+      ネット予約は<a
         href="https://beauty.hotpepper.jp/slnH000122183/"
         rel="noopener noreferrer"
         target="_blank">
-        ホットペッパー
-      </a>
-    </sc.P>
+        こちら
+      </a>から
+    </P>
     <Img src={interior_0} alt="サロン内観" />
     <sc.P>
       福岡市南区の住宅街、80年代デザインマンション内、荒木ヤスコロリのプライベート・サロン
@@ -124,6 +124,9 @@ const SalonInfo = () => (
       現代社会ではなかなか受け入れられないような話ですが、これは妄想ではなくフワフワ！美容室の、わたくし荒木ヤスコロリの日常の話であります。
     </sc.P>
     <sc.P>愛の空間フワフワ！美容室であなたにお会い出来る日を心待ちにしております。</sc.P>
+    <br />
+    <br />
+    <br />
   </div>
 )
 
@@ -132,6 +135,12 @@ const Img = sc.Img.extend`
 
   ${media.desktop`
     margin: 30px 0 10px 0;
+  `};
+`
+
+const P = sc.P.extend`
+  ${media.desktop`
+    font-size: 1.5rem;
   `};
 `
 

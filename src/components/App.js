@@ -18,11 +18,12 @@ class App extends React.Component {
       mainViewComponentName: '',
       fullSizePicture: null,
       blogInfos: [],
-      balloonText: { top: 'よりさらに', middle: '美しくなり', bottom: 'ましょう' },
-      inputTexts: { userName: '', password: '', title: '', description: '' },
+      balloonTexts: [],
+      inputTexts: { balloonText: '', userName: '', password: '', title: '', description: '' },
       errorMessage: '',
       galleryData: [],
-      isLogIn: false
+      isLogIn: false,
+      isBalloonEditShown: false
     }
 
     this.menuClickHandler = this.menuClickHandler.bind(this)
@@ -36,9 +37,12 @@ class App extends React.Component {
     this.changeState = this.changeState.bind(this)
     this.judgeLogIn = this.judgeLogIn.bind(this)
     this.apiGetGalleryData = this.apiGetGalleryData.bind(this)
+    this.changeStateKAI = this.changeStateKAI.bind(this)
   }
 
   componentDidMount() {
+    this.apiGetBalloonTexts()
+
     this.handleHashChage()
     if (location.hash) {
       this.setState({
@@ -59,6 +63,13 @@ class App extends React.Component {
     const response = await fetchApi('getGallery', {})
     this.setState({
       galleryData: response.body
+    })
+  }
+
+  async apiGetBalloonTexts() {
+    const response = await fetchApi('getBalloonTexts', {})
+    this.setState({
+      balloonTexts: response.body
     })
   }
 
@@ -136,6 +147,14 @@ class App extends React.Component {
     })
   }
 
+  changeStateKAI(states) {
+    for (const key in states) {
+      this.setState({
+        [key]: states[key]
+      })
+    }
+  }
+
   menuClickHandler() {
     this.setState({
       isSidebarShown: !this.state.isSidebarShown
@@ -186,10 +205,10 @@ class App extends React.Component {
     const {
       fullSizePicture,
       isSidebarShown,
-      balloonText,
+      balloonTexts,
       blogInfos,
       mainViewComponentName,
-      inputTexts: { userName, password, title, description },
+      inputTexts: { balloonText, userName, password, title, description },
       errorMessage,
       galleryData,
       isLogIn
@@ -199,7 +218,8 @@ class App extends React.Component {
       pictureClickHandler,
       toggleBlogBoxOpen,
       handleInputsChange,
-      changeState
+      changeState,
+      changeStateKAI
     } = this
     const bgsIndex = Math.floor(Math.random() * 17)
     return (
@@ -210,7 +230,7 @@ class App extends React.Component {
         <Main
           mainViewComponentName={mainViewComponentName}
           errorMessage={errorMessage}
-          passToHome={{ balloonText }}
+          passToHome={{ isLogIn, balloonTexts, balloonText, changeStateKAI, handleInputsChange }}
           passToGallery={{
             isLogIn,
             title,

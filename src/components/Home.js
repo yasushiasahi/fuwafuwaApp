@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, colors } from './styles.js'
+import { media, colors, sc } from './styles.js'
 import MainViewSwicther from './MainViewSwitcher.js'
 import BalloonSvg from './BalloonSvg.js'
 import yasukorori from './../images/assets/yasukorori.png'
@@ -9,25 +9,79 @@ import youkoso from './../images/assets/youkoso.svg'
 import he from './../images/assets/he.svg'
 import bg from './../images/assets/home_bg.png'
 
-const Home = ({ passToHome: { balloonText } }) => (
-  <GridContainer>
-    <WelcomeMsg>
-      <img src={youkoso} />
-      <br />
-      <img src={logo} />
-      <img src={he} />
-    </WelcomeMsg>
-    <Picture>
-      <img src={yasukorori} alt="店主似顔絵" />
-    </Picture>
-    <Links>
-      <MainViewSwicther />
-    </Links>
-    <Balloon>
-      <BalloonSvg balloonText={balloonText} />
-    </Balloon>
-  </GridContainer>
-)
+import { fetchApi, getCookie } from './helpers.js'
+
+const addBalloonText = async (changeState, balloonText) => {
+  if (balloonText.length === 0 || balloonText.length > 15) {
+    changeState({
+      errorMessage: '1~15文字を入力してください'
+    })
+    return
+  }
+
+  const response = await fetchApi('checkToken', {
+    userName: getCookie('userName'),
+    token: getCookie('token')
+  })
+  if (!response.status) {
+    changeState('errorMessage', response.body)
+    return
+  }
+
+  const { status, body } = await fetchApi('addBalloonTexts', balloonText)
+  if (!status) {
+    changeState({
+      errorMessage: body
+    })
+    return
+  }
+
+  changeState({
+    balloonTexts: body,
+    inputTexts: { balloonText: '', userName: '', password: '', title: '', description: '' }
+  })
+}
+
+const Home = ({
+  passToHome: { isLogIn, balloonTexts, balloonText, handleInputsChange, changeStateKAI: cs }
+}) => (
+    <GridContainer>
+      {isLogIn ? (
+        <BalloonEdit>
+          <p>新しいテキスト</p>
+          <sc.Input
+            type="text"
+            name="balloonText"
+            size="30"
+            value={balloonText}
+            onChange={e => handleInputsChange(e)}
+          />
+          <sc.Button onClick={() => addBalloonText(cs, balloonText)}>追加</sc.Button>
+        </BalloonEdit>
+      ) : (
+          <WelcomeMsg>
+            <img src={youkoso} />
+            <br />
+            <img src={logo} />
+            <img src={he} />
+          </WelcomeMsg>
+        )}
+      <Picture>
+        <img src={yasukorori} alt="店主似顔絵" />
+      </Picture>
+      <Links>
+        <MainViewSwicther />
+      </Links>
+      <Balloon>
+        <BalloonSvg balloonTexts={balloonTexts} />
+      </Balloon>
+    </GridContainer>
+  )
+
+const BalloonEdit = styled.div`
+  grid-area: WelcomeMsg;
+  background-color: ${colors.cream};
+`
 
 const GridContainer = styled.div`
   background: ${colors.yellow};

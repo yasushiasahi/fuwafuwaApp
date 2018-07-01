@@ -17,6 +17,22 @@ const {
   getUniqueStr
 } = require('./apiHelper.js')
 
+const balloonTexts = require('./databases/balloonTexts')
+
+const getBalloonTexts = async () => {
+  console.log('/api/getBalloonTextsが呼ばれた')
+  const texts = await balloonTexts.get()
+  return texts
+}
+
+const addBalloonTexts = async request => {
+  console.log('/api/addBalloonTextsが呼ばれた')
+
+  const text = await parseReqBody(request)
+  const texts = await balloonTexts.add(text)
+  return texts
+}
+
 const signIn = async request => {
   console.log('/api/SignInが呼ばれた')
 
@@ -121,5 +137,7 @@ module.exports = {
   getGallery,
   uploadPicture,
   deletePicture,
-  updatePicture
+  updatePicture,
+  getBalloonTexts,
+  addBalloonTexts
 }
