@@ -20,6 +20,7 @@ class Home extends React.Component {
       textValue: '',
       selectValue: 'x',
       isEditMode: false,
+      isFocused: false,
       status: { msg: '', isOk: false }
     }
     this.handleTextChange = this.handleTextChange.bind(this)
@@ -28,6 +29,7 @@ class Home extends React.Component {
     this.addBalloonText = this.addBalloonText.bind(this)
     this.updateBalloonText = this.updateBalloonText.bind(this)
     this.removeBalloonText = this.removeBalloonText.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
   handleTextChange(e) {
@@ -62,14 +64,6 @@ class Home extends React.Component {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
     }
-    // const res = await fetchApi('checkToken', {
-    //   userName: getCookie('userName'),
-    //   token: getCookie('token')
-    // })
-    // if (!res.status) {
-    //   this.setState({ status: { msg: res.body, isOk: false } })
-    //   return
-    // }
     const { status, body } = await fetchApi('addBalloonText', t)
     if (!status) {
       this.setState({ status: { msg: body, isOk: false } })
@@ -89,14 +83,6 @@ class Home extends React.Component {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
     }
-    // const res = await fetchApi('checkToken', {
-    //   userName: getCookie('userName'),
-    //   token: getCookie('token')
-    // })
-    // if (!res.status) {
-    //   this.setState({ status: { msg: res.body, isOk: false } })
-    //   return
-    // }
     const { status, body } = await fetchApi('updateBalloonText', { targetIndex: i, text: t })
     if (!status) {
       this.setState({ status: { msg: body, isOk: false } })
@@ -114,14 +100,6 @@ class Home extends React.Component {
   async removeBalloonText() {
     const setBalloonTexts = this.props.pass.setBalloonTexts
     const i = this.state.selectValue
-    // const res = await fetchApi('checkToken', {
-    //   userName: getCookie('userName'),
-    //   token: getCookie('token')
-    // })
-    // if (!res.status) {
-    //   this.setState({ status: { msg: res.body, isOk: false } })
-    //   return
-    // }
     const { status, body } = await fetchApi('removeBalloonText', i)
     if (!status) {
       this.setState({ status: { msg: body, isOk: false } })
@@ -136,16 +114,32 @@ class Home extends React.Component {
     })
   }
 
+  handleFocus(b) {
+    this.setState({ isFocused: b })
+  }
+
+  divideText(s) {
+    let so = { top: '', middle: '', bottom: '' }
+    for (const [i, v] of s.split('').entries()) {
+      if (i <= 4) so.top += v
+      if (i >= 5 && i <= 9) so.middle += v
+      if (i >= 10 && i <= 14) so.bottom += v
+    }
+    return [so]
+  }
+
   render() {
     const { isLogin, balloonTexts } = this.props.pass
-    const { textValue, selectValue, isEditMode, status } = this.state
+    const { textValue, selectValue, isEditMode, isFocused, status } = this.state
     const {
       handleTextChange,
       handleSelectChange,
       handleCancelClick,
       addBalloonText,
       updateBalloonText,
-      removeBalloonText
+      removeBalloonText,
+      handleFocus,
+      divideText
     } = this
 
     let options = [
@@ -162,8 +156,14 @@ class Home extends React.Component {
         {isLogin ? (
           <BalloonEdit>
             {status.msg && <StatusMsg status={status} />}
-            <span>{textValue.length}</span>
-            <Input type="text" size="30" value={textValue} onChange={e => handleTextChange(e)} />
+            <Input
+              type="text"
+              size="30"
+              value={textValue}
+              onChange={e => handleTextChange(e)}
+              onFocus={() => handleFocus(true)}
+              onBlur={() => handleFocus(false)}
+            />
             {isEditMode ? (
               <span>
                 <sc.Button onClick={() => updateBalloonText()}>更新</sc.Button>
@@ -195,7 +195,9 @@ class Home extends React.Component {
           <LinkButtons />
         </Links>
         <Balloon>
-          <BalloonSvg balloonTexts={balloonTexts} />
+          <BalloonSvg
+            balloonTexts={isFocused || textValue ? divideText(textValue) : balloonTexts}
+          />
         </Balloon>
       </GridContainer>
     )

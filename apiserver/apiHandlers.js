@@ -14,47 +14,15 @@ const {
   parseReqBody,
   getHash,
   getToken,
-  getUniqueStr
+  getUniqueStr,
+  checkCookie
 } = require('./apiHelper.js')
 
 const balloonTexts = require('./databases/balloonTexts')
 const users = require('./databases/users')
 
-const getCookie = (r, key) => {
-  const regexp = new RegExp(`${key}=`)
-  return r.headers.cookie
-    .replace(/\s/g, '')
-    .split(';')
-    .find(obj => obj.startsWith(`${key}=`))
-    .replace(regexp, '')
-}
-
 const makeSession = async request => {
-  const c = request.headers.cookie
-  if (!c) {
-    throw { errMsg: null }
-  }
-  if (!(c.includes('userName') && c.includes('token'))) {
-    throw { errMsg: null }
-  }
-  let regexp = new RegExp(`${'userName'}=`)
-  const un = c
-    .replace(/\s/g, '')
-    .split(';')
-    .find(obj => obj.startsWith(`${'userName'}=`))
-    .replace(regexp, '')
-  regexp = new RegExp(`${'token'}=`)
-  const t = c
-    .replace(/\s/g, '')
-    .split(';')
-    .find(obj => obj.startsWith(`${'token'}=`))
-    .replace(regexp, '')
-  const i = await users.findIndex(un)
-  if (i === -1) {
-    throw { errMsg: null }
-  }
-  const r = await users.check(i, { token: t })
-  if (!r) {
+  if (!(await checkCookie(request, users))) {
     throw { errMsg: null }
   }
   return {}
@@ -98,6 +66,7 @@ const logIn = async request => {
 
 const getBalloonTexts = async () => {
   console.log('/api/getBalloonTextsが呼ばれた')
+
   const texts = await balloonTexts.get()
   return { body: texts }
 }
@@ -105,6 +74,9 @@ const getBalloonTexts = async () => {
 const addBalloonText = async request => {
   console.log('/api/addBalloonTextsが呼ばれた')
 
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
   const text = await parseReqBody(request)
   const texts = await balloonTexts.add(text)
   return { body: texts }
@@ -113,6 +85,9 @@ const addBalloonText = async request => {
 const removeBalloonText = async request => {
   console.log('/api/removeBalloonTextsが呼ばれた')
 
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
   const targetIndex = await parseReqBody(request)
   const texts = await balloonTexts.remove(targetIndex)
   return { body: texts }
@@ -121,6 +96,9 @@ const removeBalloonText = async request => {
 const updateBalloonText = async request => {
   console.log('/api/updateBalloonTextsが呼ばれた')
 
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
   const { targetIndex, text } = await parseReqBody(request)
   const texts = await balloonTexts.update(targetIndex, text)
   return { body: texts }

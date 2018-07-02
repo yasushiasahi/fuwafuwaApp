@@ -126,6 +126,36 @@ const getTrace = caller => {
   return stack
 }
 
+const getCookieValue = (cookie, key) => {
+  const regexp = new RegExp(`${key}=`)
+  return cookie
+    .replace(/\s/g, '')
+    .split(';')
+    .find(obj => obj.startsWith(`${key}=`))
+    .replace(regexp, '')
+}
+
+const checkCookie = async (r, users) => {
+  const c = r.headers.cookie
+  if (!c) {
+    return false
+  }
+  if (!(c.includes('userName') && c.includes('token'))) {
+    return false
+  }
+  const un = getCookieValue(c, 'userName')
+  const t = getCookieValue(c, 'token')
+  const i = await users.findIndex(un)
+  if (i === -1) {
+    return false
+  }
+  const rs = await users.check(i, { token: t })
+  if (!rs) {
+    return false
+  }
+  return true
+}
+
 module.exports = {
   removePicture,
   getGalleryDataAndFindTargetIndex,
@@ -136,5 +166,6 @@ module.exports = {
   parseReqBody,
   getHash,
   getToken,
-  getUniqueStr
+  getUniqueStr,
+  checkCookie
 }
