@@ -37,7 +37,7 @@ class Home extends React.Component {
   handleSelectChange(e) {
     const i = e.target.value
     if (i === 'x') return
-    const bt = this.props.passToHome.balloonTexts[i]
+    const bt = this.props.pass.balloonTexts[i]
     this.setState({
       textValue: `${bt.top}${bt.middle}${bt.bottom}`,
       selectValue: i,
@@ -57,7 +57,7 @@ class Home extends React.Component {
 
   async addBalloonText() {
     const t = this.state.textValue
-    const setBalloonTexts = this.props.passToHome.setBalloonTexts
+    const setBalloonTexts = this.props.pass.setBalloonTexts
     if (t.length === 0 || t.length > 15) {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
@@ -84,7 +84,7 @@ class Home extends React.Component {
 
   async updateBalloonText() {
     const { textValue: t, selectValue: i } = this.state
-    const setBalloonTexts = this.props.passToHome.setBalloonTexts
+    const setBalloonTexts = this.props.pass.setBalloonTexts
     if (t.length === 0 || t.length > 15) {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
@@ -112,7 +112,7 @@ class Home extends React.Component {
   }
 
   async removeBalloonText() {
-    const setBalloonTexts = this.props.passToHome.setBalloonTexts
+    const setBalloonTexts = this.props.pass.setBalloonTexts
     const i = this.state.selectValue
     // const res = await fetchApi('checkToken', {
     //   userName: getCookie('userName'),
@@ -137,7 +137,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { isLogin, balloonTexts } = this.props.passToHome
+    const { isLogin, balloonTexts } = this.props.pass
     const { textValue, selectValue, isEditMode, status } = this.state
     const {
       handleTextChange,
@@ -159,7 +159,7 @@ class Home extends React.Component {
 
     return (
       <GridContainer>
-        {!isLogin ? (
+        {isLogin ? (
           <BalloonEdit>
             {status.msg && <StatusMsg status={status} />}
             <span>{textValue.length}</span>

@@ -21,13 +21,12 @@ const apiCheckToken = async () => {
   return await fetchApi('checkToken', { userName, token })
 }
 
-const getCookie = key => {
-  const regexp = new RegExp(`${key}=`)
+const getUserName = () => {
   return document.cookie
     .replace(/\s/g, '')
     .split(';')
-    .find(obj => obj.startsWith(`${key}=`))
-    .replace(regexp, '')
+    .find(obj => obj.startsWith('userName='))
+    .replace(/userName=/, '')
 }
 
-export default { fetchApi, apiCheckToken, getCookie }
+export default { fetchApi, apiCheckToken, getUserName }

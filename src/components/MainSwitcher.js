@@ -5,7 +5,7 @@ const {
   styles: { media, sizes }
 } = common
 
-const MainSwitcher = ({ children, mainComponentName }) => {
+const MainSwitcher = ({ children, pass: { mainComponentName } }) => {
   const mainComponent = children.find(c => c.key === (mainComponentName || 'Home'))
 
   return (

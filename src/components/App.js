@@ -80,15 +80,15 @@ class App extends React.Component {
 
   render() {
     const { isSidebarShown, isLogin, mainComponentName, balloonTexts } = this.state
-    const { setBalloonTexts, toggleSidebarShown, handleLogout, handleLogin } = this
+    const { setBalloonTexts, toggleSidebarShown, handleLogin } = this
     const bgsIndex = Math.floor(Math.random() * 17)
 
     return (
       <GridContainer bgsIndex={bgsIndex}>
-        <Header passToHeader={{ isSidebarShown, toggleSidebarShown }} />
-        <Sidebar passToSidebar={{ isSidebarShown, isLogin, handleLogout }} />
-        <MainSwitcher mainComponentName={mainComponentName}>
-          <Home key="Home" passToHome={{ isLogin, balloonTexts, setBalloonTexts }} />
+        <Header pass={{ isSidebarShown, toggleSidebarShown }} />
+        <Sidebar pass={{ isSidebarShown, isLogin, handleLogin }} />
+        <MainSwitcher pass={{ mainComponentName }}>
+          <Home key="Home" pass={{ isLogin, balloonTexts, setBalloonTexts }} />
           <Greeting key="Greeting" />
           <BrightHairDye key="BrightHairDye" />
           <AdminLogIn key="AdminLogIn" pass={{ isLogin, handleLogin }} />

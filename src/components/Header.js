@@ -9,7 +9,7 @@ const {
   assets: { logo, pict_close, pict_hamburger }
 } = images
 
-const Header = ({ passToHeader: { isSidebarShown, toggleSidebarShown } }) => {
+const Header = ({ pass: { isSidebarShown, toggleSidebarShown } }) => {
   return (
     <Wrapper>
       <GridContainer>

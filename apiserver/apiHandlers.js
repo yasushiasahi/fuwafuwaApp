@@ -37,36 +37,31 @@ const makeSession = async request => {
   if (!(c.includes('userName') && c.includes('token'))) {
     throw { errMsg: null }
   }
-
   let regexp = new RegExp(`${'userName'}=`)
   const un = c
     .replace(/\s/g, '')
     .split(';')
     .find(obj => obj.startsWith(`${'userName'}=`))
     .replace(regexp, '')
-
   regexp = new RegExp(`${'token'}=`)
   const t = c
     .replace(/\s/g, '')
     .split(';')
     .find(obj => obj.startsWith(`${'token'}=`))
     .replace(regexp, '')
-
   const i = await users.findIndex(un)
   if (i === -1) {
     throw { errMsg: null }
   }
-
   const r = await users.check(i, { token: t })
   if (!r) {
     throw { errMsg: null }
   }
-
   return {}
 }
 
 const breakSession = async () => {
-  return { cookies: ['userName=; max-age=0', 'token=; max-age=0'] }
+  return { cookies: ['userName=; max-age=0; path=/', 'token=; max-age=0; path=/'] }
 }
 
 const signUp = async request => {
@@ -80,7 +75,7 @@ const signUp = async request => {
   const hpw = getHash(pw)
   const t = getToken(un)
   await users.add(un, hpw, t)
-  return { cookies: [`userName=${un}`, `token=${t}`] }
+  return { cookies: [`userName=${un}; path=/`, `token=${t}; path=/`] }
 }
 
 const logIn = async request => {
@@ -98,7 +93,7 @@ const logIn = async request => {
   }
   const t = getToken(un)
   await users.update(i, { token: t })
-  return { cookies: [`userName=${un}`, `token=${t}`] }
+  return { cookies: [`userName=${un}; path=/`, `token=${t}; path=/`] }
 }
 
 const getBalloonTexts = async () => {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import common from './common/commonIndex'
 const {
   LinkButtons,
-  helpers: { getCookie },
+  helpers: { getUserName },
   styles: { media, colors, sizes, sc }
 } = common
 import images from '../images/imageIndex'
@@ -11,14 +11,14 @@ const {
   assets: { yasukorori }
 } = images
 
-const Sidebar = ({ passToSidebar: { isSidebarShown, isLogin, handleLogout } }) => (
+const Sidebar = ({ pass: { isSidebarShown, isLogin, handleLogin } }) => (
   <Wrapper>
     <GridContainer isSidebarShown={isSidebarShown}>
       <Links>
         {isLogin ? (
           <LoginStatus>
-            <p>ユーザー名</p>
-            <LogoutButton onClick={() => handleLogout()}>ログアウト</LogoutButton>
+            <p>{getUserName()}</p>
+            <LogoutButton onClick={() => handleLogin(false)}>ログアウト</LogoutButton>
           </LoginStatus>
         ) : null}
         <LinkButtons />
