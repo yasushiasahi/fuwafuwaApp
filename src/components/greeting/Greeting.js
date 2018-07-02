@@ -1,9 +1,10 @@
 import React from 'react'
-import { sc } from './styles.js'
-
-import yasucolori_0 from './../images/greeting/0_yasucolori.jpg'
-import yasucolori_1 from './../images/greeting/1_yasucolori.jpg'
-import illust_2 from './../images/greeting/2_illust.jpg'
+import common from '../common/commonIndex'
+const {
+  styles: { sc }
+} = common
+import images from '../../images/imageIndex'
+const { greeting } = images
 
 const Greeting = () => (
   <div>
@@ -13,7 +14,7 @@ const Greeting = () => (
     <sc.P>コロリ星からやってきた美と愛の伝道師です。</sc.P>
     <sc.P>♪( ´θ｀)</sc.P>
 
-    <sc.Img src={yasucolori_0} />
+    <sc.Img src={greeting[1]} />
 
     <sc.P>私が人より特別に美しいかと云われれば</sc.P>
     <sc.P>いいえ。そんな事はありません。</sc.P>
@@ -44,7 +45,7 @@ const Greeting = () => (
     </sc.P>
     <sc.P>ヤスコロリは変人なので、大人になってもそれが人より少しだけ多く残っているだけです。</sc.P>
 
-    <sc.Img src={yasucolori_1} />
+    <sc.Img src={greeting[2]} />
 
     <sc.P>私たちを騙す、そんな社会を変えてやろう。</sc.P>
     <sc.P>…なんてヤスコロリは思っている訳ではありません。</sc.P>
@@ -73,7 +74,7 @@ const Greeting = () => (
     <sc.P>セレンディピティってやつですね。</sc.P>
     <sc.P>ヤスコロリは絵なども描いたりしちゃいますが</sc.P>
 
-    <sc.Img src={illust_2} />
+    <sc.Img src={greeting[3]} />
 
     <sc.P>
       私の描く絵紡ぐ言葉が芸術的にどれほどのレベルなのかに私はまるで関心がありません。そこの追求は私の役割ではないからです。ただこの世界が求めるままに、私は愛の表現を行なっています。

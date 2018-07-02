@@ -1,8 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import MainViewSwicther from './MainViewSwitcher.js'
-import { media, colors, sizes } from './styles.js'
-import logo from './../images/assets/logo.svg'
+import common from './common/commonIndex'
+const {
+  LinkButtons,
+  styles: { media, sizes }
+} = common
+import images from '../images/imageIndex'
+const {
+  assets: { logo }
+} = images
 
 const Footer = () => (
   <Wrapper>
@@ -11,7 +17,7 @@ const Footer = () => (
         <img src={logo} alt="ロゴ" />
       </Logo>
       <Links>
-        <MainViewSwicther />
+        <LinkButtons />
       </Links>
       <Copyright>
         <p>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</p>

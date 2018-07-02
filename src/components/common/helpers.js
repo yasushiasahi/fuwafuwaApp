@@ -1,6 +1,7 @@
-export const fetchApi = async (url, requestBody) => {
+const fetchApi = async (url, requestBody) => {
   return await fetch(`/api/${url}`, {
     method: 'POST',
+    credentials: 'include',
     body: requestBody.constructor === FormData ? requestBody : JSON.stringify(requestBody)
   })
     .then(res => res.json())
@@ -9,7 +10,7 @@ export const fetchApi = async (url, requestBody) => {
     })
 }
 
-export const apiCheckToken = async () => {
+const apiCheckToken = async () => {
   const cookies = document.cookie.replace(/\s/g, '').split(';')
   let userName = ''
   let token = ''
@@ -20,7 +21,7 @@ export const apiCheckToken = async () => {
   return await fetchApi('checkToken', { userName, token })
 }
 
-export const getCookie = key => {
+const getCookie = key => {
   const regexp = new RegExp(`${key}=`)
   return document.cookie
     .replace(/\s/g, '')
@@ -28,3 +29,5 @@ export const getCookie = key => {
     .find(obj => obj.startsWith(`${key}=`))
     .replace(regexp, '')
 }
+
+export default { fetchApi, apiCheckToken, getCookie }

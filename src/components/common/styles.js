@@ -1,7 +1,10 @@
 import styled, { css } from 'styled-components'
-import bg from '../images/assets/head_background_2.svg'
+import images from '../../images/imageIndex'
+const {
+  assets: { head_background_2 }
+} = images
 
-export const colors = {
+const colors = {
   yellow: '#ffe866',
   lime: '#66ff9c',
   blue: '#667dff',
@@ -12,7 +15,7 @@ export const colors = {
   lemon: 'lime'
 }
 
-export const sizes = {
+const sizes = {
   mobileHeaderHeight: '10vw',
   mobileFooterHeight: '25vw',
   desktopHeaderHeight: '60px',
@@ -21,7 +24,7 @@ export const sizes = {
   desktopSideberWidth: '250px'
 }
 
-export const properties = {
+const properties = {
   boxShadow: (isInset = false, isYoffsetMinus = false) => {
     const inset = isInset ? 'inset' : ''
     const yoffset = isYoffsetMinus ? '-.3vw' : '.3vw'
@@ -35,7 +38,7 @@ const mediaSizes = {
   phone: 376
 }
 
-export const media = Object.keys(mediaSizes).reduce((acc, label) => {
+const media = Object.keys(mediaSizes).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media (min-width: ${mediaSizes[label]}px) {
       ${css(...args)};
@@ -51,7 +54,7 @@ const H1 = styled.h1`
   border-radius: 6vw;
   margin: 4vw 0;
   text-align: center;
-  background-image: url(${bg});
+  background-image: url(${head_background_2});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -109,10 +112,12 @@ const Button = styled.button`
   `};
 `
 
-export const sc = {
+const sc = {
   H1,
   P,
   Img,
   Input,
   Button
 }
+
+export default { colors, sizes, properties, media, sc }

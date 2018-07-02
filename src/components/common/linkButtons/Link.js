@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { properties } from './styles.js'
+import styles from '../styles'
+const properties = styles.properties
 
 const Link = ({ componentName, src, alt }) =>
   location.hash.slice(1) === componentName ? null : (

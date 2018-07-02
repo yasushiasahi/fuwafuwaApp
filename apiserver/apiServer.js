@@ -20,14 +20,17 @@ const handleApis = async (request, response) => {
   console.log('"handleApi"通過')
 
   const responseBody = await api[request.url.split('/')[2]](request)
-    .then(body => {
+    .then(({ body, cookies }) => {
+      if (cookies) {
+        response.setHeader('Set-Cookie', cookies)
+        console.log('setCookie!!!')
+      }
       return { status: true, body }
     })
     .catch(({ err, place, errMsg: body }) => {
       err && logError(err, place)
       return { status: false, body }
     })
-
   response.end(JSON.stringify(responseBody))
 }
 

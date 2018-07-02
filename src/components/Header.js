@@ -1,19 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, colors, sizes, properties } from './styles.js'
-import logo from './../images/assets/logo.svg'
-import hamburgerMenu from './../images/assets/hamburger_menu.svg'
-import closeMenu from './../images/assets/close_menu.svg'
+import common from './common/commonIndex'
+const {
+  styles: { media, colors, sizes, properties }
+} = common
+import images from '../images/imageIndex'
+const {
+  assets: { logo, pict_close, pict_hamburger }
+} = images
 
-const Header = ({ menuClickHandler, isSidebarShown }) => {
+const Header = ({ passToHeader: { isSidebarShown, toggleSidebarShown } }) => {
   return (
     <Wrapper>
       <GridContainer>
         <Logo src={logo} alt="ロゴ" />
         <Pict
-          src={isSidebarShown ? closeMenu : hamburgerMenu}
+          src={isSidebarShown ? pict_close : pict_hamburger}
           alt="メニューアイコン"
-          onClick={() => menuClickHandler()}
+          onClick={() => toggleSidebarShown()}
         />
       </GridContainer>
     </Wrapper>

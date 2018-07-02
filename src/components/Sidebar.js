@@ -1,27 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import MainViewSwitcher from './MainViewSwitcher.js'
-import { getCookie } from './helpers.js'
-import { media, colors, sizes, sc } from './styles.js'
-import yasukorori from './../images/assets/yasukorori.png'
+import common from './common/commonIndex'
+const {
+  LinkButtons,
+  helpers: { getCookie },
+  styles: { media, colors, sizes, sc }
+} = common
+import images from '../images/imageIndex'
+const {
+  assets: { yasukorori }
+} = images
 
-const logout = changeState => {
-  document.cookie = 'userName=; max-age=0'
-  document.cookie = 'token=; max-age=0'
-  changeState('isLogIn', false)
-}
-
-const Sidebar = ({ isSidebarShown, isLogIn, changeState }) => (
+const Sidebar = ({ passToSidebar: { isSidebarShown, isLogin, handleLogout } }) => (
   <Wrapper>
     <GridContainer isSidebarShown={isSidebarShown}>
       <Links>
-        {isLogIn ? (
+        {isLogin ? (
           <LoginStatus>
-            <p>{getCookie('userName')}</p>
-            <LogoutButton onClick={() => logout(changeState)}>ログアウト</LogoutButton>
+            <p>ユーザー名</p>
+            <LogoutButton onClick={() => handleLogout()}>ログアウト</LogoutButton>
           </LoginStatus>
         ) : null}
-        <MainViewSwitcher />
+        <LinkButtons />
       </Links>
       <Picture>
         <img src={yasukorori} alt="店主似顔絵" />
