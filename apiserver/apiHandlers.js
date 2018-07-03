@@ -1,23 +1,6 @@
 'use strict'
 
-const path = require('path')
-const usersFilePath = path.join(__dirname, `../data/databases/userdata.json`)
-const galleryFilePath = path.join(__dirname, '../data/databases/gallerydata.json')
-const pictureDir = path.join(__dirname, '../data/databases/gallery/')
-const {
-  removePicture,
-  getGalleryDataAndFindTargetIndex,
-  renameFile,
-  writeFile,
-  getDatabase,
-  getFormData,
-  parseReqBody,
-  getHash,
-  getToken,
-  getUniqueStr,
-  checkCookie
-} = require('./apiHelper.js')
-
+const { getFormData, parseReqBody, getHash, getToken, checkCookie } = require('./apiHelper.js')
 const balloonTexts = require('./databases/balloonTexts')
 const users = require('./databases/users')
 const gallery = require('./databases/gallery')
@@ -34,8 +17,6 @@ const breakSession = async () => {
 }
 
 const signUp = async request => {
-  console.log('/api/SignUpが呼ばれた')
-
   const { un, pw } = await parseReqBody(request)
   const i = await users.findIndex(un)
   if (i !== -1) {
@@ -48,8 +29,6 @@ const signUp = async request => {
 }
 
 const logIn = async request => {
-  console.log('/api/LogInが呼ばれた')
-
   const { un, pw } = await parseReqBody(request)
   const i = await users.findIndex(un)
   if (i === -1) {
@@ -66,15 +45,11 @@ const logIn = async request => {
 }
 
 const getBalloonTexts = async () => {
-  console.log('/api/getBalloonTextsが呼ばれた')
-
   const texts = await balloonTexts.get()
   return { body: texts }
 }
 
 const addBalloonText = async request => {
-  console.log('/api/addBalloonTextsが呼ばれた')
-
   if (!(await checkCookie(request, users))) {
     throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
@@ -83,20 +58,7 @@ const addBalloonText = async request => {
   return { body: texts }
 }
 
-const removeBalloonText = async request => {
-  console.log('/api/removeBalloonTextsが呼ばれた')
-
-  if (!(await checkCookie(request, users))) {
-    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
-  }
-  const targetIndex = await parseReqBody(request)
-  const texts = await balloonTexts.remove(targetIndex)
-  return { body: texts }
-}
-
 const updateBalloonText = async request => {
-  console.log('/api/updateBalloonTextsが呼ばれた')
-
   if (!(await checkCookie(request, users))) {
     throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
@@ -105,16 +67,21 @@ const updateBalloonText = async request => {
   return { body: texts }
 }
 
-const getGallery = async () => {
-  console.log('/api/apiGetGalleryDataが呼ばれた')
+const removeBalloonText = async request => {
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
+  const targetIndex = await parseReqBody(request)
+  const texts = await balloonTexts.remove(targetIndex)
+  return { body: texts }
+}
 
+const getGallery = async () => {
   const gls = await gallery.get()
   return { body: gls }
 }
 
 const uploadPicture = async request => {
-  console.log('/api/UploadPictureが呼ばれた')
-
   if (!(await checkCookie(request, users))) {
     throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
@@ -130,8 +97,6 @@ const uploadPicture = async request => {
 }
 
 const updatePicture = async request => {
-  console.log('/api/updataPictureが呼ばれた')
-
   if (!(await checkCookie(request, users))) {
     throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
@@ -147,8 +112,6 @@ const updatePicture = async request => {
 }
 
 const deletePicture = async request => {
-  console.log('/api/deletePictureが呼ばれた')
-
   if (!(await checkCookie(request, users))) {
     throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
@@ -172,15 +135,3 @@ module.exports = {
   removeBalloonText,
   updateBalloonText
 }
-
-// const checkToken = async request => {
-//   console.log('/api/checkTokenが呼ばれた')
-
-//   const { userName: reqUserName, token: reqToken } = await parseReqBody(request)
-//   const users = await getDatabase(usersFilePath)
-//   const targetIndex = users.findIndex(user => user.userName === reqUserName)
-//   if (users[targetIndex].token !== reqToken) {
-//     throw { errMsg: `認証期限切れ。ログインし直してください` }
-//   }
-//   return null
-// }

@@ -1,29 +1,24 @@
 'use strict'
 
 const http = require('http')
-const fs = require('fs')
-const util = require('util')
-const path = require('path')
 const server = http.createServer()
-const fsReadFileP = util.promisify(fs.readFile)
+const fs = require('fs')
+const path = require('path')
 const api = require('./apiHandlers.js')
 
 server.on('request', (request, response) => {
-  typeof api[request.url.split('/')[2]] === 'function'
-    ? handleApis(request, response)
-    : sendBackStaticFiles(request, response)
+  if (typeof api[request.url.split('/')[2]] === 'function') {
+    handleApis(request, response)
+  }
 })
 
-server.listen(3000, () => console.log('server listening'))
+server.listen(3000)
 
 const handleApis = async (request, response) => {
-  console.log('"handleApi"通過')
-
   const responseBody = await api[request.url.split('/')[2]](request)
     .then(({ body, cookies }) => {
       if (cookies) {
         response.setHeader('Set-Cookie', cookies)
-        console.log('setCookie!!!')
       }
       return { status: true, body }
     })
@@ -34,28 +29,7 @@ const handleApis = async (request, response) => {
   response.end(JSON.stringify(responseBody))
 }
 
-const sendBackStaticFiles = async (request, response) => {
-  console.log(`${request.url}にアクセスされた`)
-  const url = `dist${request.url.endsWith('/') ? request.url + 'index.html' : request.url}`
-  const getHeadInfos = url => {
-    const types = {
-      '.html': 'text/html',
-      '.js': 'text/javascript',
-      '.jpg': 'image/jpg',
-      '.ico': 'image/ico'
-    }
-    for (const key in types) {
-      if (url.endsWith(key)) return { statusCode: 200, type: types[key] }
-    }
-    return { statusCode: 404, type: 'text/plain' }
-  }
-  const responseBody = await fsReadFileP(url).catch(() => '404 NOT FOUND')
-  response.writeHead(getHeadInfos(url).statusCode, { 'Content-Type': getHeadInfos(url).type })
-  response.end(responseBody)
-}
-
 const logError = (err, { file, name, line, column }) => {
-  console.log('ログエラー')
   const now = new Date()
   const year = now.getFullYear()
   const mon = `0${now.getMonth() + 1}`.slice(-2)
@@ -69,3 +43,31 @@ const logError = (err, { file, name, line, column }) => {
     return
   })
 }
+
+// const util = require('util')
+// const fsReadFileP = util.promisify(fs.readFile)
+
+// server.on('request', (request, response) => {
+//   typeof api[request.url.split('/')[2]] === 'function'
+//     ? handleApis(request, response)
+//     : sendBackStaticFiles(request, response)
+// })
+
+// const sendBackStaticFiles = async (request, response) => {
+//   const url = `dist${request.url.endsWith('/') ? request.url + 'index.html' : request.url}`
+//   const getHeadInfos = url => {
+//     const types = {
+//       '.html': 'text/html',
+//       '.js': 'text/javascript',
+//       '.jpg': 'image/jpg',
+//       '.ico': 'image/ico'
+//     }
+//     for (const key in types) {
+//       if (url.endsWith(key)) return { statusCode: 200, type: types[key] }
+//     }
+//     return { statusCode: 404, type: 'text/plain' }
+//   }
+//   const responseBody = await fsReadFileP(url).catch(() => '404 NOT FOUND')
+//   response.writeHead(getHeadInfos(url).statusCode, { 'Content-Type': getHeadInfos(url).type })
+//   response.end(responseBody)
+// }

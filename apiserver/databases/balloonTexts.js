@@ -15,14 +15,10 @@ const divideText = text => {
 }
 
 const get = async () => {
-  console.log('balloonTexts.get が呼ばれた')
-
   return await readDB(databasePath)
 }
 
 const add = async text => {
-  console.log('balloonTexts.add が呼ばれた')
-
   const newText = divideText(text)
   const texts = await readDB(databasePath)
   texts.push(newText)
@@ -31,8 +27,6 @@ const add = async text => {
 }
 
 const update = async (targetIndex, text) => {
-  console.log('balloonTexts.remove が呼ばれた')
-
   const newText = divideText(text)
   const texts = await readDB(databasePath)
   texts[targetIndex] = newText
@@ -41,8 +35,6 @@ const update = async (targetIndex, text) => {
 }
 
 const remove = async ti => {
-  console.log('balloonTexts.remove が呼ばれた')
-
   const texts = await readDB(databasePath)
   texts.splice(ti, 1)
   await writeDB(databasePath, texts)
