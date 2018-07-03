@@ -11,7 +11,6 @@ const {
 } = images
 
 const Footer = () => (
-  <Wrapper>
     <GridContainer>
       <Logo>
         <img src={logo} alt="ロゴ" />
@@ -23,27 +22,24 @@ const Footer = () => (
         <p>Copyrights © fuwafuwa Hair Salon All Rights Reserved.</p>
       </Copyright>
     </GridContainer>
-  </Wrapper>
 )
 
-const Wrapper = styled.div`
-  grid-area: Footer;
-`
-
 const GridContainer = styled.footer`
+  grid-area: Footer;
   height: ${sizes.mobileFooterHeight};
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: 5vw auto auto auto;
   grid-template-columns: auto;
   grid-template-areas:
+    '.........'
     'logo'
     'links'
     'copyright';
   align-content: space-evenly;
-
   box-sizing: border-box;
 
   ${media.desktop`
+    grid-template-rows: 50px auto auto auto;
     width: ${sizes.desktopMainWidth};
     height: ${sizes.desktopFooterHeight};
     margin: 0 auto;
@@ -66,16 +62,29 @@ const Links = styled.div`
   ul {
     height: 100%;
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    justify-content: center;
 
     li {
-      margin-bottom: 0;
+	margin-bottom: 0;
+      &:nth-child(n+2) {
+	margin-left: 3vw;
+      }
+      &:first-child {
+	margin-bottom: 2vw;
+      }
+
       img {
         height: 5vw;
       }
 
       ${media.desktop`
-        margin-bottom: 15px;
+        &:nth-child(n+2) {
+          margin-left: 30px;
+        }
+        &:first-child {
+  	  margin-bottom: 20px;
+        }
         img {
           height: 30px;
         }

@@ -30,12 +30,12 @@ const Sidebar = ({ pass: { isSidebarShown, isLogin, handleLogin } }) => (
   </Wrapper>
 )
 
-const Wrapper = styled.div`
+const Wrapper = styled.aside`
   grid-area: Sidebar;
   position: relative;
 `
 
-const GridContainer = styled.aside`
+const GridContainer = styled.div`
   width: 40vw;
   height: calc(100vh - 10vw);
 

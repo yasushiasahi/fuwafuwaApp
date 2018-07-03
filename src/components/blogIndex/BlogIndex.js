@@ -31,7 +31,9 @@ const BlogIndex = ({ pass: { blogFeeds, toggleBlogBoxOpen } }) => {
     <div>
       <sc.H1>最近のブログ一覧</sc.H1>
       <P>
-        <a href="https://fuwafuwayo.exblog.jp/">エキサイトブログ</a>誠意更新中！！
+        <a href="https://fuwafuwayo.exblog.jp/" rel="noopener noreferrer" target="_blank">
+          エキサイトブログ
+        </a>誠意更新中！！
       </P>
       <GridContainer>{Blogs}</GridContainer>
     </div>

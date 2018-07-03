@@ -61,18 +61,18 @@ class Gallery extends React.Component {
     ssFiLab(`${fis[0].name} が選択されました`, colors.skyblue)
   }
 
-  handleEdit(e, bool, ti, des, pn) {
+  handleEdit(e, bool, ti = '', des = '', pn = '') {
     e.stopPropagation()
     this.fileInput.value = null
     this.setState({
-      tiVal: ti || '',
-      taVal: des || '',
+      tiVal: ti,
+      taVal: des,
       fiLab: {
         msg: bool ? '更新する画像を選択してください' : '画像ファイルを選択してください',
         col: colors.lime
       },
       edit: {
-        target: pn || '',
+        target: pn,
         isEdit: bool
       },
       status: { msg: '', isOk: false }

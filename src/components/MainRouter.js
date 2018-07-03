@@ -5,8 +5,8 @@ const {
   styles: { media, sizes }
 } = common
 
-const MainRouter = ({ children, pass: { mainComponentName } }) => {
-  const mainComponent = children.find(c => c.key === (mainComponentName || 'Home'))
+const MainRouter = ({ children }) => {
+  const mainComponent = children.find(c => c.key === (location.hash.slice(1) || 'Home'))
 
   return (
     <Wrapper>
@@ -15,7 +15,7 @@ const MainRouter = ({ children, pass: { mainComponentName } }) => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   grid-area: Main;
   min-height: calc(100vh - ${sizes.mobileHeaderHeight} - ${sizes.mobileFooterHeight});
 
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   `};
 `
 
-const MainAria = styled.main`
+const MainAria = styled.div`
   padding: 0 4vw;
 
   ${media.desktop`

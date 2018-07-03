@@ -77,10 +77,6 @@ const BrightHairDye = () => (
     <Img src={bright_hair_dye[2]} alt="実際のカーラリング例" />
     <sc.P>白髪染めが暗く染まる問題に悩まれている大人女子のみなさん</sc.P>
     <sc.P>是非一度私にご相談ください( ｀ー´)ノ </sc.P>
-    <br />
-    <br />
-    <br />
-    <br />
   </div>
 )
 

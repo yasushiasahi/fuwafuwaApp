@@ -26,6 +26,7 @@ class Home extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleCancelClick = this.handleCancelClick.bind(this)
+    this.refreshStates = this.refreshStates.bind(this)
     this.addBalloonText = this.addBalloonText.bind(this)
     this.updateBalloonText = this.updateBalloonText.bind(this)
     this.removeBalloonText = this.removeBalloonText.bind(this)
@@ -59,61 +60,45 @@ class Home extends React.Component {
     })
   }
 
+  refreshStates(status, body, msg) {
+    const setBalloonTexts = this.props.pass.setBalloonTexts
+    if (!status) {
+      this.setState({ status: { msg: body, isOk: false } })
+      return
+    }
+    setBalloonTexts(body)
+    this.setState({
+      textValue: '',
+      selectValue: -1,
+      isEditMode: false,
+      status: { msg: msg, isOk: true }
+    })
+  }
+
   async addBalloonText() {
     const t = this.state.textValue
-    const setBalloonTexts = this.props.pass.setBalloonTexts
     if (t.length === 0 || t.length > 15) {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
     }
     const { status, body } = await fetchApi('addBalloonText', t)
-    if (!status) {
-      this.setState({ status: { msg: body, isOk: false } })
-      return
-    }
-    setBalloonTexts(body)
-    this.setState({
-      textValue: '',
-      status: { msg: 'テキストを追加しました', isOk: true }
-    })
+    this.refreshStates(status, body, 'テキストを追加しました')
   }
 
   async updateBalloonText() {
     const { textValue: t, selectValue: i } = this.state
-    const setBalloonTexts = this.props.pass.setBalloonTexts
     if (t.length === 0 || t.length > 15) {
       this.setState({ status: { msg: '1~15文字で入力してください', isOk: false } })
       return
     }
     const { status, body } = await fetchApi('updateBalloonText', { targetIndex: i, text: t })
-    if (!status) {
-      this.setState({ status: { msg: body, isOk: false } })
-      return
-    }
-    setBalloonTexts(body)
-    this.setState({
-      textValue: '',
-      selectValue: -1,
-      isEditMode: false,
-      status: { msg: 'テキストを更新しました', isOk: true }
-    })
+    this.refreshStates(status, body, 'テキストを更新しました')
   }
 
   async removeBalloonText() {
-    const setBalloonTexts = this.props.pass.setBalloonTexts
     const i = this.state.selectValue
     const { status, body } = await fetchApi('removeBalloonText', i)
-    if (!status) {
-      this.setState({ status: { msg: body, isOk: false } })
-      return
-    }
-    setBalloonTexts(body)
-    this.setState({
-      textValue: '',
-      selectValue: -1,
-      isEditMode: false,
-      status: { msg: 'テキストを削除しました', isOk: true }
-    })
+    this.refreshStates(status, body, 'テキストを削除しました')
   }
 
   handleFocus(b) {
@@ -224,7 +209,6 @@ const GridContainer = styled.div`
   z-index: 30;
   top: 0;
   left: 0;
-
   background-image: url(${home_bg});
 
   ${media.desktop`
@@ -244,6 +228,10 @@ const BalloonEdit = styled.div`
   grid-column: span 3;
   padding: 2vw;
   background-color: ${colors.cream};
+
+  ${media.desktop`
+    grid-column: 2/span 2;
+  `};
 `
 
 const Input = sc.Input.extend`

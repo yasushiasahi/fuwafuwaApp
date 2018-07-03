@@ -24,12 +24,12 @@ const Header = ({ pass: { isSidebarShown, toggleSidebarShown } }) => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   grid-area: Header;
   position: relative;
   background: ${colors.yellow};
 `
-const GridContainer = styled.header`
+const GridContainer = styled.div`
   position: fixed;
   width: 100%;
   height: ${sizes.mobileHeaderHeight};

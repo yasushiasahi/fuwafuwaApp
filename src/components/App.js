@@ -29,12 +29,12 @@ class App extends React.Component {
     this.state = {
       isSidebarShown: false,
       isLogin: false,
-      mainComponentName: '',
+      transHist: '',
       balloonTexts: [],
       blogFeeds: [],
       galleryData: []
     }
-    this.handleHashChage = this.handleHashChage.bind(this)
+    this.setHashChageListener = this.setHashChageListener.bind(this)
     this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
     this.setBalloonTexts = this.setBalloonTexts.bind(this)
     this.toggleSidebarShown = this.toggleSidebarShown.bind(this)
@@ -43,34 +43,40 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.handleHashChage()
-    this.setState({ mainComponentName: location.hash.slice(1) })
     fetchApi('getBalloonTexts', {}).then(r => {
       this.setBalloonTexts(r.body || [])
       document.body.replaceChild(this.props.root, document.body.firstChild)
     })
+    if (!location.hash) {
+      location.hash = 'Home'
+    }
+    this.setHashChageListener()
     Promise.all([fetchApi('makeSession', {}), fetchApi('getGallery', {}), getRssFeed()]).then(
       ([{ status }, { body }, feeds]) => {
         this.setState({
           isLogin: status,
           galleryData: body,
-          blogFeeds: feeds
+          blogFeeds: feeds,
+          transHist: `${location.hash.slice(1)}`
         })
       }
     )
   }
 
-  handleHashChage() {
+  componentWillUnmount() {
+    fetchApi('saveTransHist', this.state.transHist)
+  }
+
+  setHashChageListener() {
     window.addEventListener('hashchange', () => {
-      const iss = this.state.isSidebarShown
-      const h = location.hash.slice(1)
-      if (iss) {
+      const { isSidebarShown, transHist } = this.state
+      if (isSidebarShown) {
         this.setState({
-          mainComponentName: h,
+          transHist: `${transHist},${location.hash.slice(1)}`,
           isSidebarShown: false
         })
       } else {
-        this.setState({ mainComponentName: h })
+        this.setState({ transHist: `${transHist},${location.hash.slice(1)}` })
       }
     })
   }
@@ -104,14 +110,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      isSidebarShown,
-      isLogin,
-      mainComponentName,
-      balloonTexts,
-      blogFeeds,
-      galleryData
-    } = this.state
+    const { isSidebarShown, isLogin, balloonTexts, blogFeeds, galleryData } = this.state
     const {
       setBalloonTexts,
       toggleBlogBoxOpen,
@@ -125,7 +124,7 @@ class App extends React.Component {
       <GridContainer bgsIndex={bgsIndex}>
         <Header pass={{ isSidebarShown, toggleSidebarShown }} />
         <Sidebar pass={{ isSidebarShown, isLogin, handleLogin }} />
-        <MainRouter pass={{ mainComponentName }}>
+        <MainRouter>
           <Home key="Home" pass={{ isLogin, balloonTexts, setBalloonTexts }} />
           <Greeting key="Greeting" />
           <SalonInfo key="SalonInfo" />

@@ -17,9 +17,9 @@ const colors = {
 
 const sizes = {
   mobileHeaderHeight: '10vw',
-  mobileFooterHeight: '25vw',
+  mobileFooterHeight: '35vw',
   desktopHeaderHeight: '60px',
-  desktopFooterHeight: '180px',
+  desktopFooterHeight: '200px',
   desktopMainWidth: '740px',
   desktopSideberWidth: '250px'
 }
