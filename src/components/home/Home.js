@@ -18,7 +18,7 @@ class Home extends React.Component {
     super(props)
     this.state = {
       textValue: '',
-      selectValue: 'x',
+      selectValue: -1,
       isEditMode: false,
       isFocused: false,
       status: { msg: '', isOk: false }
@@ -38,7 +38,9 @@ class Home extends React.Component {
 
   handleSelectChange(e) {
     const i = e.target.value
-    if (i === 'x') return
+    if (i === '-1') {
+      return
+    }
     const bt = this.props.pass.balloonTexts[i]
     this.setState({
       textValue: `${bt.top}${bt.middle}${bt.bottom}`,
@@ -51,7 +53,7 @@ class Home extends React.Component {
   handleCancelClick() {
     this.setState({
       textValue: '',
-      selectValue: 'x',
+      selectValue: -1,
       isEditMode: false,
       status: { msg: '', isOk: false }
     })
@@ -91,7 +93,7 @@ class Home extends React.Component {
     setBalloonTexts(body)
     this.setState({
       textValue: '',
-      selectValue: 'x',
+      selectValue: -1,
       isEditMode: false,
       status: { msg: 'テキストを更新しました', isOk: true }
     })
@@ -108,7 +110,7 @@ class Home extends React.Component {
     setBalloonTexts(body)
     this.setState({
       textValue: '',
-      selectValue: 'x',
+      selectValue: -1,
       isEditMode: false,
       status: { msg: 'テキストを削除しました', isOk: true }
     })
@@ -144,12 +146,16 @@ class Home extends React.Component {
     } = this
 
     let options = [
-      <option key="x" value="x">
+      <option key={-1} value={-1}>
         編集するテキストを選択
       </option>
     ]
-    for (const [i, bt] of balloonTexts.entries()) {
-      options.push(<option key={i} value={i}>{`${bt.top}${bt.middle}${bt.bottom}`}</option>)
+    for (const i in balloonTexts) {
+      options.push(
+        <option key={i} value={i}>
+          {`${balloonTexts[i].top}${balloonTexts[i].middle}${balloonTexts[i].bottom}`}
+        </option>
+      )
     }
 
     return (
