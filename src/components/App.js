@@ -4,10 +4,11 @@ import { hot } from 'react-hot-loader'
 import Header from './Header.js'
 import Sidebar from './Sidebar.js'
 import Footer from './Footer.js'
-import MainSwitcher from './MainSwitcher'
+import MainRouter from './MainRouter'
 import Home from './home/Home.js'
 import Greeting from './greeting/Greeting'
 import BrightHairDye from './brightHairDye/BrightHairDye'
+import Gallery from './gallery/Gallery'
 import AdminLogIn from './adminLogIn/AdminLogIn'
 import common from './common/commonIndex'
 const {
@@ -26,12 +27,14 @@ class App extends React.Component {
       isSidebarShown: false,
       isLogin: false,
       mainComponentName: '',
-      balloonTexts: []
+      balloonTexts: [],
+      galleryData: []
     }
     this.handleHashChage = this.handleHashChage.bind(this)
     this.setBalloonTexts = this.setBalloonTexts.bind(this)
     this.toggleSidebarShown = this.toggleSidebarShown.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.updateGallaryData = this.updateGallaryData.bind(this)
   }
 
   componentDidMount() {
@@ -43,6 +46,9 @@ class App extends React.Component {
     })
     fetchApi('makeSession', {}).then(r => {
       this.setState({ isLogin: r.status })
+    })
+    fetchApi('getGallery', {}).then(r => {
+      this.setState({ galleryData: r.body })
     })
   }
 
@@ -56,9 +62,7 @@ class App extends React.Component {
           isSidebarShown: false
         })
       } else {
-        this.setState({
-          mainComponentName: h
-        })
+        this.setState({ mainComponentName: h })
       }
     })
   }
@@ -78,21 +82,26 @@ class App extends React.Component {
     this.setState({ isLogin: bool })
   }
 
+  updateGallaryData(data) {
+    this.setState({ galleryData: data })
+  }
+
   render() {
-    const { isSidebarShown, isLogin, mainComponentName, balloonTexts } = this.state
-    const { setBalloonTexts, toggleSidebarShown, handleLogin } = this
+    const { isSidebarShown, isLogin, mainComponentName, balloonTexts, galleryData } = this.state
+    const { setBalloonTexts, toggleSidebarShown, handleLogin, updateGallaryData } = this
     const bgsIndex = Math.floor(Math.random() * 17)
 
     return (
       <GridContainer bgsIndex={bgsIndex}>
         <Header pass={{ isSidebarShown, toggleSidebarShown }} />
         <Sidebar pass={{ isSidebarShown, isLogin, handleLogin }} />
-        <MainSwitcher pass={{ mainComponentName }}>
+        <MainRouter pass={{ mainComponentName }}>
           <Home key="Home" pass={{ isLogin, balloonTexts, setBalloonTexts }} />
           <Greeting key="Greeting" />
           <BrightHairDye key="BrightHairDye" />
+          <Gallery key="Gallery" pass={{ isLogin, galleryData, updateGallaryData }} />
           <AdminLogIn key="AdminLogIn" pass={{ isLogin, handleLogin }} />
-        </MainSwitcher>
+        </MainRouter>
         <Footer />
       </GridContainer>
     )

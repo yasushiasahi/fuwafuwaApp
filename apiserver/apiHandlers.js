@@ -20,6 +20,7 @@ const {
 
 const balloonTexts = require('./databases/balloonTexts')
 const users = require('./databases/users')
+const gallery = require('./databases/gallery')
 
 const makeSession = async request => {
   if (!(await checkCookie(request, users))) {
@@ -104,68 +105,57 @@ const updateBalloonText = async request => {
   return { body: texts }
 }
 
-const checkToken = async request => {
-  console.log('/api/checkTokenが呼ばれた')
-
-  const { userName: reqUserName, token: reqToken } = await parseReqBody(request)
-  const users = await getDatabase(usersFilePath)
-  const targetIndex = users.findIndex(user => user.userName === reqUserName)
-  if (users[targetIndex].token !== reqToken) {
-    throw { errMsg: `認証期限切れ。ログインし直してください` }
-  }
-  return null
-}
-
 const getGallery = async () => {
   console.log('/api/apiGetGalleryDataが呼ばれた')
 
-  const gallery = await getDatabase(galleryFilePath)
-  return gallery
+  const gls = await gallery.get()
+  return { body: gls }
 }
 
 const uploadPicture = async request => {
   console.log('/api/UploadPictureが呼ばれた')
 
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
   const {
-    picture: { path: tmpFilePath, name: originalFileName },
-    fields: { userName, title, description }
+    files: {
+      pic: { path, name }
+    },
+    fields: { ti, des }
   } = await getFormData(request)
-  const pictureName = `${getUniqueStr()}.${originalFileName.split('.').reverse()[0]}`
-  await renameFile(tmpFilePath, `${pictureDir}${pictureName}`)
-  let gallery = await getDatabase(galleryFilePath)
-  gallery.push({ title, description, pictureName, userName })
-  await writeFile(galleryFilePath, gallery)
-  return gallery
-}
-
-const deletePicture = async request => {
-  console.log('/api/deletePictureが呼ばれた')
-
-  const { pictureName } = await parseReqBody(request)
-  let { gallery, targetIndex } = await getGalleryDataAndFindTargetIndex(pictureName)
-  await removePicture(gallery[targetIndex].pictureName)
-  gallery.splice(targetIndex, 1)
-  await writeFile(galleryFilePath, gallery)
-  return gallery
+  const pn = `${path.slice(-32)}.${name.split('.').reverse()[0]}`
+  const gls = await gallery.add(path, pn, ti, des)
+  return { body: gls }
 }
 
 const updatePicture = async request => {
   console.log('/api/updataPictureが呼ばれた')
 
-  const {
-    picture: { path: tmpFilePath, name: originalFileName },
-    fields: { title, description, pictureName }
-  } = await getFormData(request)
-  let { gallery, targetIndex } = await getGalleryDataAndFindTargetIndex(pictureName)
-  let newPictureName = pictureName
-  if (tmpFilePath !== undefined) {
-    await removePicture(pictureName)
-    newPictureName = `${getUniqueStr()}${originalFileName.match(/(\.jpg|\.jpeg|\.png|\.gif)$/)[0]}`
-    await renameFile(tmpFilePath, `${pictureDir}${newPictureName}`)
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
   }
-  gallery.splice(targetIndex, 1, { title, description, pictureName: newPictureName })
-  await writeFile(galleryFilePath, gallery)
-  return gallery
+  const {
+    files: { pic = { path: '', name: '' } },
+    fields: { ti, des, pn }
+  } = await getFormData(request)
+  const { path, name } = pic
+  const npn = path && `${path.slice(-32)}.${name.split('.').reverse()[0]}`
+  const i = await gallery.findIndex(pn)
+  const gls = await gallery.update(path, pn, npn, ti, des, i)
+  return { body: gls }
+}
+
+const deletePicture = async request => {
+  console.log('/api/deletePictureが呼ばれた')
+
+  if (!(await checkCookie(request, users))) {
+    throw { errMsg: '認証に失敗しましたログインし直して下さい' }
+  }
+  const { tpn } = await parseReqBody(request)
+  const i = await gallery.findIndex(tpn)
+  const gls = await gallery.remove(i, tpn)
+  return { body: gls }
 }
 
 module.exports = {
@@ -173,7 +163,6 @@ module.exports = {
   breakSession,
   signUp,
   logIn,
-  checkToken,
   getGallery,
   uploadPicture,
   deletePicture,
@@ -183,3 +172,15 @@ module.exports = {
   removeBalloonText,
   updateBalloonText
 }
+
+// const checkToken = async request => {
+//   console.log('/api/checkTokenが呼ばれた')
+
+//   const { userName: reqUserName, token: reqToken } = await parseReqBody(request)
+//   const users = await getDatabase(usersFilePath)
+//   const targetIndex = users.findIndex(user => user.userName === reqUserName)
+//   if (users[targetIndex].token !== reqToken) {
+//     throw { errMsg: `認証期限切れ。ログインし直してください` }
+//   }
+//   return null
+// }

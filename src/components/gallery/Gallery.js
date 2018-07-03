@@ -1,247 +1,216 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, colors, sc, properties } from './styles.js'
-import { fetchApi, getCookie } from './helpers.js'
+import FullScreenPic from './FullScreenPic'
+import common from '../common/commonIndex'
+const {
+  StatusMsg,
+  helpers: { fetchApi },
+  styles: { media, colors, sc, properties }
+} = common
 
 class Gallery extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      fileInputMessege: '画像ファイルを選択してください',
-      fileInputColor: colors.lime,
-      isUpdate: false
+      tiVal: '',
+      taVal: '',
+      fiLab: { msg: '画像ファイルを選択してください', col: colors.lime },
+      edit: { target: '', isEdit: false },
+      status: { msg: '', isOk: false },
+      fsp: { isShown: false, picInfo: { title: '', pictureName: '', description: '' } }
     }
 
     this.fileInput = React.createRef()
-    this.isUpdate = false
-    this.updatePictureName = null
+
+    this.toglleFullScreenPic = this.toglleFullScreenPic.bind(this)
+    this.handleInputsChange = this.handleInputsChange.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.refreshStates = this.refreshStates.bind(this)
+    this.upload = this.upload.bind(this)
+    this.deletePic = this.deletePic.bind(this)
+    this.update = this.update.bind(this)
   }
 
-  handleFileInputChanage() {
-    let provFileInputMessege = ''
-    let provFileInputColor = ''
-    if (!this.fileInput.files.length) {
-      provFileInputMessege = 'ファイルが選択されていません'
-      provFileInputColor = colors.pink
-      return
-    }
-    const { name, type } = this.fileInput.files[0]
-    switch (type) {
-      case 'image/jpeg':
-      case 'image/pjpeg':
-      case 'image/png':
-      case 'image/gif':
-        provFileInputMessege = `${name} が選択されました`
-        provFileInputColor = colors.skyblue
-        break
-      default:
-        provFileInputMessege = `${type.split('/')[1]}形式は選択できません`
-        provFileInputColor = colors.pink
-        break
-    }
+  toglleFullScreenPic(picInfo) {
     this.setState({
-      fileInputMessege: provFileInputMessege,
-      fileInputColor: provFileInputColor
+      fsp: {
+        isShown: !this.state.fsp.isShown,
+        picInfo: picInfo || { title: '', pictureName: '', description: '' }
+      }
     })
   }
 
+  handleInputsChange(e) {
+    const { name, value } = e.target
+    this.setState({ [`${name}Val`]: value })
+  }
+
+  handleFileInputChanage() {
+    const fis = this.fileInput.files
+    const ssFiLab = (m, c) => {
+      this.setState({ fiLab: { msg: m, col: c } })
+    }
+    if (!fis.length) {
+      ssFiLab('ファイルが選択されていません', colors.pink)
+      return
+    }
+    if (!['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'].includes(fis[0].type)) {
+      ssFiLab(`${fis[0].type.split('/')[1]}形式は選択できません`, colors.pink)
+      return
+    }
+    ssFiLab(`${fis[0].name} が選択されました`, colors.skyblue)
+  }
+
+  handleEdit(e, bool, ti, des, pn) {
+    e.stopPropagation()
+    this.fileInput.value = null
+    this.setState({
+      tiVal: ti || '',
+      taVal: des || '',
+      fiLab: {
+        msg: bool ? '更新する画像を選択してください' : '画像ファイルを選択してください',
+        col: colors.lime
+      },
+      edit: {
+        target: pn || '',
+        isEdit: bool
+      },
+      status: { msg: '', isOk: false }
+    })
+  }
+
+  refreshStates(status, body, msg) {
+    const updateGallaryData = this.props.pass.updateGallaryData
+    if (!status) {
+      this.setState({ status: { msg: body, isOk: false } })
+      return
+    }
+    updateGallaryData(body)
+    this.setState({
+      tiVal: '',
+      taVal: '',
+      fiLab: { msg: '画像ファイルを選択してください', col: colors.lime },
+      edit: { target: '', isEdit: false },
+      status: { msg: msg, isOk: true }
+    })
+  }
+
+  async upload() {
+    const refreshStates = this.refreshStates
+    const { tiVal, taVal } = this.state
+    const fi = this.fileInput.files[0]
+    if (!tiVal || !taVal || !fi) {
+      this.setState({
+        status: {
+          msg: `
+            ${tiVal ? '' : 'タイトルを入力して下さい。'}
+            ${taVal ? '' : '解説を入力して下さい。'}
+            ${fi ? '' : '画像を選択して下さい。'}
+          `,
+          isOk: false
+        }
+      })
+      return
+    }
+    const fd = new FormData()
+    fd.append('ti', tiVal)
+    fd.append('des', taVal)
+    fd.append('pic', fi)
+    const { status, body } = await fetchApi('uploadPicture', fd)
+    refreshStates(status, body, 'アップロードを完了しました')
+  }
+
+  async update() {
+    const refreshStates = this.refreshStates
+    const { tiVal, taVal, edit } = this.state
+    const fi = this.fileInput.files[0]
+    if (!tiVal || !taVal) {
+      this.setState({
+        status: {
+          msg: `
+            ${tiVal ? '' : 'タイトルを入力して下さい。'}
+            ${taVal ? '' : '解説を入力して下さい。'}
+          `,
+          isOk: false
+        }
+      })
+      return
+    }
+    const fd = new FormData()
+    fd.append('ti', tiVal)
+    fd.append('des', taVal)
+    fd.append('pn', edit.target)
+    if (fi) {
+      fd.append('pic', fi)
+    }
+    const { status, body } = await fetchApi('updatePicture', fd)
+    refreshStates(status, body, '更新を完了しました')
+  }
+
+  async deletePic() {
+    const refreshStates = this.refreshStates
+    const tpn = this.state.edit.target
+    const { status, body } = await fetchApi('deletePicture', { tpn })
+    refreshStates(status, body, '削除を完了しました')
+  }
+
   render() {
-    const {
-      passToGallery: {
-        isLogIn,
-        title,
-        description,
-        handleInputsChange,
-        changeState,
-        pictureClickHandler,
-        galleryData
-      }
-    } = this.props
-
-    const upload = async () => {
-      const picture = this.fileInput.files[0]
-      if (!title || !description || !picture) {
-        let prevErrorMessage = ''
-        prevErrorMessage += title ? '' : 'タイトルを入力してください。'
-        prevErrorMessage += description ? '' : 'タイトルを入力してください。'
-        prevErrorMessage += picture ? '' : 'ファイルを選択してください。'
-        changeState('errorMessage', prevErrorMessage)
-        return
-      }
-      const response = await fetchApi('checkToken', {
-        userName: getCookie('userName'),
-        token: getCookie('token')
-      })
-      if (!response.status) {
-        changeState('errorMessage', response.body)
-        return
-      }
-      const formData = new FormData()
-      formData.append('userName', getCookie('userName'))
-      formData.append('title', title)
-      formData.append('description', description)
-      formData.append('picture', picture)
-      const { status, body } = await fetchApi('uploadPicture', formData)
-      if (!status) {
-        changeState('errorMessage', body)
-        return
-      }
-      changeState('errorMessage', '')
-      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
-      this.fileInput.value = null
-      this.setState({
-        fileInputMessege: '画像ファイルを選択してください',
-        fileInputColor: colors.lime
-      })
-
-      changeState('galleryData', body)
-    }
-
-    const selectUpdatePic = (
-      event,
-      { title: updateIitle, description: updateDescription, pictureName: updatePictureName }
-    ) => {
-      event.stopPropagation()
-      this.updatePictureName = updatePictureName
-      this.setState({
-        isUpdate: true
-      })
-      changeState('inputTexts', {
-        userName: '',
-        password: '',
-        title: updateIitle,
-        description: updateDescription
-      })
-    }
-
-    const update = async () => {
-      const response = await fetchApi('checkToken', {
-        userName: getCookie('userName'),
-        token: getCookie('token')
-      })
-      if (!response.status) {
-        changeState('errorMessage', response.body)
-        return
-      }
-
-      const picture = this.fileInput.files[0]
-      const formData = new FormData()
-      formData.append('pictureName', this.updatePictureName)
-      formData.append('title', title)
-      formData.append('description', description)
-      picture && formData.append('picture', picture)
-
-      const { status, body } = await fetchApi('updatePicture', formData)
-      if (!status) {
-        changeState('errorMessage', body)
-        return
-      }
-      changeState('errorMessage', '')
-      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
-      this.fileInput.value = null
-      changeState('galleryData', body)
-      this.setState({
-        isUpdate: false,
-        fileInputMessege: '画像ファイルを選択してください',
-        fileInputColor: colors.lime
-      })
-    }
-
-    const deletePicture = async () => {
-      const response = await fetchApi('checkToken', {
-        userName: getCookie('userName'),
-        token: getCookie('token')
-      })
-      if (!response.status) {
-        changeState('errorMessage', response.body)
-        return
-      }
-      const { status, body } = await fetchApi('deletePicture', {
-        pictureName: this.updatePictureName
-      })
-      if (!status) {
-        changeState('errorMessage', body)
-        return
-      }
-      changeState('errorMessage', '')
-      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
-      this.fileInput.value = null
-      this.setState({
-        isUpdate: true
-      })
-      changeState('galleryData', body)
-      this.setState({
-        isUpdate: false,
-        fileInputMessege: '画像ファイルを選択してください',
-        fileInputColor: colors.lime
-      })
-    }
-
-    const quitUpdate = () => {
-      this.setState({
-        isUpdate: false,
-        fileInputMessege: '画像ファイルを選択してください',
-        fileInputColor: colors.lime
-      })
-      changeState('errorMessage', '')
-      changeState('inputTexts', { userName: '', password: '', title: '', description: '' })
-    }
-
-    const uploadForm = (
-      <FormAria>
-        <p>タイトル</p>
-        <sc.Input
-          type="text"
-          name="title"
-          size="30"
-          value={title}
-          onChange={e => handleInputsChange(e)}
-        />
-        <p>解説</p>
-        <Textarea
-          name="description"
-          cols="35"
-          rows="4"
-          value={description}
-          onChange={e => handleInputsChange(e)}
-        />
-        <br />
-        <FileInputLabel fileInputColor={this.state.fileInputColor}>
-          {this.state.fileInputMessege}
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            ref={input => (this.fileInput = input)}
-            onChange={() => this.handleFileInputChanage()}
-          />
-        </FileInputLabel>
-        <br />
-        {this.state.isUpdate || <sc.Button onClick={() => upload()}>追加</sc.Button>}
-        {this.state.isUpdate && <sc.Button onClick={() => update()}>更新</sc.Button>}
-        {this.state.isUpdate && <sc.Button onClick={() => deletePicture()}>削除</sc.Button>}
-        <sc.Button onClick={() => quitUpdate()}>キャンセル</sc.Button>
-      </FormAria>
-    )
+    const { isLogin, galleryData } = this.props.pass
+    const { tiVal, taVal, fiLab, edit, status, fsp } = this.state
+    const { toglleFullScreenPic, handleInputsChange, handleEdit, upload, deletePic, update } = this
+    const isCancel = tiVal !== '' || taVal !== '' || fiLab.col !== colors.lime || status.msg !== ''
 
     const boxs = galleryData.map(obj => {
-      const { title, pictureName } = obj
+      const { title: ti, description: des, pictureName: pn } = obj
       return (
-        <Box
-          key={pictureName.slice(0, -4)}
-          url={`./gallery/${pictureName}`}
-          onClick={() => pictureClickHandler(obj)}>
-          <PicTitle>{title}</PicTitle>
+        <Box key={pn.slice(0, -4)} url={`./gallery/${pn}`} onClick={() => toglleFullScreenPic(obj)}>
+          {isLogin && <sc.Button onClick={e => handleEdit(e, true, ti, des, pn)}>編集</sc.Button>}
           <br />
-          {isLogIn && <sc.Button onClick={e => selectUpdatePic(e, obj)}>編集</sc.Button>}
+          <PicTitle>{ti}</PicTitle>
         </Box>
       )
     })
 
     return (
       <Wrapper>
-        {isLogIn && uploadForm}
+        {fsp.isShown && <FullScreenPic pass={{ picInfo: fsp.picInfo, toglleFullScreenPic }} />}
         <sc.H1>ヤスコロリ画廊</sc.H1>
+        {isLogin && (
+          <FormAria>
+            {status.msg !== '' && <StatusMsg status={status} />}
+            <p>タイトル</p>
+            <sc.Input
+              type="text"
+              name="ti"
+              size="30"
+              value={tiVal}
+              onChange={e => handleInputsChange(e)}
+            />
+            <p>解説</p>
+            <Textarea
+              name="ta"
+              cols="35"
+              rows="4"
+              value={taVal}
+              onChange={e => handleInputsChange(e)}
+            />
+            <br />
+            <FileInputLabel fileInputColor={fiLab.col}>
+              {fiLab.msg}
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                ref={input => (this.fileInput = input)}
+                onChange={() => this.handleFileInputChanage()}
+              />
+            </FileInputLabel>
+            <br />
+            {edit.isEdit || <sc.Button onClick={() => upload()}>追加</sc.Button>}
+            {edit.isEdit && <sc.Button onClick={() => update()}>更新</sc.Button>}
+            {edit.isEdit && <sc.Button onClick={() => deletePic()}>削除</sc.Button>}
+            {isCancel && <sc.Button onClick={e => handleEdit(e, false)}>キャンセル</sc.Button>}
+          </FormAria>
+        )}
         <GridContainer>{boxs}</GridContainer>
       </Wrapper>
     )

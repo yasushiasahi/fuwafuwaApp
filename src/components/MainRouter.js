@@ -5,7 +5,7 @@ const {
   styles: { media, sizes }
 } = common
 
-const MainSwitcher = ({ children, pass: { mainComponentName } }) => {
+const MainRouter = ({ children, pass: { mainComponentName } }) => {
   const mainComponent = children.find(c => c.key === (mainComponentName || 'Home'))
 
   return (
@@ -34,4 +34,4 @@ const MainAria = styled.main`
   `};
 `
 
-export default MainSwitcher
+export default MainRouter

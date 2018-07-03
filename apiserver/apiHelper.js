@@ -58,9 +58,10 @@ const getFormData = request => {
   form.uploadDir = tmpDir
   return new Promise((resolve, reject) => {
     form.parse(request, (err, fields, files) => {
-      if (err) reject({ err, place: getTrace(), errMsg: 'ファイルを保存できませんでした' })
-      const { picture = {} } = files
-      return resolve({ fields, picture })
+      if (err) {
+        reject({ err, place: getTrace(), errMsg: 'ファイルを保存できませんでした' })
+      }
+      return resolve({ fields, files })
     })
   })
 }

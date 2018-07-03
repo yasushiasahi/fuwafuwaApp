@@ -4,6 +4,8 @@ const fs = require('fs')
 const util = require('util')
 const fsReadFileP = util.promisify(fs.readFile)
 const fsWriteFileP = util.promisify(fs.writeFile)
+const fsRenameP = util.promisify(fs.rename)
+const fsUnlinkP = util.promisify(fs.unlink)
 
 const readDB = async filePath => {
   console.log('readDB が呼ばれた')
@@ -19,6 +21,21 @@ const writeDB = async (filePath, data) => {
   console.log('writeDB が呼ばれた')
   return fsWriteFileP(filePath, JSON.stringify(data)).catch(err => {
     throw { err, place: getTrace(), errMsg: 'データベースの更新に失敗しました' }
+  })
+}
+
+const renameFile = async (oldFilePath, newFilePath) => {
+  console.log('renameFile が呼ばれた')
+
+  return fsRenameP(oldFilePath, newFilePath).catch(err => {
+    throw { err, place: getTrace(), errMsg: 'ファイルの保存に失敗しました' }
+  })
+}
+
+const removeFile = async path => {
+  console.log('removePicture が呼ばれた')
+  return fsUnlinkP(path).catch(err => {
+    throw { err, place: getTrace(), errMsg: 'ファイルの削除に失敗しました' }
   })
 }
 
@@ -48,4 +65,4 @@ const getTrace = caller => {
   return stack
 }
 
-module.exports = { readDB, writeDB }
+module.exports = { readDB, writeDB, renameFile, removeFile }

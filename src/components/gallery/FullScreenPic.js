@@ -1,11 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media } from './styles.js'
-import closePict from './../images/assets/close_menu.svg'
+import common from '../common/commonIndex'
+const {
+  styles: { media }
+} = common
+import images from '../../images/imageIndex'
+const {
+  assets: { pict_close }
+} = images
 
-const FullSizePicture = ({
-  pictureObj: { title, pictureName, description },
-  closeClickHandler
+const FullScreenPic = ({
+  pass: {
+    picInfo: { title, pictureName, description },
+    toglleFullScreenPic
+  }
 }) => (
     <Wrapper>
       <GridContainer>
@@ -14,8 +22,8 @@ const FullSizePicture = ({
           <PicTitle>{title}</PicTitle>
           <Explanation>{description}</Explanation>
         </Info>
-        <Button onClick={() => closeClickHandler()}>
-          <ClosePict src={closePict} />
+        <Button onClick={() => toglleFullScreenPic()}>
+          <ClosePict src={pict_close} />
         </Button>
       </GridContainer>
     </Wrapper>
@@ -110,4 +118,4 @@ const ClosePict = styled.img`
   width: 100%;
 `
 
-export default FullSizePicture
+export default FullScreenPic
