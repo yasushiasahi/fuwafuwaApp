@@ -119,11 +119,12 @@ class Home extends React.Component {
   }
 
   divideText(s) {
+    const sa = s.split('')
     let so = { top: '', middle: '', bottom: '' }
-    for (const [i, v] of s.split('').entries()) {
-      if (i <= 4) so.top += v
-      if (i >= 5 && i <= 9) so.middle += v
-      if (i >= 10 && i <= 14) so.bottom += v
+    for (const i in sa) {
+      if (i <= 4) so.top += sa[i]
+      if (i >= 5 && i <= 9) so.middle += sa[i]
+      if (i >= 10 && i <= 14) so.bottom += sa[i]
     }
     return [so]
   }
