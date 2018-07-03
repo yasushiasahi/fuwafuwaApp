@@ -1,8 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, sc } from './styles.js'
-import interior_0 from './../images/salon_info/0_interior.jpg'
-import logo from './../images/assets/logo.svg'
+import common from '../common/commonIndex'
+const {
+  styles: { media, sc }
+} = common
+import images from '../../images/imageIndex'
+const {
+  assets: { logo },
+  salon_info
+} = images
 
 const SalonInfo = () => (
   <div>
@@ -20,7 +26,7 @@ const SalonInfo = () => (
         こちら
       </a>から
     </P>
-    <Img src={interior_0} alt="サロン内観" />
+    <Img src={salon_info[0]} alt="サロン内観" />
     <sc.P>
       福岡市南区の住宅街、80年代デザインマンション内、荒木ヤスコロリのプライベート・サロン
     </sc.P>

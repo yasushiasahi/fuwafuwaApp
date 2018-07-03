@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, colors } from './styles.js'
+import common from '../common/commonIndex'
+const {
+  styles: { media, colors }
+} = common
 
-const MenuBox = props => {
-  const { menus, head, explain } = props
-
+const MenuBox = ({ menus, head, explain }) => {
   const menuList = menus.map((menu, index) => {
     return (
       <MenuWrappar key={index}>

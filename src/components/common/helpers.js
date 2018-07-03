@@ -1,3 +1,5 @@
+const url = `https://query.yahooapis.com/v1/public/yql?q=select%20title%2Cdate%2Clink%2Cdescription%20from%20rss%20where%20url%3D'https%3A%2F%2Ffuwafuwayo.exblog.jp%2Findex.xml'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
+
 const fetchApi = async (url, requestBody) => {
   return await fetch(`/api/${url}`, {
     method: 'POST',
@@ -10,15 +12,16 @@ const fetchApi = async (url, requestBody) => {
     })
 }
 
-const apiCheckToken = async () => {
-  const cookies = document.cookie.replace(/\s/g, '').split(';')
-  let userName = ''
-  let token = ''
-  for (const cookie of cookies) {
-    if (cookie.match(/^userName/)) userName = cookie.replace(/userName=/, '')
-    if (cookie.match(/^token/)) token = cookie.replace(/token=/, '') + 'h'
-  }
-  return await fetchApi('checkToken', { userName, token })
+const getRssFeed = async () => {
+  const feeds = await fetch(url)
+    .then(res => res.json())
+    .then(data => data)
+  const blogFeeds = feeds.query.results.item.map((obj, index) => {
+    obj.id = index
+    obj.isOpen = index === 0 ? true : false
+    return obj
+  })
+  return blogFeeds
 }
 
 const getUserName = () => {
@@ -29,4 +32,4 @@ const getUserName = () => {
     .replace(/userName=/, '')
 }
 
-export default { fetchApi, apiCheckToken, getUserName }
+export default { fetchApi, getRssFeed, getUserName }

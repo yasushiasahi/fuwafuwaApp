@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { media, colors, sc, properties } from './styles.js'
+import common from '../common/commonIndex'
+const {
+  styles: { media, colors, sc, properties }
+} = common
 
-const BlogIndex = ({ passToBlogIndex: { blogInfos, toggleBlogBoxOpen } }) => {
-  const Blogs = blogInfos.map(blogInfo => {
+const BlogIndex = ({ pass: { blogFeeds, toggleBlogBoxOpen } }) => {
+  const Blogs = blogFeeds.map(blogInfo => {
     const { id, title, isOpen, date, description, link } = blogInfo
     const dateStr = date.slice(0, 10)
     const isMoreThan20Charas = title.length > 20
     const biginningWithoutSpaces = description.replace(/\s+/g, '').slice(0, 60) + '...　'
-
     return (
       <Box key={id} isOpen={isOpen}>
         <TitleWrappar onClick={() => toggleBlogBoxOpen(id)}>

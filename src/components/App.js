@@ -7,12 +7,15 @@ import Footer from './Footer.js'
 import MainRouter from './MainRouter'
 import Home from './home/Home.js'
 import Greeting from './greeting/Greeting'
+import SalonInfo from './salonInfo/SalonInfo'
+import Menu from './menu/Menu'
 import BrightHairDye from './brightHairDye/BrightHairDye'
+import BlogIndex from './blogIndex/BlogIndex'
 import Gallery from './gallery/Gallery'
 import AdminLogIn from './adminLogIn/AdminLogIn'
 import common from './common/commonIndex'
 const {
-  helpers: { fetchApi },
+  helpers: { fetchApi, getRssFeed },
   styles: { media, colors, sizes }
 } = common
 import images from '../images/imageIndex'
@@ -28,9 +31,11 @@ class App extends React.Component {
       isLogin: false,
       mainComponentName: '',
       balloonTexts: [],
+      blogFeeds: [],
       galleryData: []
     }
     this.handleHashChage = this.handleHashChage.bind(this)
+    this.toggleBlogBoxOpen = this.toggleBlogBoxOpen.bind(this)
     this.setBalloonTexts = this.setBalloonTexts.bind(this)
     this.toggleSidebarShown = this.toggleSidebarShown.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
@@ -44,12 +49,15 @@ class App extends React.Component {
       this.setBalloonTexts(r.body || [])
       document.body.replaceChild(this.props.root, document.body.firstChild)
     })
-    fetchApi('makeSession', {}).then(r => {
-      this.setState({ isLogin: r.status })
-    })
-    fetchApi('getGallery', {}).then(r => {
-      this.setState({ galleryData: r.body })
-    })
+    Promise.all([fetchApi('makeSession', {}), fetchApi('getGallery', {}), getRssFeed()]).then(
+      ([{ status }, { body }, feeds]) => {
+        this.setState({
+          isLogin: status,
+          galleryData: body,
+          blogFeeds: feeds
+        })
+      }
+    )
   }
 
   handleHashChage() {
@@ -65,6 +73,15 @@ class App extends React.Component {
         this.setState({ mainComponentName: h })
       }
     })
+  }
+
+  toggleBlogBoxOpen(id) {
+    const nbf = this.state.blogFeeds.map(bf => {
+      const cbf = Object.assign({}, bf)
+      if (cbf.id === id) cbf.isOpen = !cbf.isOpen
+      return cbf
+    })
+    this.setState({ blogFeeds: nbf })
   }
 
   setBalloonTexts(bts) {
@@ -87,9 +104,22 @@ class App extends React.Component {
   }
 
   render() {
-    const { isSidebarShown, isLogin, mainComponentName, balloonTexts, galleryData } = this.state
-    const { setBalloonTexts, toggleSidebarShown, handleLogin, updateGallaryData } = this
-    const bgsIndex = Math.floor(Math.random() * 17)
+    const {
+      isSidebarShown,
+      isLogin,
+      mainComponentName,
+      balloonTexts,
+      blogFeeds,
+      galleryData
+    } = this.state
+    const {
+      setBalloonTexts,
+      toggleBlogBoxOpen,
+      toggleSidebarShown,
+      handleLogin,
+      updateGallaryData
+    } = this
+    const bgsIndex = Math.floor(Math.random() * bgs.length)
 
     return (
       <GridContainer bgsIndex={bgsIndex}>
@@ -98,8 +128,11 @@ class App extends React.Component {
         <MainRouter pass={{ mainComponentName }}>
           <Home key="Home" pass={{ isLogin, balloonTexts, setBalloonTexts }} />
           <Greeting key="Greeting" />
+          <SalonInfo key="SalonInfo" />
           <BrightHairDye key="BrightHairDye" />
+          <Menu key="Menu" />
           <Gallery key="Gallery" pass={{ isLogin, galleryData, updateGallaryData }} />
+          <BlogIndex key="BlogIndex" pass={{ blogFeeds, toggleBlogBoxOpen }} />
           <AdminLogIn key="AdminLogIn" pass={{ isLogin, handleLogin }} />
         </MainRouter>
         <Footer />

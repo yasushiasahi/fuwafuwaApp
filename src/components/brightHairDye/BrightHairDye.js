@@ -11,9 +11,9 @@ const BrightHairDye = () => (
   <div>
     <sc.H1>明るい白髪染め</sc.H1>
     <FlexContainer>
+      <FlexItem src={bright_hair_dye[3]} alt="実際のカーラリング例" />
       <FlexItem src={bright_hair_dye[4]} alt="実際のカーラリング例" />
       <FlexItem src={bright_hair_dye[5]} alt="実際のカーラリング例" />
-      <FlexItem src={bright_hair_dye[6]} alt="実際のカーラリング例" />
     </FlexContainer>
     <sc.P>本当に明るくなる「明るい白髪染め」</sc.P>
     <sc.P>こんにちわ。</sc.P>
@@ -39,10 +39,10 @@ const BrightHairDye = () => (
     <sc.P>
       様々なやり方を私達なりに工夫してきた結果、今のフワフワ流「明るい白髪染め」にたどり着きました。
     </sc.P>
-    <Img src={bright_hair_dye[1]} alt="実際のカーラリング例" />
+    <Img src={bright_hair_dye[0]} alt="実際のカーラリング例" />
     <sc.P>私達の「明るい白髪染め」は、本当に明るく染まります。</sc.P>
     <sc.P>かくいう私自身も白髪染めで染めています。</sc.P>
-    <Img src={bright_hair_dye[2]} alt="ヤスコロリの写真1" />
+    <Img src={bright_hair_dye[1]} alt="ヤスコロリの写真1" />
     <sc.P>
       フワフワ！美容室で「明るい白髪染め」を初めてされるときは初回のみダブルカラー（2回カラー）で染めさせて頂いています。
     </sc.P>
@@ -74,7 +74,7 @@ const BrightHairDye = () => (
     <sc.P>「アッシュ、ベージュ、グレー系でも染まる」</sc.P>
     <sc.P>白髪染めの概念を覆す、白髪染め界の暴れん坊。</sc.P>
     <sc.P>こちらは少落ち着いたしピンクベージュ。抑えめの明るさでも透明感があります。</sc.P>
-    <Img src={bright_hair_dye[3]} alt="実際のカーラリング例" />
+    <Img src={bright_hair_dye[2]} alt="実際のカーラリング例" />
     <sc.P>白髪染めが暗く染まる問題に悩まれている大人女子のみなさん</sc.P>
     <sc.P>是非一度私にご相談ください( ｀ー´)ノ </sc.P>
     <br />

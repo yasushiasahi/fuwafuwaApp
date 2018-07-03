@@ -1,12 +1,16 @@
 import React from 'react'
 import MenuBox from './MenuBox.js'
-import { sc } from './styles.js'
-import image_01 from './../images/menu/01_image.jpg'
+import common from '../common/commonIndex'
+const {
+  styles: { sc }
+} = common
+import images from '../../images/imageIndex'
+const { menu } = images
 
 const Menu = () => (
   <div>
     <sc.H1>メニュー</sc.H1>
-    <sc.Img src={image_01} />
+    <sc.Img src={menu[0]} />
     <MenuBox
       head="カット"
       explain="ドライカットを基本に骨格や髪質を考慮して丁寧にカットします"
