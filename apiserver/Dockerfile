@@ -10,7 +10,10 @@ RUN mkdir data
 
 WORKDIR apiserver
 
-COPY ./apiServer.js ./apiHandlers.js ./apiHelper.js ./package.json ./databases ./
+COPY ./apiServer.js ./apiHandlers.js ./apiHelper.js ./package.json ./
+
+RUN mkdir databases
+COPY ./databases ./databases
 
 RUN npm install
 
