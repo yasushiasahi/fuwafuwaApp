@@ -1,6 +1,8 @@
 'use strict'
 
-const { getFormData, parseReqBody, getHash, getToken, checkCookie } = require('./apiHelper.js')
+const isSignUpOpen = process.env.FUWA_ISUO === 'yes'
+
+const { getFormData, parseReqBody, getHash, getToken, checkCookie } = require('./apiHelper')
 const balloonTexts = require('./databases/balloonTexts')
 const users = require('./databases/users')
 const gallery = require('./databases/gallery')
@@ -17,6 +19,9 @@ const breakSession = async () => {
 }
 
 const signUp = async request => {
+  if (!isSignUpOpen) {
+    throw { errMsg: '現在新規登録は受け付けておりません' }
+  }
   const { un, pw } = await parseReqBody(request)
   const i = await users.findIndex(un)
   if (i !== -1) {

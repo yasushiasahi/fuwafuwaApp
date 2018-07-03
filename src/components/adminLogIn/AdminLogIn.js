@@ -60,6 +60,7 @@ class AdminLogIn extends React.Component {
     const { isLogin, handleLogin } = this.props.pass
     const { textValue, passValue, status } = this.state
     const { handleInputsChange, login } = this
+
     return (
       <div>
         {status.msg && <StatusMsg status={status} />}

@@ -1,5 +1,7 @@
 'use strict'
 
+const salt = process.env.FUWA_SALT
+
 const formidable = require('formidable')
 const crypto = require('crypto')
 const path = require('path')
@@ -33,7 +35,6 @@ const parseReqBody = request => {
 }
 
 const getHash = password => {
-  const salt = 'ifeee:foeaofgi4'
   const hash = crypto.createHash('sha512')
   hash.update(password + salt)
   return hash.digest('hex')

@@ -3,6 +3,9 @@ version: '3'
 services:
   apiserver:
     build: ./apiserver
+    environment:
+      - FUWA_ISUO
+      - FUWA_SALT
     volumes:
       - ./data:/app/data
   nginx:
