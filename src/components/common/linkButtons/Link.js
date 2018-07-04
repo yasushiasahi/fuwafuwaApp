@@ -10,6 +10,7 @@ const Link = ({ componentName, src, alt }) =>
       onClick={e => {
         e.stopPropagation()
         location.hash = `#${componentName}`
+        window.scroll(0, 0)
       }}>
       <Img src={src} alt={alt} />
     </li>
