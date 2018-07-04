@@ -45,7 +45,7 @@ class App extends React.Component {
   componentDidMount() {
     fetchApi('getBalloonTexts', {}).then(r => {
       this.setBalloonTexts(r.body || [])
-      document.body.replaceChild(this.props.root, document.body.firstChild)
+      document.body.replaceChild(this.props.root, document.querySelector('div'))
     })
     if (!location.hash) {
       location.hash = 'Home'
